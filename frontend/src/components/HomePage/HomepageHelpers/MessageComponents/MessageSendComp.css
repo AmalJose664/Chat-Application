@@ -1,0 +1,64 @@
+.h-m-file-or-send-inner-selector{
+	position: relative;
+}
+
+.h-m-send-message{
+ padding: 0;
+ svg{
+	transform: rotateY(90deg);
+	transition: .2s ease;
+	opacity: 0;
+ }
+}
+
+.h-m-file-selector{
+	position:absolute;
+	top: 3px;
+	svg {
+		transition: .2s ease;
+	}
+}
+
+.h-m-file-or-send-inner-selector.not-empty-div{
+	.h-m-send-message {
+		padding: 0;
+
+		svg {
+			transform: rotateY(0deg);
+			opacity: 1;
+		}
+	}
+	.h-m-file-selector {
+		svg{
+			transform: rotateY(90deg);
+			opacity: 0;
+		}
+	}
+}
+
+.h-m-emoji-contain-when-on.is-turned-on {
+	top: -490px;
+	position: absolute;
+	left: 0px;
+	visibility: visible;
+	transition: .4s ease;
+}
+.h-m-emoji-contain-when-on{
+	top: -490px;
+	position: absolute;
+	left: -300px;
+	transition: .4s ease;
+}
+
+.h-m-emoji-inner{
+	border-radius: 9px;
+	transition: .4s ease;
+}
+
+.h-m-emoji-inner.emoji-shown{
+	background-color: rgb(4, 141, 190);
+		transition: .4s ease;
+	svg{fill: black;
+		transition: .4s ease;
+	}
+}

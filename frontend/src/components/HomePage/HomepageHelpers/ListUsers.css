@@ -1,0 +1,146 @@
+.home-users{
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.list-friends-loader{
+	margin-left: 180px;
+	margin-top: 200px;
+}
+
+.home-user{
+
+	padding: 4px 9px;
+	border-bottom: 1px solid rgb(77, 77, 77);
+	
+}
+.home-user.unread{
+	border-bottom: 2px solid royalblue;
+	box-shadow: 0 -20px 20px -20px #0367ca inset;
+}
+
+
+.home-user-cont{
+	border-radius: 10px;
+	position: relative;
+	padding: 8px;
+	display: flex;
+}
+
+
+
+.home-list-users-each{
+	transition: all .2s ease;
+}
+.home-list-users-each.selected {
+	background-color: rgb(43, 43, 43);	
+}
+.home-user-pic{
+	cursor: pointer;
+	margin-right: 10px;
+	margin-top: 2px;
+	img{
+		width: 50px;
+		height: auto;
+		border-radius: 24px;
+		aspect-ratio: 1/1;
+		border-radius: 50%;
+		object-fit: cover;
+		overflow: hidden;
+	}
+}
+
+.home-user-detail{
+	cursor: pointer;
+	padding: 2px;
+	width: 100%;
+
+}
+.user-top{
+	min-height: 20px;
+	display: flex;
+	justify-content: space-between;
+	padding: 2px;
+	
+}
+.user-title{
+	float: left;
+	font-size: 16px;
+}
+.user-unread{
+	/* float: right;
+	background-color: rgb(0, 120, 232);
+	padding: 1px;
+	border-radius: 24px; */
+	background: #256ad3;
+	position: absolute;
+	right: 80px;
+	top: 6px;
+		color: white;
+		border-radius: 16px;
+		min-width: 20px;
+		height: 20px;
+		padding: 0 6px;
+		font-size: 12px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: 500;
+}
+.user-bottom{
+	min-height: 20px;
+	padding: 2px;
+	
+}
+.user-last-m{
+	float: left;
+	font-size: 12px;
+}
+.user-last-status{
+	float: right;
+}
+
+.list-covns-user-istyping{
+	margin-left: 20px;
+}
+
+.user-last-status{
+
+	.read-receipt-status-seen{
+		span{
+			color:rgb(0, 185, 218);
+		}
+	}
+	.common-read-receipts{
+		position: relative;
+	}
+	.inner-span2{
+		position: absolute;
+		left: 6px;
+	}
+}
+.user-last-status{
+	p{
+		display: inline;
+		position: relative;
+		right: -10px;
+		opacity: .2;
+	}
+}
+.show-time-user-list-conv-list{
+	font-size: 11px;
+	position: absolute;
+	top: 10px;
+	right: 10px
+}
+.home-user-pic.is-online::before{
+	content: '';
+	width: 10px;
+	height: 10px;
+	background-color: rgb(67, 168, 246);
+	position: absolute;
+	left: 44px;
+	bottom: 12px;
+	border-radius: 50%;
+}

@@ -1,0 +1,72 @@
+* {
+	font-family: ui-sans-serif,
+		system-ui,
+		-apple-system,
+		BlinkMacSystemFont,
+		"Segoe UI",
+		Roboto,
+		"Helvetica Neue",
+		Arial,
+		"Noto Sans",
+		sans-serif,
+		"Apple Color Emoji",
+		"Segoe UI Emoji",
+		"Segoe UI Symbol",
+		"Noto Color Emoji";
+	color: rgb(232, 232, 232);
+	/* background: #161616; */
+	border-color: beige;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+
+}
+input,button{
+	background: #101010;
+}
+
+
+body {
+	background: #101010;
+	overflow-x: hidden;
+}
+*::-webkit-scrollbar-thumb {
+	background-color: rgb(50, 50, 50);
+	border-radius: 14px;
+}*::-webkit-scrollbar {
+	border-radius: 14px;
+	width: 6px;
+	background: transparent
+}
+
+.Toastify__toast {
+	background: #282828 !important;
+	color: white;
+}
+
+.Toastify__toast--error {
+	background: #101010 !important;
+	color: red;
+}
+
+.Toastify__toast--success {
+	background: #17ffc5 !important;
+	color: rgb(24, 24, 24) !important;
+}
+
+.Toastify__toast--info {
+	background: #3a3a3a !important;
+	color: white !important;
+}
+
+.Toastify__toast--warning {
+	background: #ffff00 !important;
+}
+
+.loader-center{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 90vh;
+	flex-direction: column;
+}
