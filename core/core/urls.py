@@ -23,5 +23,6 @@ urlpatterns = [
 	path('api/',include('me_chat.urls'),name='other'),
 	path('defalut_api/',include('core.api.urls')),
 	path('api/',include('account.urls')),
+	path('api/',include('groups_chat.urls')),
 	
 ]

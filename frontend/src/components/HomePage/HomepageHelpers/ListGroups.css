@@ -1,0 +1,29 @@
+.home-group{
+	display: flex;
+	align-self: center;
+}
+.home-group-container{
+	padding: 0 14px;
+}
+
+.home-group-avatar{
+	text-align: center;
+	line-height: 60px;
+	font-size: 22px;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	background-color: red;
+}
+
+.home-groups-each{
+	padding: 8px 0;
+	&:hover{
+		background-color: black;
+	}
+}
+.home-group-detail{
+	font-size: 18px;
+	padding-top: 14px;
+	margin-left: 25px;
+}

@@ -45,7 +45,7 @@ function App() {
 	<div>
 	  <Routes>
 		<Route path='/' element={ <LandingPage />}/>
-		<Route path='/home' element={authUser ?< Home /> : <Navigate to="/login" />}/>
+		<Route path='/home' element={!authUser ?< Home /> : <Navigate to="/login" />}/>
 		<Route path='/login' element={authUser ? <Navigate to="/home" /> : < LoginPage />}/>
 		<Route path='/create' element={authUser ? <Navigate to="/home" /> : < Create />}/>
 		<Route path='/settings' element={< SettingsPage/>}/>

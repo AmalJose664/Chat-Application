@@ -9,7 +9,7 @@ import redis.exceptions
 
 
 
-def redis_connect():
+def redis_connect(db_no):
 	#condition
 	redis_service=None
 	try:
@@ -18,7 +18,7 @@ def redis_connect():
 			redis_service=redis.Redis(host=settings.REDIS_SETTINGS['REDIS_ONLINE_IP'],port=settings.REDIS_SETTINGS['REDIS_ONLINE_PORT'],decode_responses=True,username="default",password= settings.REDIS_SETTINGS['ONLINE_PASS'],)
 		else:
 			#mode for offline
-			redis_service=redis.Redis(host=settings.REDIS_SETTINGS['REDIS_IP'], port=6379, db=settings.REDIS_SETTINGS['DB_FOR_CHATS'], decode_responses=True)
+			redis_service=redis.Redis(host=settings.REDIS_SETTINGS['REDIS_IP'], port=6379, db=db_no, decode_responses=True)
 		
 		redis_service.flushdb()
 		print("\nRedis cleared")

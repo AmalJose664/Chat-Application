@@ -11,6 +11,8 @@ import MessageSpace from './HomepageHelpers/MessageComponents/MessageSpace';
 import { motion } from 'framer-motion';
 import HomeTitle from './HomepageHelpers/HomeTitle';
 import { useSpecialStore } from '../../store/specialStore'
+import GroupMessageSpace from './HomepageHelpers/GroupComps/GroupMessageSpace'
+import SelectedGroup from './HomepageHelpers/GroupComps/SelectedGroup'
 
 function HomePageComp() {
 	const [viewItem , setViewItem] = useState('users')
@@ -43,7 +45,7 @@ function HomePageComp() {
 				<div className="home-content home-user-title">
 					<div className="home-selected-chat">
 						<div className="selected-chat-in">
-							  <SelectedUserTitle/>
+							{viewItem === 'users' ?<SelectedUserTitle/> : <SelectedGroup/> }
 						</div>
 					</div>
 				</div>
@@ -75,7 +77,7 @@ function HomePageComp() {
 				<div className="home-content home-message">
 					<div className="home-message-box">
 						<div className="home-chat-box">
-							{viewItem === 'users' ?<MessageSpace/> : "" }
+							{viewItem === 'users' ?<MessageSpace/> : <GroupMessageSpace/> }
 							  
 						</div>
 					</div>

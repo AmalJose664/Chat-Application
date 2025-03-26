@@ -7,6 +7,7 @@ export default defineConfig({
   server:{
 	  allowedHosts: [
 		  '36f1-103-182-166-208.ngrok-free.app',
+		  '192.168.253.21'
 	  ],
 	  host: true,
   }

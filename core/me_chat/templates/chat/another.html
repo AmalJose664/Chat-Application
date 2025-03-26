@@ -97,7 +97,7 @@
 		</style>
 	</head>
   <body>
-	<input type="text" id="access" placeholder="Speical token" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQyMDQ2MDMzLCJpYXQiOjE3NDE5NTk2MzMsImp0aSI6ImY2MmRlYjQ5OTc4ZTQwMjg5ODNlNzkyOTRhZTdiODIyIiwidXNlcl9pZCI6IjU3OWMwYmI0LWRlNjAtNDI5MS1iNzVjLWVlMjc0YmFiZDgyMiJ9.97kmGVvYCCtKbOxv4PmdXpZip5RxkOi2FxZ_ffDyqCc"> 
+	<input type="text" id="access" placeholder="Speical token" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQzMDYwNTg0LCJpYXQiOjE3NDI5NzQxODQsImp0aSI6IjE4MzY5MTdhMjFmNzQyZDdiYjdmZjJjMWE3NTUzYWY3IiwidXNlcl9pZCI6IjU3OWMwYmI0LWRlNjAtNDI5MS1iNzVjLWVlMjc0YmFiZDgyMiJ9.HG6MNYAOfukCHSGeM-2H8LPRcG5WtUwvi_u1rWpYEq0"> 
 	guest ? <input type="checkbox" id="guest-or-not">
 	
 	<button id="type-data">Send status</button>
@@ -265,7 +265,8 @@
 			if (guest.checked){
 				room = 'CONNECTION_FOR_ONLINE_STATUS'
 			}
-			chatSocket = new WebSocket(`${proto}://${window.location.host}/ts/${room}/?token=${accessToken}`);
+			room = 'TheNewTestGroup__snMN9ZIw'
+			chatSocket = new WebSocket(`${proto}://${window.location.host}/group-chat/${room}/35dc570b/?token=${accessToken}`);
 
 			chatSocket.onopen = function (e) {
 				console.log("Time took to connect:", (performance.now() - time).toFixed(2), " ms <> The connection was setup successfully !");

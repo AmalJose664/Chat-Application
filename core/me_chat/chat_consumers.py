@@ -11,7 +11,7 @@ from core.redis import redis_connect, pymongo_connect
 from .mongo_queries import get_query_for_user_friends
 from django.conf import settings
 
-redis_service = redis_connect()
+redis_service = redis_connect(0)
 pipeline = redis_service.pipeline() if redis_service else ""
 mongo_db = pymongo_connect()
 user_collection = mongo_db['user_mongo']
@@ -167,7 +167,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 		
 		if self.ONLINE_GUEST:
 			if await self.close_online_guest():
-				self.close()
+				await self.close()
 				return
 
 		if self.return_socket:
@@ -185,7 +185,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 		await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 		await self.channel_layer.group_discard(online_tracking_group, self.channel_name)
 
-
+		await super().disconnect(close_code)
 		
 		print(">>>>>>>>>Disconnected<<<<<<<<<<<<=====//////////pymnogo ", " --------mongoengine ,close code ==>>",close_code)
 

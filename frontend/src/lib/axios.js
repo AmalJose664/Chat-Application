@@ -5,7 +5,7 @@ export let ip = 'localhost'
 
 export let proto = location.protocol != 'http:' ? "https" : "http"
 export let wsProto = location.protocol != 'http:' ? "wss" : "ws"
-if (ip == 'localhost'){
+if (ip == 'localhost' || ip == '192.168.253.21' ){
 	ip=ip+":8000"
 	proto = "http"
 	wsProto = 'ws'
@@ -50,6 +50,24 @@ axiosMessageInstance.interceptors.request.use(config => {
 	return config
 
 })
+
+export const axiosGroupsInstance = axios.create({
+	baseURL: `${proto}://${ip}/api/groups`,
+	headers: {
+		Authorization: localStorage.getItem('access_token') || ''
+	},
+	withCredentials: true
+})
+
+axiosGroupsInstance.interceptors.request.use(config => {
+	const token = localStorage.getItem('access_token') || null;
+	if (token) {
+		config.headers.Authorization = `Bearer ${token || ""}`
+	}
+	return config
+
+})
+
 
 export const axiosSpecialAuthInstance = axios.create({
 	baseURL: `${proto}://${ip}/api/auth`,

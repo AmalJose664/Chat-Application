@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 # apps
 	'account',
 	'me_chat',	
+	'groups_chat'
 ]
 
 AUTH_USER_MODEL = 'account.User'
@@ -77,7 +78,7 @@ SAVE_MESSAGES = True
 connect(MONGODB_SETTINGS['db'], host=f'mongodb://localhost:27017/{MONGODB_SETTINGS['db']}')
 
 
-CORS_ALLOWED_ORIGINS=['http://localhost:5173','https://36f1-103-182-166-208.ngrok-free.app']
+CORS_ALLOWED_ORIGINS=['http://localhost:5173','https://36f1-103-182-166-208.ngrok-free.app','http://192.168.253.21:5173']
 CORS_ALLOW_CREDENTIALS = True 
 CSRF_COOKIE_SECURE = False  
 SESSION_COOKIE_SECURE = False
