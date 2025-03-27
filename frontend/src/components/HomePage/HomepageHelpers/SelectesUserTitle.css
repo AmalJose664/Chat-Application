@@ -39,6 +39,12 @@
 		margin: 10px;
 	}
 }
+.h-s-u-title.for-groups{
+	svg{
+		margin-right: 8px;
+		transform: translateY(3px);
+	}
+}
 .h-s-u-extra{
 	transition: .2s ease-in;
 	cursor: pointer;
@@ -129,5 +135,28 @@
 	transition: .2s ease-in;
 	&:hover{
 		background-color: royalblue;
+	}
+}
+
+/* --------------------groups things----------------------------------------------------------------------- */
+.disconnect-from-chat{
+	margin-left: auto;
+	margin-right: 30px;
+}
+.d-f-c-inner{
+	button{
+		outline: none;
+		width: 150px;
+		height: 40px;
+		border-radius: 9px;
+		cursor: pointer;
+		border: 1px solid;
+		transition: all .2s ease;
+		&:hover{
+			background-color: rgb(236, 51, 51);
+		}
+		&:active{
+			transform: scale(.9);
+		}
 	}
 }

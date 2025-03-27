@@ -6,20 +6,34 @@ from bson import ObjectId
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from me_chat.templatetags.chatextras import initials
 
 
 class Get_Groups(APIView):
 	permission_classes=[IsAuthenticated]
 	def get(self, request):
+		from .group_consumers import get_temp_redis
+		
+		pipeline = get_temp_redis()
+
 		try:
 			groups = ChatGroups_mongo.objects().as_pymongo()[:30]
 			new_array = []
 			for group in groups:
+				pipeline.smembers(f"group_chat__{group['group_key']}")
+			redis_result = pipeline.execute()
+
+			for i, group in enumerate(groups):
+
 				group['_id'] = str(group['_id'])
 				group.pop('join_key')
+				group['initial'] = initials(group['name'])
+
+				group['count'] = len(redis_result[i]) if redis_result[i] else 0
 				group.pop('group_key')
+
 				new_array.append(group)
-			print(new_array)
+			
 			return JsonResponse({'Data':'Success','groups':new_array},status=status.HTTP_200_OK)
 		except Exception as e:
 			print('Exception ', str(e))
@@ -27,20 +41,24 @@ class Get_Groups(APIView):
 	
 class Create_Group(APIView):
 	permission_classes=[IsAuthenticated]
-	def get(self, request, group_name):
+	def get(self, request, group_name, lock):
 		import uuid
+		
 		from me_chat.templatetags.chatextras import random_text
-
+		
 		try:
+			lock = not bool(lock)
+			print('call to create ', lock)
 			group_join_key = str(uuid.uuid4())[:8]
 			group_id  = f"{group_name.lower()}__{random_text(8)}"
 
-			existing_group = ChatGroups_mongo(name=group_name, group_key=group_id, join_key=group_join_key).save()
-			return JsonResponse({'Data':'Success','group_data':{
-			'name':group_name,
-			'join':group_join_key,
-			'group_id':group_id
-		}},status=status.HTTP_200_OK)
+			existing_group = ChatGroups_mongo(name=group_name, group_key=group_id, join_key=group_join_key, is_private=lock).save()
+			existing_group= existing_group.to_mongo().to_dict()
+			existing_group['_id'] = str(existing_group['_id'])
+			existing_group['count'] = 0
+			existing_group['initial'] = initials(group_name)
+
+			return JsonResponse({'Data':'Success','group_data':existing_group},status=status.HTTP_200_OK)
 
 		except mongoengine.errors.NotUniqueError as e:
 			print('Not unique ===', str(e))

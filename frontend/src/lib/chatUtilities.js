@@ -56,3 +56,11 @@ export const findYesterdayAndToady = (formatedDate,date )=>{
 
 	return formatedDate
 }
+export function getRandomColorInRange(minBrightness = 0, maxBrightness = 255) {
+	const getChannel = () =>
+		Math.floor(Math.random() * (maxBrightness - minBrightness + 1)) + minBrightness;
+	const r = getChannel();
+	const g = getChannel();
+	const b = getChannel();
+	return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+}

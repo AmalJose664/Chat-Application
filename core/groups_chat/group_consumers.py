@@ -9,7 +9,8 @@ from core.redis import redis_connect, pymongo_connect
 redis_service = redis_connect(2)
 collection = pymongo_connect()['chat_groups_mongo']
 
-
+def get_temp_redis():
+	return redis_service.pipeline()
 
 class GrConsumer(AsyncJsonWebsocketConsumer):
 
