@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			*{
+				font-family: sans-serif;
+
+			}.container{
+				padding: 10px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: .35s ease all;
+				border-radius: 9px;
+				border: transparent 2px solid;
+				gap: 60px;
+				div{
+					margin: 0 40px;
+				}
+			}.container.active{
+				border-color: rgb(84, 255, 84);
+			}.container.err{
+				border-color: red;
+			}
+
+			.left-side-request-user{
+				float: left;
+				padding: 15px;
+				background-color: #e8e8e8;
+				border-radius: 9px;
+				border: 1px solid gray;
+				cursor: pointer;
+				div{
+					padding: 8px;
+					border-radius: 9px;
+					border: 1px solid transparent;
+					transition: all .45s ease;
+					&:hover{
+						border-color: blue;
+					}
+				}
+
+				
+			}
+			.user{
+				position: relative;
+				span{
+					position: absolute;
+					top: 25%;
+					left: -10px;
+					background-color: transparent;
+					color: transparent;
+					transition: all .2s ease;
+				}
+			}
+			.user.notify{
+				h4,h5,h6,p{
+					animation-name: notify;
+					animation-duration: 2s;
+					
+				}
+			}
+			.user.online{
+				span{
+					background-color: greenyellow;
+					color: greenyellow;
+					border-radius: 24px;
+				}
+			}
+			@keyframes notify{
+				0%{
+					color: black;
+				}
+				20%{
+					color: transparent;
+				}
+				40%{
+					color: black;
+				}
+				60%{
+					color: transparent;
+				}
+				80%{
+					color: black;
+				}
+				90%{
+					color: transparent;
+				}
+				100%{
+					color: black;
+				}
+
+			}
+
+
+
+		</style>
+	</head>
+  <body>
+	<input type="text" id="access" placeholder="Speical token" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ0MDIyNDM3LCJpYXQiOjE3NDM5MzYwMzcsImp0aSI6ImQ2MGZlNTA1ZTE2MDQ0ODZhZDkzZDEyMjYyYjFiZjVmIiwidXNlcl9pZCI6IjU3OWMwYmI0LWRlNjAtNDI5MS1iNzVjLWVlMjc0YmFiZDgyMiJ9.IIhqnGhNbRwGNXHkW8HaZiTndCk72-mg9mGJZhS4t14"> 
+	guest ? <input type="checkbox" id="guest-or-not">
+	
+	<button id="type-data">Send status</button>
+	<input type="text" id="conv_id" placeholder="Conseration id">
+	<input type="text" id="room_change" placeholder="room change id" value="d35b5de3-083f-426e-982a-9b1de80c526a">
+    <center><h1>Hello , Welcome to my chat site ! {{request.user}}</h1>
+	<h6>My id = {{ request.user.id }}</h6>
+	</center>
+    <br>
+    {% if request.user.is_authenticated  %}
+    <center> Logout the chat Page <a href = "">Logout</a></center>
+    {% endif %}
+    <div class="container">
+		<div class="chat__item__container" id="id_chat_item_container" style="font-size: 20px">
+			<br />
+			<input type="text" id="id_message_send_input" onkeyup="sendViaEnter(this,event)"/>
+			<button type="submit" id="id_message_send_button">Send Message</button>
+			<br />
+			<br />
+		</div>
+
+		<div class="btns">
+			<button onclick="connect()">
+				connect to chat
+			</button>
+			<button onclick="disconnect()">
+				disconetc from chat
+			</button>
+		</div>
+		<div class="left-side-request-user ">
+			<button onclick="clearChats()">Clear chat</button>
+			{% for users in data %}
+				<div class="user" data-id="{{ users.id }}" onclick="select(this,'{{ users.id }}')">
+					<h4 style="margin: 0;padding: 0;"> {{ users.email }} </h4>
+					<h6 style="margin-top: 8px;"> {{ users.id }} </h6>
+					<h5> {% firstof users.name  'no name' %} </h5> 
+					<p  style="display: none;"> {{ users.id }}</p>
+					<span> O </span>
+				</div>
+			{% endfor %}
+				
+			
+		</div>
+		
+	</div>
+    <script>
+
+
+		
+		
+		let room = ""
+		let user = "{{request.user.name}}"
+		let chatSocket = null
+		let previous = null
+		let global_times = 0
+		
+		let container = document.querySelector('.container') 
+		const sendBtn = document.querySelector("#id_message_send_button")
+		const chatBox = document.querySelector(".chat__item__container");
+		const usersList = document.querySelectorAll('.user')
+		const guest = document.getElementById('guest-or-not')
+		const accessElement = document.getElementById('access')
+		const typeBtn = document.getElementById('type-data')
+		const convId = document.getElementById('conv_id')
+		const newRoom = document.getElementById('room_change')
+
+		
+		async function select(object,data){
+			//await newFetch()
+			
+			if(previous){
+				document.getElementById('selected').remove()
+				previous.style.border = "1px transparent solid"
+				previous.style.cursor = "pointer"
+			}
+			previous = object 
+			object.style.border = "1px red solid"
+			object.style.cursor = "not-allowed"
+			object.innerHTML += "<p id='selected'>Selected chat</p>"
+			
+			room=data.replaceAll(" ","")
+			clearChats()
+
+		}
+
+		function disconnect(){
+			if (chatSocket){
+				chatSocket.close()
+				console.log("closed the room");
+				return
+			}
+			console.log("not disconnected");
+		}
+
+		function sendMessage(messageInput){
+			if(messageInput == "CHANGE_ROOM"){
+				return changeRoom()
+			}
+			global_times = performance.now()
+			chatSocket.send(JSON.stringify({
+				'type': 'CHAT_MESSAGE_EVENT',
+				'message': messageInput,
+				'name': user,
+				'room': '',
+				'conv_id': convId.value,
+				'sent_time': Date.now()
+			}));
+		}
+
+
+		function sendViaEnter(object, e) {
+			
+			if (e.keyCode != 13) {
+				return
+			}
+			let string = Math.random().toString(36).slice(2, 12) + Math.random().toString(36).slice(2, 12)
+			if(!object.value){
+				object.value = "TEST_MESSAGE_"+string
+			}
+			if (chatSocket) {
+				sendMessage(object.value)
+				object.value=""
+			}
+		}
+		function clearChats() {
+			const messages = document.querySelectorAll('.messages_got')
+
+			messages.forEach(chat => chat.remove())
+			
+
+		}
+
+
+		function onlineUsersUpdate(list){
+			
+			usersList.forEach((user)=>{
+				
+				if(list.includes(user.dataset.id)){
+					user.classList.add('online')
+				}else{
+					user.classList.remove('online')
+				}
+			})
+			
+		}
+		
+
+
+
+		 function connect() {
+			
+			let accessToken = accessElement.value
+			console.log(room);
+			if (chatSocket) {
+				chatSocket.close()
+			}
+			if(!room){
+				alert("please select a chat to continue")
+				return
+			}
+			if(!accessToken){
+				alert("no token");
+				return
+				
+			}
+			let time = performance.now()
+			let proto = location.protocol != 'http:' ? "wss" : "ws"
+			if (guest.checked){
+				room = 'CONNECTION_FOR_ONLINE_STATUS'
+			}
+			chatSocket = new WebSocket(`${proto}://${window.location.host}/ts/${room}/?token=${accessToken}`);
+
+			chatSocket.onopen = function (e) {
+				console.log("Time took to connect:", (performance.now() - time).toFixed(2), " ms <> The connection was setup successfully !");
+
+				container.classList.add('active')
+				
+
+			};
+			chatSocket.onclose = function (e) {
+				container.classList.remove('active')
+				console.log("Room was Closed!! || or || Something unexpected happened !");
+			};
+
+			sendBtn.onclick = function (e) {
+				var messageInput = document.querySelector("#id_message_send_input").value;
+				document.querySelector("#id_message_send_input").value=""
+
+				sendMessage(messageInput)
+
+			};
+			
+
+			
+			chatSocket.onmessage = function (e) {
+				console.log("Time took to message = ", (performance.now() - global_times).toFixed(2), " ms")
+				const data = JSON.parse(e.data);
+				
+
+				let handlers = {
+					'CHAT_MESSAGE_EVENT' : chatMessage,
+					'CHAT_NOTIFICATION_EVENT' : chatNotifications,
+					'CHAT_ONLINE_USERS_EVENT' : onlineUpdation,
+					'CHAT_SERVER_ERROR_EVENT':serverError,
+					'CHAT_TYPE_EVENT' : chatTypeEvent,
+					'CHAT_ROOM_CHANGE':chatRoomChange,
+				}
+				if(handlers[data.type]){
+					handlers[data.type](data)
+				}
+				
+
+				
+			};
+		}
+
+		
+		//-------------------handler functions-------------------
+		function chatTypeEvent(data){
+			console.log(data);
+			
+		}
+		
+		
+		function chatRoomChange(data) {
+			usersList.forEach((value, i) => {
+				if (value.dataset.id == data.new_user) {
+					return select(usersList[i], data.new_user)
+				}
+
+			})
+		}
+
+		function chatMessage(data){
+			let div = document.createElement("div");
+			div.className = "messages_got"
+			div.innerHTML = (data.name == user ? data.initials : data.name) + " : " + (data.message+"____"+ data.sender || "no data ");
+			document.querySelector("#id_chat_item_container").appendChild(div);
+			console.log("Status:",data.status,);
+			
+
+		}
+		function serverError(data){
+			console.log(data)
+		}
+
+		function chatNotifications(data) {
+			
+			
+			console.log("notification : from : ==>> ",data.from,"His room ==>>",data.room)
+			usersList.forEach( user => {
+				if (user.dataset.id == data.from) {
+					user.classList.add('notify')
+					setTimeout(()=> user.classList.remove('notify'),2000)
+				}
+			})
+
+			
+		}
+
+
+		function onlineUpdation(data) {
+			
+			console.log(data.users)
+			onlineUsersUpdate(data.users)
+		}
+	let i =0
+	typeBtn.onclick = ()=>{
+
+		if(chatSocket){
+			chatSocket.send(JSON.stringify({
+				'type': 'CHAT_TYPE_EVENT',
+				'type_status': i%2==0 ?'TYPE_START' : "TYPE_STOP",
+				'name': user,
+			}))
+			i++
+		}
+	}
+	let changeRoom = ()=>{
+		if(!newRoom.value) return 0
+		console.log("NEw rooom ",newRoom.value);
+		
+		chatSocket.send(JSON.stringify({
+			'type': 'CHAT_ROOM_CHANGE',
+			'name': user,
+			'new_chat':newRoom.value,
+			'message':'CHANGE_ROOM'
+		}))
+	}
+		
+	
+    </script>
+  </body>
+</html>

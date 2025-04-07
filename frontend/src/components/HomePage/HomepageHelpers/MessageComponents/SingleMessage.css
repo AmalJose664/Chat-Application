@@ -1,0 +1,153 @@
+.type-sent .read-receipt-status-read{
+	span:nth-child(1){
+		position: absolute;
+		right: 5px;
+	}
+}
+.type-sent .read-receipt-status-delivered{
+	span:nth-child(1){
+		position: absolute;
+		right: 5px;
+	}
+}
+.type-sent .read-receipt-status-seen {
+	span:nth-child(1) {
+			position: absolute;
+			right: 5px;
+	}
+	span {
+			color: rgb(0, 185, 218);
+	}
+}
+.type-sent .common-read-receipts {
+	position: relative;
+
+	
+}
+.type-receive .common-read-receipts{
+	span{
+		display: none;
+	}
+}
+
+.type-receive .message-space-message-small-box{
+	left: 18px;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 10px;
+}
+.message-space-message-small-box{
+	z-index: 120;
+	position: absolute;
+	min-width: 100px;
+	border-radius: 10px;
+	border-top-right-radius: 0px;
+	padding: 8px 0;
+	top: 15px;
+	right: 9px;
+	background: rgb(35, 35, 35);
+}
+.m-s-m-s-b-list{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	
+	p{	
+		margin: 5px 5px;
+		font-size: 14px;
+		
+		
+		
+	}
+	p:nth-child(1){
+		&:hover{
+			cursor: pointer;
+		}
+	}
+}
+.small-options-list-box{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	border-radius: 10px;
+	padding: 6px;
+	max-height: 35px;
+	&:hover {
+			background-color: black;
+	}
+	svg{
+		margin-right: auto;
+	}
+	p{
+		margin-left: auto;
+	}
+}
+
+
+.get-message-details-container{
+	position: absolute;
+	top: 2%;
+	left: 10%;
+	background-color: rgb(43, 43, 43);
+	overflow-y: scroll;
+	max-height: 600px;
+	padding: 8px;
+	border-radius: 9px;
+	z-index: 10;
+	border: 1px solid royalblue;
+}
+.g-m-d-c-inner{
+	padding: 10px;
+	opacity: 1 !important;
+}
+.g-m-d-c-i-content{
+	margin: 10px;
+	table{
+		overflow-y: scroll;
+		min-width: 560px;
+		max-height: 600px;
+		width: 100%;
+		tr {
+				display: flex;
+				justify-content: space-between;
+				width: 100%;
+				padding-bottom: 4px;
+				border-bottom: 1px solid rgb(99, 99, 99);
+			}
+		
+			td {
+				flex: 1;
+				padding: 6px 0;
+			}
+		
+			td:last-child {
+				text-align: right;
+			}
+	}
+}
+.g-m-d-c-i-content{
+	tbody{
+		word-break: break-all;
+	}
+}
+.g-m-d-c-close-btn{
+	padding: 8px;
+	transition: .35s ease;
+	border-radius: 9px;
+	float: right;
+	cursor: pointer;
+	border: 1px solid red;
+	&:hover{
+		background-color: black;
+	}
+}
+.getmessage-details-avatar{
+	width: 50px;
+		height: auto;
+		border-radius: 24px;
+		aspect-ratio: 1/1;
+		border-radius: 50%;
+		object-fit: cover;
+		overflow: hidden;
+}

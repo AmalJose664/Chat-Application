@@ -1,0 +1,264 @@
+.friends-component{
+	padding: 10px;
+}
+.friends-inner{
+	padding: 8px;
+}
+
+.friends-select{
+	width: 100%;
+}
+
+.friends-select-inner{
+	padding-top: 10px;
+	padding-top: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	span{
+		cursor: pointer;
+	}
+}
+.friends-home-selector{
+	border-radius: 10px;
+	padding: 10px;
+	transition: all .3s ease;
+	&:hover{
+		background-color: rgb(46, 46, 46);
+	}
+}
+
+.friends-home-selector.selected{
+	border-bottom: 1px solid rgb(7, 94, 175);
+	border-top: 1px solid rgb(7, 94, 175);
+}
+
+.friends-space{
+	padding: 10px;
+}
+.friends-content{
+	padding: 10px;
+}
+.friends-add-top{
+	margin: 9px 0;
+}
+.frineds-input{
+	overflow-y: hidden;
+	position: relative;
+	svg{
+		position: absolute;
+		transition: all ease .45s;
+		top: 10px;
+		left: 14px;
+	}
+	p{
+		cursor: pointer;
+		opacity: 0;
+		position: absolute;
+		top: 8px;
+		left: 475px;
+	}
+	input{
+		transition: all ease .45s;
+		font-size: 14px;
+		min-width: 500px;
+		outline: none;
+		border-radius: 10px;
+		padding: 10px;
+		padding-left: 40px;
+	}
+	input:valid{
+		padding-right: 40px;
+	}
+}
+
+.frineds-input input:active,
+input:focus + svg {
+	transform: translateX(-40px);
+}
+.frineds-input input:active,
+input:focus {
+	padding-left: 10px;
+	transform: translateX(0px);
+}
+.frineds-input input:not(:placeholder-shown) ~ p{
+	opacity: 1;
+}
+
+.friends-list-friends{
+	margin: 20px 0;
+	padding: 10px;
+}
+.friends-loader{
+	margin-left: 500px;
+	margin-top: 200px;
+}
+
+.friends-loader.my-friends{
+	margin-left: 10px;
+}
+.friends-list-inner{
+	margin-top: 15px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	gap: 20px;
+}
+
+.each-friends{
+	background-color: rgb(55, 55, 55);
+	display: flex;
+	align-items: center;
+	gap: 30px;
+	padding: 10px;
+	transition: all .3s ease;
+	border-radius: 10px;
+	border: 1px solid transparent;
+	&:hover{
+		border-color: aqua;
+	}
+}
+.friend-details{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+}
+.friend-btn{
+	button{
+		cursor: pointer;
+		border: none;
+		padding: 10px;
+		border-radius: 10px;
+		background-color: rgb(0, 134, 216);
+		border: 1px solid transparent;
+		transition: .3s all ease;
+		&:hover{
+			border-color: rgb(174, 174, 187);
+			transform: scale(1.1);
+		}
+		&:active{
+			background-color: rgb(4, 98, 156);
+			transform: scale(1);
+		}
+	}
+}
+.friend-title{
+	font-size: 18px;
+}
+.friend-image{
+	img{
+		width: 70px;
+		height: auto;
+		border-radius: 24px;
+		aspect-ratio: 1/1;
+		border-radius: 50%;
+		object-fit: cover;
+		overflow: hidden;
+	}
+}
+
+.friend-requests{
+	padding-top: 40px;
+}
+
+
+.friend-request-each{
+	max-width: 400px;
+	transition: all .3s ease;
+	border-radius: 10px;
+	border: 1px solid transparent;
+
+	&:hover{
+		border-color: aqua;
+	}
+}
+
+.request-inner{
+	background-color: rgb(47, 47, 47);
+	border-radius: 11px;
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	gap: 20px;
+}
+.friend-image-title{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+}
+
+.request-btn{
+	button{
+		margin-left: 20px;
+	}
+}
+
+.friends-list-inner-modified{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.friends-added-each{
+
+	padding: 10px;
+	width: 100%;
+	
+}
+
+.friends-each-inner{
+	padding: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	border-radius: 10px;
+	transition: all .3s ease;
+	border: 1px solid transparent;
+	
+		&:hover {
+			border-color: aqua;
+		}
+}
+
+
+.friend-added-section1{
+	padding: 8px;
+	margin-right: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	div{
+		margin-right: 30px;
+	}
+}
+
+.friend-added-section2{
+	padding: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	div{
+		margin-right: 20px;
+	}
+}
+.friend-remove button{
+	background-color: rgb(255, 71, 71);
+}
+
+.friends-content >p{
+	font-size: 24px;
+	margin: 20px 0;
+}
+
+.friends-added >p{
+	font-size: 24px;
+	margin: 20px 0;
+}
+.friends-list-friends >p{
+	font-size: 24px;
+	margin: 10px 0 25px 0;
+}

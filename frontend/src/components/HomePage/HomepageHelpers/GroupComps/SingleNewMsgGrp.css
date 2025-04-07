@@ -1,0 +1,43 @@
+.message__group__sender__avatar{
+	position: absolute;
+	cursor: pointer;
+	top: 20px;
+}
+
+.type-sent{
+	.message__group__sender__avatar{
+		right: -34px;
+	}
+}
+
+.type-receive .message__wrapper.group_wrapper {
+	padding-top: 20px;
+}
+.type-receive{
+	.message__group__sender__avatar{
+		left: -28px;
+	}
+}
+.m-g-s-avatar-inner{
+
+	img{
+		width: 25px;
+		height: auto;
+		border-radius: 24px;
+		aspect-ratio: 1/1;
+		border-radius: 50%;
+		object-fit: cover;
+		overflow: hidden;
+	}
+}
+.message__group__sender__name{
+	position: absolute;
+	top: 5%;
+	left: 5%;
+}
+
+.type-sent{
+	.message__group__sender__name{
+		display: none;
+	}
+}

@@ -1,0 +1,65 @@
+.home-list-title{
+	position: relative;
+}
+.home-title-notifications-icon{
+	transform: translate(80px,15px);
+	cursor: pointer;
+	transition: .3s ease-in;
+	.number-of-request{
+		background-color: royalblue;
+		border-radius: 19px;
+		padding: 2px;
+	}
+}
+.home-title-notifications-icon.turned-on{
+	border-radius: 9px;
+	padding: 8px;
+	background-color: royalblue;
+}
+.home-title-notification-box{
+	position: absolute;
+	top: 90px;
+	left: 10%;
+	z-index: 100;
+	border: 1px solid royalblue;
+	border-radius: 9px;
+}
+.h-t-notification-inner{
+	background-color: rgb(31, 31, 31);
+	border-radius: 9px;
+	padding: 10px;
+	display: flex;
+	align-items: start;
+	flex-direction: column;
+	max-height: 500px;
+	overflow-y: scroll;
+}
+.h-t-notifictns-each{
+	padding: 8px 10px;
+	border-radius: 9px;
+	transition: .1s ease;
+	margin: 2px 0;
+	border: 1px solid black;
+
+	&:hover{
+		background-color: black;
+		border-color: royalblue;
+	}
+}
+.h-t-notifictns-each.friend_accepted {
+	background-color: rgb(0, 39, 28);
+}
+.h-t-notifictns-each.friend_request {
+	background-color: rgb(0, 24, 55);
+}
+.h-t-notifictns-each.friend_removed {
+	background-color: rgb(44, 17, 17);
+}
+.h-t-n-clear-btn{
+	cursor: pointer;
+	right: -70px;
+	top: 0;
+	padding: 10px 15px;
+	border-radius: 9px;
+	margin: 8px auto;
+}

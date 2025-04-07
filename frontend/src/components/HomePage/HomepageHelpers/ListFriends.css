@@ -1,0 +1,75 @@
+
+
+.home-list-friends-toggle{
+	height: 50px;
+	border-radius: 50%;
+	width: 50px;
+	display: flex;
+	background-color: royalblue;
+	svg{
+		margin: auto;
+	}
+}
+
+.home-show-friends-container{
+	position: absolute;
+	bottom: 40px;
+	right: 30px;
+}
+.list-friends-box-in{
+	background-color: royalblue;
+	padding: 14px;
+	border-radius: 10px;
+	
+}
+.list-f-b-i-inner{
+	
+	padding: 0 20px;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	max-width: 320px;
+	overflow-x: hidden;
+	min-height: 50px;
+	overflow-y: scroll;
+	max-height: 500px;
+}
+
+.list-friend-each{
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 8px;
+	border-radius: 10px;
+	gap: 10px;
+	&:hover{
+		background-color: rgb(43, 70, 150);
+	}
+}
+.f-l-h-back-btn{
+	svg{
+		margin-right: 10px;
+		cursor: pointer;
+		padding: 4px;
+		height: 26px;
+		width: 26px;
+		border-radius: 8px;
+		&:hover{
+			background-color: rgb(26, 63, 132);
+		}
+	}
+	color: black;
+}
+.list-f-user-title{
+	color: black;
+}
+.list-f-avatar img {
+	width: 50px;
+	height: auto;
+	border-radius: 24px;
+	aspect-ratio: 1/1;
+	border-radius: 50%;
+	object-fit: cover;
+	overflow: hidden;
+}

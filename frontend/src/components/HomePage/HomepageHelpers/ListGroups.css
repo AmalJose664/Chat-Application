@@ -1,0 +1,57 @@
+.home-group{
+	display: flex;
+	position: relative;
+	align-self: center;
+}
+.home-group-container{
+	padding: 0 14px;
+}
+.home-refresh{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	cursor: pointer;
+	margin: 10px;
+
+}
+.home-group-select-section.selected{
+	
+	background-color: rgb(45, 45, 45);
+	border: 1px solid royalblue;
+	border-radius: 4px;
+}
+.home-group-select-section{
+	cursor: pointer;
+	transition: .3s ease-in all;
+}
+.home-group-avatar{
+	text-align: center;
+	line-height: 48px;
+	font-size: 22px;
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+}
+
+.home-groups-each{
+	padding: 8px 0;
+	&:hover{
+		background-color: rgb(43, 43, 43);
+	}
+}
+.home-group-detail{
+	font-size: 18px;
+	padding-top: 14px;
+	margin-left: 25px;
+}
+.home-group-users-in-group{
+	position: absolute;
+	right: 0;
+	top: 20%;
+	span{
+		margin: 0 10px;
+	}
+	svg{
+		transform: translateY(3px);
+	}
+}
