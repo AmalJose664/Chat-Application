@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { useAuthStore } from '../store/useAuthStore.js'
-function Dybtn({text = 'default', color='#fff'}) {
+function Dybtn({text = 'default', color='#fff' ,btnNumber=1}) {
 	
 	const { isLoggginIn, isSigningUp, isUpdatingProfile } = useAuthStore()
 	useEffect(() => {
-		const btn = document.getElementsByClassName('btns')[0];
+		const btn = document.getElementsByClassName('btns')[btnNumber - 1 ];
 		if (btn) {
 			const handleMouseMove = (e) => {
 				const rect = btn.getBoundingClientRect();

@@ -213,13 +213,13 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 				)
 			else:
 				
-				my_room_count = int(redis_service.hget(f"active_rooms:{self.room_group_name}" , "user_count") or 0)
+				my_room_count = int(redis_service.hget(f"active_rooms_user_count" , self.room_group_name) or 0)
 				
 				if my_room_count == 2:
 					read = 2
 				elif my_room_count == 1:
 					read = 0
-
+				print("Read value ",read)
 				await self.channel_layer.group_send(
 					self.room_group_name,{
 						'type': "CHAT_MESSAGE_EVENT",
@@ -359,6 +359,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 		if(is_online_user):
 			self.str_db_user = str(self.db_user)
 			self.last_message=[False]
+			self.room_group_name = 'room'
 			self.ONLINE_GUEST = False
 			await self.channel_layer.group_discard(online_tracking_group, self.channel_name)
 		else:
@@ -520,7 +521,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 			pipeline.srem('online_users', self.me)
 			pipeline.hdel("user_channel_mapping", self.me)
 		pipeline.hdel('user_room_mapping', self.me)
-
+			
 		pipeline.hincrby(f"active_rooms_user_count", self.room_group_name, -1)
 		pipeline.execute()
 		user_count = int(redis_service.hget(f"active_rooms_user_count" , self.room_group_name)) or 0
@@ -746,6 +747,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 			await self.channel_layer.group_discard(online_tracking_group, self.channel_name)
 			await self.send_online_users(type='DISCONNECT')
 			await self.del_user_targets()
+			self.room_group_name = 'room'
 			await self.update_redis_user()
 			return True
 		

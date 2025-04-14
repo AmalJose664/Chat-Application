@@ -12,8 +12,9 @@ import Search from '../../../../assets/Search'
 import GetMessageDetails from './GetMessageDetails';
 import { useChatStore } from '../../../../store/useChatStore';
 import Trash from '../../../../assets/Trash'
+import { getContrastColor } from '../../../../lib/chatUtilities';
 
-export const SingleMessage = React.memo(({message, i}) =>{
+export const SingleMessage = React.memo(({ message, i, customPrefrns }) =>{
 	
 	
 	const [smallBoxActive, setSmallBoxActive] = useState(false)
@@ -24,17 +25,20 @@ export const SingleMessage = React.memo(({message, i}) =>{
 	return (
 	<motion.div key={i} className={message.r == authUser.db_user._id ? "message__h type-receive" : "message__h type-sent"}
 		initial={{ opacity: 0 , x: receive ? 28 : -28}} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: message.c_id ? .3 : .1, delay: message.c_id ? i/20 : 0 }}
+			style={{ borderRadius: `${customPrefrns.messageCrnr}px` }}
 	>
-			<div className={detailBox ? "message__wrapper hide" : "message__wrapper"}>
+			<div className={detailBox ? "message__wrapper hide" : "message__wrapper hhhhhhh"} 
+				style={{ background: customPrefrns.chatColor.s, borderRadius: `${customPrefrns.messageCrnr}px` }}
+			>
 			<div className="message__in">
-				<div className="message__content">
+					<div className="message__content" style={{ color: getContrastColor(customPrefrns.chatColor.s), fontSize: `${customPrefrns.fontSize}px` }}>
 					{message.c}
 				</div>
-				<span className="message__time">
+					<span className="message__time" style={{ color: getContrastColor(customPrefrns.chatColor.s) }}>
 					{getTime(message.t)}
 				</span>
 				{message.s == authUser.db_user._id ? <span className='message__status'>
-					<ReadReceipts status={message.sa} />
+					<ReadReceipts status={message.sa} dColor={customPrefrns.tickColor.d} rColor={customPrefrns.tickColor.r}/>
 				</span> : ""}
 				
 			</div>

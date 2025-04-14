@@ -4,6 +4,7 @@ import { useGroupStore } from '../../../../store/useGroupStore';
 import { SingleNewMessages } from '../MessageComponents/SingleNewMessages';
 import MessageSendGroupComp from './MessageSendGroupComp';
 import { toast } from 'react-toastify';
+import { convertStringToCss, loadPreferences } from '../../../../lib/chatUtilities';
 
 function GroupMessageComp() {
 	const messagesEndRef = useRef(null);
@@ -22,14 +23,14 @@ function GroupMessageComp() {
 
 		}
 	},[])
-
+	const customPrefrns = loadPreferences()
   return (
-	  <div className='h-m' >
+	  <div className='h-m' style={{ ...convertStringToCss(customPrefrns.customBackground) }}>
 
 		  <motion.div className="home-messages" exit={{ opacity: 0, y: 20 }} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28 }} >
 			  <div className='wrapper'>
 
-				  <NewMessages />
+				  <NewMessages customPrefrns={customPrefrns} />
 				  <div className="scroll__to_" ref={messagesEndRef}>
 				  </div>
 			  </div>
@@ -40,13 +41,14 @@ function GroupMessageComp() {
   )
 }
 
-const NewMessages = React.memo(() => {
+const NewMessages = React.memo(({ customPrefrns }) => {
+	
 	const groupMessages = useGroupStore(state => state.groupMessages)
 
  	return (
 		<>
 			{groupMessages.length != 0 ? groupMessages.map((message, i) => (
-				<SingleNewMessages message={message} key={i} i={i} isGroupMessage={true}/>
+				<SingleNewMessages customPrefrns={customPrefrns} message={message} key={i} i={i} isGroupMessage={true}/>
 			)) : 
 				<p style={{ textAlign: 'center' }}>Say Hi and Start a Chat !! </p>
 			}

@@ -10,11 +10,11 @@ import '../GroupComps/SingleNewMsgGrp.css'
 import GetUser from "../HomeUtils/GetUser"
 import Download from "../../../../assets/Download"
 import File from "../../../../assets/File"
-import { getFileSize } from "../../../../lib/chatUtilities"
+import { getContrastColor, getFileSize } from "../../../../lib/chatUtilities"
 
 
 
-export const SingleNewMessages = React.memo(({ message, i ,isGroupMessage=false}) => {
+export const SingleNewMessages = React.memo(({ message, i, isGroupMessage = false, customPrefrns }) => {
 
 	const [smallBoxActive, setSmallBoxActive] = useState(false)
 	const [showUser, setShowUser] = useState(false)
@@ -29,7 +29,6 @@ export const SingleNewMessages = React.memo(({ message, i ,isGroupMessage=false}
 			}
 		}
 	},[])
-
 	if (isGroupMessage){
 		
 		if (message.type =="CHAT_JOIN_DISCONNECT"){
@@ -49,10 +48,15 @@ export const SingleNewMessages = React.memo(({ message, i ,isGroupMessage=false}
 			return(
 				<motion.div key={i} className={message.s == authUser.db_user._id ? "message__h type-sent" : "message__h type-receive"}
 					initial={{ opacity: 0, x: receive ? 28 : -28 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: message.c_id ? .3 : .1, }}
+					style={{ borderRadius: `${customPrefrns.messageCrnr}px` }}
 				>
-					<div className={detailBox ? "message__wrapper group_wrapper hide" : "message__wrapper group_wrapper"}>
+					<div className={detailBox ? "message__wrapper group_wrapper hide" : "message__wrapper group_wrapper"} 
+						style={{ background: customPrefrns.chatColor.r, borderRadius: `${customPrefrns.messageCrnr}px` }}
+					>
 						<div className="message__in">
-							<div className="message__content">
+							<div className="message__content" 
+								style={{ color: getContrastColor(customPrefrns.chatColor.r), fontSize: `${customPrefrns.fontSize}px` }}
+							>
 								{message.fileType.startsWith("image/") && <img src={message.c} alt="" /> }
 								{message.fileType.startsWith("video/") && <video controls controlsList="nodownload">
 									<source src={message.c} type={message.fileType} />
@@ -68,11 +72,11 @@ export const SingleNewMessages = React.memo(({ message, i ,isGroupMessage=false}
 								<br />
 								{message.ct}
 							</div>
-							<span className="message__time">
+							<span className="message__time" style={{ color: getContrastColor(customPrefrns.chatColor.r) }}>
 								{getTime(message.t)}
 							</span>
 							{message.s == authUser.db_user._id ? <span className='message__status'>
-								<ReadReceipts status={message.sa} />
+								<ReadReceipts status={message.sa} dColor={customPrefrns.tickColor.d} rColor={customPrefrns.tickColor.r} />
 							</span> : ""}
 
 						</div>
@@ -113,17 +117,20 @@ export const SingleNewMessages = React.memo(({ message, i ,isGroupMessage=false}
 		return (
 			<motion.div key={i} className={message.s == authUser.db_user._id ? "message__h type-sent" : "message__h type-receive"}
 				initial={{ opacity: 0, x: receive ? 28 : -28 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: message.c_id ? .3 : .1, }}
+				style={{ borderRadius: `${customPrefrns.messageCrnr}px` }}
 			>
-				<div className={detailBox ? "message__wrapper group_wrapper hide" : "message__wrapper group_wrapper"}>
+				<div className={detailBox ? "message__wrapper group_wrapper hide" : "message__wrapper group_wrapper"}
+					style={{ background: customPrefrns.chatColor.s, borderRadius: `${customPrefrns.messageCrnr}px` }}
+				>
 					<div className="message__in">
-						<div className="message__content">
+						<div className="message__content" style={{ color: getContrastColor(customPrefrns.chatColor.s), fontSize: `${customPrefrns.fontSize}px` }}>
 							{message.c}
 						</div>
-						<span className="message__time">
+						<span className="message__time" style={{ color: getContrastColor(customPrefrns.chatColor.s) }}>
 							{getTime(message.t)}
 						</span>
 						{message.s == authUser.db_user._id ? <span className='message__status'>
-							<ReadReceipts status={message.sa} />
+							<ReadReceipts status={message.sa} dColor={customPrefrns.tickColor.d} rColor={customPrefrns.tickColor.r} />
 						</span> : ""}
 
 					</div>
@@ -154,17 +161,20 @@ export const SingleNewMessages = React.memo(({ message, i ,isGroupMessage=false}
 	return (
 		<motion.div key={i} className={message.r == authUser.db_user._id ? "message__h type-receive" : "message__h type-sent"}
 			initial={{ opacity: 0, x: receive ? 28 : -28 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: message.c_id ? .3 : .1, delay: message.c_id ? i / 20 : 0 }}
+			style={{ borderRadius: `${customPrefrns.messageCrnr}px` }}
 		>
-			<div className={detailBox ? "message__wrapper hide" : "message__wrapper"}>
+			<div className={detailBox ? "message__wrapper hide" : "message__wrapper"} 
+				style={{ background: customPrefrns.chatColor.s, borderRadius: `${customPrefrns.messageCrnr}px` }}
+			>
 				<div className="message__in">
-					<div className="message__content">
+					<div className="message__content" style={{ color: getContrastColor(customPrefrns.chatColor.s), fontSize: `${customPrefrns.fontSize}px` }}>
 						{message.c}
 					</div>
-					<span className="message__time">
+					<span className="message__time" style={{ color: getContrastColor(customPrefrns.chatColor.s) }}>
 						{getTime(message.t)}
 					</span>
 					{message.s == authUser.db_user._id ? <span className='message__status'>
-						<ReadReceipts status={message.sa} />
+						<ReadReceipts status={message.sa} dColor={customPrefrns.tickColor.d} rColor={customPrefrns.tickColor.r} />
 					</span> : ""}
 
 				</div>

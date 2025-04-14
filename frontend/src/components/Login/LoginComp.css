@@ -118,7 +118,9 @@
 	
 
 }
-label{
+.login-component .input input:empty~label
+ {
+	all: unset;
 	position: absolute;
 	font-size: 16px;
 	padding: 0 4px;
@@ -132,8 +134,8 @@ label{
 
 
 
-.input input:focus
-~ label,.input input:valid~label {
+.login-component .input input:focus~ label,
+.login-component .input input:valid~label {
 	left: 18px;
 	top: -1px;
 	font-size: 12px;

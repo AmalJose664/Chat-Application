@@ -1,0 +1,254 @@
+.landing-page-component{
+	width: 100vw;
+	min-height: 90vh;
+	padding: 6px;
+}
+.lp-top-title{
+	padding: 10px;
+	border-bottom: 1px solid rgb(52, 52, 52);
+}
+.lp-top-inner{
+ h1{
+	font-size: 40px;
+	background: linear-gradient(to left, #fffdfd 1%, #1a77ef 60%);
+	
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+ }
+ span{
+	-webkit-text-fill-color: white;
+	animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+ }
+}
+@keyframes appname{
+	0%,
+	100% {
+		background: linear-gradient(to left, #fffdfd, #1a77ef) !important;
+	}
+
+	50% {
+		background: linear-gradient(to right, #fffdfd, #1a77ef) !important;
+	}
+}
+@keyframes pulse {
+
+	0%,
+	100% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0.5;
+		color: royalblue;
+	}
+}
+
+.lp-subtext{
+	padding: 10px;
+
+}
+.lp-subtext-inner{
+
+	position: relative;
+ span{
+	font-size: 20px;
+	font-weight: 500;
+ }
+}
+.lp-center-part-position{
+	position: absolute;
+	pointer-events: none;
+	width: 100%;
+	height: 100vh;
+	top: -50px;
+	background:linear-gradient(transparent 40%, #101010 100%);
+	z-index: 99;
+}
+.lp-center-part{
+	background-color: #111111;
+    background-image: linear-gradient(
+      32deg,
+      rgba(0, 0, 0, 0.74) 30px,
+      transparent
+    );
+    background-size: 60px 60px;
+    background-position: -5px -5px;
+	padding: 6% 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 80vh;
+	gap: 66px;
+}
+.lp-down-arrow{
+	cursor: pointer;
+	margin-top: 90px;
+	justify-self: end;
+}
+.l-p-down-arrow-inner{
+	animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+	animation-delay: .3s;
+}
+.lp-second-center{
+	margin: 50px 0;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.main-class-reactbits{
+	padding-left: 0.5rem;
+		/* px-2 = 8px */
+		padding-right: 0.5rem;
+		padding-top: 0.125rem;
+		/* py-0.5 = 2px */
+		padding-bottom: 0.125rem;
+		background-color: #4e98ff;
+		/* bg-cyan-300 */
+		overflow: hidden;
+		display: flex;
+		justify-content: center;
+		border-radius: 0.5rem;
+		*{color: black;}
+}
+
+.split-level-class{
+	overflow: hidden;
+	padding-bottom: 0.125rem;
+}
+.lp-grid-outer{
+	padding: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.lp-grids{
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	gap: 60px;
+}
+
+.lp-each-grid{
+	padding: 16px;
+	transition: .2s ease-in;
+	
+}
+.custom-class{
+	transition: .2s ease-in;
+	&:hover {
+		background-color: royalblue !important;
+	}
+}
+.grid-svg{
+	padding: 8px;
+	svg{
+		transition: .2s ease-in;
+	}
+	&:hover{
+		svg{
+			
+			transform: scale(1.2);
+		}
+	}
+}
+
+.grid-title{
+	font-size: 23px;
+	padding: 8px;
+}
+.grid-subtext{
+	font-size: 16px;
+	padding: 8px;
+}
+.lp-join-text{
+	
+	padding: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	
+	gap: 50px;
+	margin: 40px 0;
+}
+.lp-shadow-effect{
+	background-color: rgb(43, 43, 43);
+	padding: 35px;
+	border-radius: 9px;
+	box-shadow: 0px 1px 16px 8px rgba(11, 16, 58, 0.453);
+}
+
+.join-text-inner{
+	font-size: 26px;
+	
+}
+.lp-btn-started{
+	button{
+		margin: 0 30px;
+		text-transform: none;
+	}
+}
+
+
+.join-button {
+    position: relative;
+    margin: auto;
+    padding: 12px 18px;
+    transition: all 0.2s ease;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+
+  .join-button:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    border-radius: 50px;
+    background: #adadad;
+    width: 45px;
+    height: 45px;
+    transition: all 0.3s ease;
+  }
+
+  .join-button span {
+    position: relative;
+    font-family: "Ubuntu", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: #258cf4;
+  }
+
+  .join-button svg {
+    position: relative;
+    top: 0;
+    margin-left: 10px;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke: #234567;
+    stroke-width: 2;
+    transform: translateX(-5px);
+    transition: all 0.3s ease;
+  }
+
+  .join-button:hover:before {
+    width: 100%;
+    background: rgb(179, 187, 212);
+  }
+
+  .join-button:hover svg {
+    transform: translateX(0);
+  }
+
+  .join-button:active {
+    transform: scale(0.95);
+  }

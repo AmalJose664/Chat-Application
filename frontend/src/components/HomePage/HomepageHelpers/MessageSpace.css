@@ -201,7 +201,6 @@
 
 .message__content{
 	word-break: break-all;
-	font-size: 14px;
 	min-width: 100px;
 	margin-bottom: 16px;
 }
@@ -216,6 +215,7 @@
 	right: 3px;
 	margin-top: auto;
 	font-size: 11px;
+	font-weight: 500;
 }
 
 .type-sent{

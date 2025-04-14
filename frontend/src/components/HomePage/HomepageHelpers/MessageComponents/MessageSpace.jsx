@@ -8,7 +8,7 @@ import { ToastContainer,Flip } from 'react-toastify';
 import MessageSendComp from './MessageSendComp';
 import { useChatStore } from '../../../../store/useChatStore';
 import { useSpecialStore } from '../../../../store/specialStore'; 
-import { filterMessageByDay, findYesterdayAndToady } from '../../../../lib/chatUtilities';
+import { filterMessageByDay, findYesterdayAndToady, loadPreferences, convertStringToCss } from '../../../../lib/chatUtilities';
 import Particles from '../HomeUtils/TestComp';
 import { SingleNewMessages } from './SingleNewMessages';
 
@@ -126,9 +126,9 @@ function MessageSpaceMessages({ selectedUser }){
 	
 	console.log("Message space messages re render!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Online  list=>",);
 	
-
+	const customPrefrns = loadPreferences()
 	return (
-		<div className='h-m' >
+		<div className='h-m' style={{ ...convertStringToCss(customPrefrns.customBackground) }}>
 			
 			
 			<motion.div className="home-messages" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28 }} >
@@ -153,13 +153,13 @@ function MessageSpaceMessages({ selectedUser }){
 								</div>
 							</div>
 							{dayMessages.groupedMessages.map((message, i) => (
-								<SingleMessage key={i} message={message} i={i} />
+								<SingleMessage customPrefrns={customPrefrns} key={i} message={message} i={i} />
 							))}
 						</React.Fragment>
 
 					)))  : <p style={{textAlign:'center'}}>Say Hi and Start a Chat !! </p>}
-					<NewMessages />  
-					<SelectedUserLdr/>
+					<NewMessages customPrefrns={customPrefrns}/>  
+					<SelectedUserLdr messageCrnr={customPrefrns.messageCrnr}/>
 					<div className="message__h type-timedate" onClick={() => setMakeConnection(true)}>
 						<div className="time__show">
 							<span className="time__">
@@ -177,27 +177,28 @@ function MessageSpaceMessages({ selectedUser }){
 	)
 }
 
-const  NewMessages = React.memo(() =>{
+const  NewMessages = React.memo(({customPrefrns}) =>{
 	const selectedUserNewMessages = useChatStore(state => state.selectedUserNewMessages)
 	
 	if (!selectedUserNewMessages.length) return null;
 
 	return (
 		selectedUserNewMessages.map((message, i )=> (
-			<SingleNewMessages message={message} key={i} i={i} />
+			<SingleNewMessages customPrefrns={customPrefrns} message={message} key={i} i={i} />
 		))  	
 	)
 })
 
 
-function SelectedUserLdr(){
+function SelectedUserLdr({ messageCrnr=10 }){
 	const selectedChatTyping = useSpecialStore(state => state.selectedChatTyping)
 	return (
 		<>{selectedChatTyping &&
-			<motion.div className='message__h type-receive' 
+			<motion.div className='message__h type-receive'
 				style={{ padding: '3px 20px',
 				background: 'transparent', 
 				border: '1px solid royalblue', 
+				borderRadius: `${messageCrnr}px`,
 				marginLeft: '10px' }}
 				initial={{ opacity: 0, x: -30, y: 0 }} animate={{ opacity: 1, x: 0, y: 0 }}
 				transition={{ duration: 0.1, ease: 'easeInOut', }}

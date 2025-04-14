@@ -86,14 +86,16 @@ function SignupComp() {
 						  <div className="input">
 							  <motion.input initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, delay: .8 }}
 								  value={formData.email}
+								  placeholder=''
 								  onChange={(e) => setForm({ ...formData, email: e.target.value })} />
 							  <label htmlFor="password">
 								  Email
 							  </label>
 						  </div>
 						  <div className="input">
-							  <motion.input type="text" maxLength={25} initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, delay: 1 }}
+							  <motion.input type="text"  maxLength={25} initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, delay: 1 }}
 								  value={formData.username}
+								  placeholder=''
 								  onChange={(e) => setForm({ ...formData, username: e.target.value })} />
 							  <label htmlFor="username">
 								  User Name
@@ -101,8 +103,10 @@ function SignupComp() {
 						  </div>
 						  <div className="input">
 							  <motion.input type={passShow ? 'text' : 'password'}
-								  value={formData.password} initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, delay: 1.2 }}
-								  onChange={(e) => setForm({ ...formData, password: e.target.value })} />
+								value={formData.password} initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, delay: 1.2 }}
+								minLength={6} 
+								placeholder=''
+								onChange={(e) => setForm({ ...formData, password: e.target.value })} />
 							  <label htmlFor="">Password</label>
 							  <span type="button" onClick={() => setPassShow(!passShow)}> {passShow ? <EyeFill size={20} color="white" /> : <EyeIcon size={20} color="black" />}   </span>
 						  </div>

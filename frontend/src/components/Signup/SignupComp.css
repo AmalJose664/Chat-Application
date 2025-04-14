@@ -1,28 +1,36 @@
 :root{
 	--svg-fill: white;
 }
-label {
+
+
+.signup-component .input input:empty ~ label, .signup-component .input label {
+	all: unset;
 	position: absolute;
 	font-size: 16px;
 	padding: 0 4px;
 	background: transparent !important;
-	left: 18px;
+	left: 18px ;
 	top: 17px;
 	transition: all .4s ease;
 	will-change: font, left, top;
 	color: #767676;
 }
 
-
-
-.input input:focus~label,
-.input input:valid~label {
+.signup-component .input input:focus~ label{
 	left: 18px;
 	top: -1px;
 	font-size: 12px;
 	color: white;
 	background: rgba(25, 25, 25) !important;
 }
+.signup-component .input input:not(:placeholder-shown) ~ label{
+	left: 18px;
+	top: -1px;
+	font-size: 12px;
+	color: rgb(255, 255, 255);
+	background: rgba(25, 25, 25) !important;
+}
+
 
 .eye {
 	position: relative;
