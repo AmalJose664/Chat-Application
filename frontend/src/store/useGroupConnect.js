@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { ip, wsProto } from "../lib/axios";
 import { useGroupStore } from "./useGroupStore";
 import { useAuthStore } from "./useAuthStore";
-import { toast } from "react-toastify";
+import { toast } from 'sonner';
 
 
 
@@ -108,6 +108,9 @@ async function handleFileSend(set, get, data) {
 	setGroupMessages(newMessage)
 
 }
+function kickMessage(set, get, data){
+	toast.info("You was Kick from the Group by Group Creator")
+}
 
 
 //handler functions-------------------------------------
@@ -129,6 +132,7 @@ export const useGroupConnectStore = create((set, get) => ({
 			'CHAT_MESSAGE_EVENT': updateMessages,
 			'CHAT_JOIN_DISCONNECT': groupJoinDisconnect,
 			'CHAT_ONLINE_USERS_EVENT': onlineUpdate,
+			'CHAT_REMOVE_EVENT': kickMessage
 		}
 		if (handlers[parsedData.type]) {
 			const callFunction = handlers[parsedData.type]
@@ -144,6 +148,7 @@ export const useGroupConnectStore = create((set, get) => ({
 		
 		const existingSocket = get().groupSocket
 		const setConnected = useGroupStore.getState().setConnected
+		const clearGroupMessages = useGroupStore.getState().clearGroupMessages
 
 
 		if (existingSocket) {
@@ -176,27 +181,23 @@ export const useGroupConnectStore = create((set, get) => ({
 			}
 		}
 		newSocket.onopen = (event) => {
+			
 			console.log("Sockect opened and connected");
 			setConnected(true)
 		}
 		newSocket.onclose = (event) => {
 			console.log("Sockect closed and disconnected");
-			const existingSocket = get().groupSocket
-			if (existingSocket) {
-				set({ groupSocket: null })
-				setConnected(false)
-			}
-
+			
+			set({ groupSocket: null })
+			setConnected(false)
+			clearGroupMessages()
 		}
 		newSocket.onerror = (event) => {
 			console.log("Sockect error and disconnected");
-			const existingSocket = get().groupSocket
 			
-			if (existingSocket) {
-				set({ groupSocket: null })
-				setConnected(false)
-			}
-
+			set({ groupSocket: null })
+			clearGroupMessages()
+			setConnected(false)
 		}
 		if (newSocket) {
 			set({ groupSocket: newSocket })
@@ -269,6 +270,27 @@ export const useGroupConnectStore = create((set, get) => ({
 				set({ groupChatMessage: "" })
 			} 
 			reader.readAsArrayBuffer(file);
+
+		} catch (err) {
+			console.log(err, err.message);
+			return toast.error("Error on sending message, " + err.message,)
+		}
+	},
+	removeUser: (remoUser='')=>{
+		const socket = get().groupSocket
+
+		if (!socket || socket.OPEN != socket.readyState || !remoUser) {
+			return toast.error("Error on sending message")
+		}
+		const user = useAuthStore.getState().authUser.db_user
+		try {
+
+			socket.send(JSON.stringify({
+				'type': 'CHAT_REMOVE_EVENT',
+				'target_user': remoUser,
+				'name': user.user_name,
+			}));
+			set({ groupChatMessage: "" })
 
 		} catch (err) {
 			console.log(err, err.message);

@@ -268,7 +268,11 @@
 			if (guest.checked){
 				room = 'CONNECTION_FOR_ONLINE_STATUS'
 			}
-			chatSocket = new WebSocket(`${proto}://${window.location.host}/ts/${room}/?token=${accessToken}`);
+			// group_key: 'thelegendary__Zz6I9ESz',
+    		//join_key: 'd9f902bb'
+			room = "newfriends__q6bw0J5p"
+
+			chatSocket = new WebSocket(`${proto}://${window.location.host}/group-chat/${room}/14a6b11a/?token=${accessToken}`);
 
 			chatSocket.onopen = function (e) {
 				console.log("Time took to connect:", (performance.now() - time).toFixed(2), " ms <> The connection was setup successfully !");

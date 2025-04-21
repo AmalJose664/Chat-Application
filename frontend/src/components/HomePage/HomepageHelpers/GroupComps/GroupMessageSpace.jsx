@@ -5,9 +5,10 @@ import GroupMessageComp from './GroupMessageComp'
 import DashBoardICon from '../../../../assets/DashBoardICon'
 import { AnimatePresence, motion } from 'framer-motion'
 import { axiosGroupsInstance } from '../../../../lib/axios'
-import { toast, ToastContainer, Flip } from 'react-toastify';
+import { toast } from 'sonner';
 import Lock from '../../../../assets/Lock'
 import { useGroupConnectStore } from '../../../../store/useGroupConnect'
+import { useSpecialStore } from '../../../../store/specialStore'
 
 
 const GroupMessageSpace = () => {
@@ -26,6 +27,7 @@ const GroupMessageSpace = () => {
 			isFirstRender.current = false;
 			return;
 		}
+		
 		if(connected){
 			deleteSocket()
 			clearGroupMessages()
@@ -34,6 +36,9 @@ const GroupMessageSpace = () => {
 		}
 		
 	}, [selectedGroup])
+	const borderRef = useSpecialStore(state => state.borderRef)
+
+	
 	return (
 
 		<div className="home-message-component">
@@ -49,19 +54,7 @@ const GroupMessageSpace = () => {
 				  {(!connected && selectedGroup) && <JoinToGroup selectedGroup={selectedGroup} />}
 			  </AnimatePresence>
 		  </div>}
-			<ToastContainer
-				position="top-right"
-				autoClose={800}
-				hideProgressBar={false}
-				newestOnTop={false}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-				theme="dark"
-				transition={Flip}
-				/>
+		
 		</div>
   )
 }
@@ -92,8 +85,11 @@ function JoinToGroup({ selectedGroup }){
 			toast.success("Connected !!")
 		}catch(err){
 			if(err.status == 403){
-				toast.error("Invalid Join Key",{autoClose:3000})
-			}else{
+				toast.error("Invalid Join Key",{duration:3000})
+			}else if(err.status==404){
+				toast.error("Group Not Found", { duration: 2000 })
+			}
+			else{
 				console.log(err);
 			}
 			
@@ -158,6 +154,7 @@ function CreateGroup(){
 	const setSelectedGroup = useGroupStore(state => state.setSelectedGroup)
 
 	const handleFrom = async(e)=>{
+		if(formData.groupName.length<6) return toast.error("Group Name should be more than 6 Charectors")
 		e.preventDefault()
 		try{
 			setLoader(true)
@@ -195,7 +192,7 @@ function CreateGroup(){
 					<form className="h-g-create-content-inner" onSubmit={handleFrom} ref={formRef}>
 						<div className="h-g-create-input">
 							<label htmlFor="">Group Name</label><br />
-							<input required maxLength={50} value={formData.groupName} onChange={(e) => setFormData({ ...formData, groupName: e.target.value })} 
+							<input required maxLength={50}  value={formData.groupName} onChange={(e) => setFormData({ ...formData, groupName: e.target.value })} 
 							type="text" className='group-input-name' placeholder='What Makes u Together?' />
 						</div>
 						<div className="h-g-content-private">

@@ -6,18 +6,18 @@ import { useChatStore } from '../../../store/useChatStore.js'
 import { useSpecialStore } from '../../../store/specialStore.js'
 import { motion } from 'framer-motion'
 import GetUser from './HomeUtils/GetUser.jsx'
+import { Link } from 'react-router-dom'
 
 function SelectedUserTitle() {
 	const selectedUser = userDataStore(state => state.selectedUser);
+	const setMessageRead = useSpecialStore(state => state.setMessageRead)
 
 	const selectedChatTyping = useSpecialStore(state => state.selectedChatTyping)
 	const selectedChatOnline = useSpecialStore(state => state.selectedChatOnline)
 
 	const loadSelectedUserMessages = useChatStore(state => state.loadSelectedUserMessages);
 	console.log("From selectusertitle");
-	const getMessages = () => {
-		loadSelectedUserMessages()
-	}
+	
 	const [showExtras ,setShowExtras] = useState(false)
 	const [showUserDetails, setShowUserDetails] = useState(false)
 	const dotRef = useRef(null)
@@ -29,7 +29,7 @@ function SelectedUserTitle() {
 			<motion.div className="h-s-u-data" initial={{ opacity: 0, y: 20,  }} animate={{ opacity: 1, y: 0,  }} 
 			transition={{ duration: .3, ease:'easeIn'}}>
 				<div className="home-select-user-image">
-					<img src={selectedUser.pic} alt="" onClick={getMessages}/>
+					<img src={selectedUser.pic} alt="" onClick={setMessageRead}/>
 				</div>
 				<div className="h-s-u-title" onClick={()=>setShowUserDetails(true)}>
 					{selectedUser.user_name} <br />
@@ -50,7 +50,7 @@ function SelectedUserTitle() {
 					{showExtras && <Extras outRef={dotRef} onClose={() => setShowExtras(false)} showDetails={()=>setShowUserDetails(true)}/>}
 			</motion.div> </>}
 		</div>
-		{showUserDetails && <GetUser closeFunct={()=>setShowUserDetails(false)} status={selectedChatOnline}/>}
+		{showUserDetails && <GetUser closeFunct={()=>setShowUserDetails(false)} status={selectedChatOnline} id={selectedUser._id}/>}
 	</div>
   )
 }
@@ -93,9 +93,9 @@ function Extras({ outRef, onClose, showDetails }){
 					<div className="h-s-extrabox-each" onClick={showDetails}>
 						Get Details
 					</div>
-					<div className="h-s-extrabox-each">
+					<Link to={'/settings'} className="h-s-extrabox-each">
 						Change Background
-					</div>
+					</Link>
 				</div>
 			</div>
 		</motion.div>

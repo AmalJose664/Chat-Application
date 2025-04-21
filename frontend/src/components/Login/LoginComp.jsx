@@ -1,8 +1,8 @@
 import React, {  useState } from 'react'
 import './LoginComp.css'
+import '/32947939_491362538070.jpg'
 import {EyeFill, EyeIcon} from '../../assets/eye.jsx'
 import Dybtn from '../../assets/Dybtn.jsx'
-import { Flip, ToastContainer } from 'react-toastify';
 import Logo from '../../assets/Logo.jsx'
 import { useAuthStore } from '../../store/useAuthStore.js'
 import {Link } from 'react-router-dom'
@@ -69,19 +69,7 @@ function LoginComp() {
 								</div>
 								<motion.div className="input" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, delay: 1.3 }}>
 									<Dybtn text='sign in' />
-									<ToastContainer
-										position="bottom-center"
-										autoClose={2000}
-										hideProgressBar={false}
-										newestOnTop={false}
-										closeOnClick
-										rtl={false}
-										pauseOnFocusLoss
-										draggable
-										pauseOnHover
-										theme="dark"
-										transition={Flip}
-									/>
+									
 								</motion.div>
 							</form >
 						</div><Link to="/create" className="to-login"><p className='to-login' >Create new chat account</p></Link>

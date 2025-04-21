@@ -104,31 +104,7 @@
 }
 
 
-/* grid templeata defnitions  */
-/* .home-title{
-	grid-area: chattitle;
-}
-.home-list-title{
-	grid-area: messagetitle;
-}
-.home-user-title{
-	grid-area: username;
-}
-.home-options{
-	grid-area: sidebar;
-}
-.home-list-user{
-	grid-area: users;
-}
-.home-message{
-	grid-area: messages;
-}
-.sections{
-	grid-template-areas: 
-	'chattitle' 'sidebar'  'messagetitle' 'users'  'username' 'messages'
-	
-	;
-} */
+
 .sections {
 	display: grid;
 	grid-template-columns: 200px 450px 1fr;
@@ -139,6 +115,11 @@
 	height: 100%;
 	transition: .3s ease all; 
 	animation: backgroundCycle 10s infinite;
+}
+.sections.green {
+	transition: .3s ease all;
+	background-color: rgb(2, 243, 175);
+	animation: none;
 }
 .sections.animate{
 	transition: .3s ease all;

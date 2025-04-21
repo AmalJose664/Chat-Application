@@ -1,6 +1,6 @@
 import {create} from 'zustand'
 import  { axiosAuthInstance, axiosSpecialAuthInstance,}  from '../lib/axios.js'
-import {  toast } from 'react-toastify';
+import {  toast } from 'sonner';
 
 export const useAuthStore = create((set, get) => ({
 	authUser:null,
@@ -10,6 +10,8 @@ export const useAuthStore = create((set, get) => ({
 	isLoadingGlobal:false,
 
 	login: async(data) => {
+		
+		
 		set({ isLoggginIn: true });
 		try{
 			const res = await axiosAuthInstance.post('new-signin/', data)
@@ -18,12 +20,7 @@ export const useAuthStore = create((set, get) => ({
 			set({ authUser: res.data });
 			
 		}catch(err){
-			toast.error(err.response.data.error, {
-				style: {
-					background: "#000",
-					color: "#fff"
-				},
-			});
+			toast.error(err.response.data.error, );
 			console.log("error on logging in,", err.response.data, " Invalid credientails");
 		}finally{
 			set({ isLoggginIn: false });
@@ -45,12 +42,7 @@ export const useAuthStore = create((set, get) => ({
 			console.log(err,"======", err.message);
 			if(err.status == 400){
 				console.log("email exists with this id chose another", err.response.data.email[0]);
-				toast.error("Email already exists. Please try with a different Email", {
-					style: {
-						background: "#000",
-						color: "#fff"
-					},
-				});
+				toast.error("Email already exists. Please try with a different Email",);
 				
 			}
 			
@@ -87,18 +79,14 @@ export const useAuthStore = create((set, get) => ({
 
 	updateProfile: async(data)=>{
 		try{
+			
 			set({ isUpdatingProfile :true})
 			console.log("Fetching");
 			const response = await axiosSpecialAuthInstance.post('update/', data,{
 				headers: { "Content-Type": "multipart/form-data" },
 			})
 			if (response.data.profile_update ==1){
-				toast.success('Profile Updated Successfully', {
-					style: {
-						background: "#000",
-						color: "#fff"
-					},
-				});
+				toast.success('Profile Updated Successfully',);
 			}
 			console.log(response.data);	
 			
@@ -111,12 +99,10 @@ export const useAuthStore = create((set, get) => ({
 			if (err.status == 400) {
 				console.log("toast call");
 				
-				toast.error(err.response.data.error1.file[0].message, {
-					style: {
-						background: "#000",
-						color: "#fff"
-					},
-				});
+				toast.error(err.response.data.error1.file[0].message,);
+			}else if (err.status == 404){
+				toast.error(err.response.data.error
+				)
 			}
 			
 		}finally{

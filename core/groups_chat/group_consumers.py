@@ -1,5 +1,8 @@
+
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from pymongo.errors import PyMongoError
+
+from django.core.cache import cache
 
 from datetime import datetime
 import json
@@ -18,6 +21,7 @@ class GrConsumer(AsyncJsonWebsocketConsumer):
 
 	
 	async def connect(self):
+		global redis_service
 	
 		self.return_socket = False
 		self.accept_cndtns = True
@@ -35,10 +39,6 @@ class GrConsumer(AsyncJsonWebsocketConsumer):
 		self.connect_group_name = f'group_chat__{self.group_name}'
 
 
-
-
-
-		
 		
 		key = self.scope['url_route']['kwargs']['group_id']
 		j_key = self.scope['url_route']['kwargs']['join_key']
@@ -138,12 +138,27 @@ class GrConsumer(AsyncJsonWebsocketConsumer):
 					}
 				)
 			print("Message sent")
+		elif message_type == "CHAT_REMOVE_EVENT":
+			target_user = text_data_json.get('target_user')
+			group_creator = self.my_group['created_by'].split('__')[0]
+			if group_creator != self.me: 
+				print("you are not group creator")
+				return
+			await self.channel_layer.group_send(
+				self.connect_group_name,{
+					'type': "CHAT_REMOVE_EVENT",
+					'issuer':self.db_user['_id'],
+					'target_user': target_user,
+				}
+			)
+
 		else:
 			return
 
 		
 	
 	#------------------------------------------------------------------------------------------------------------------------------------------#
+	
 	async def send_online_users(self):
 
 		await self.channel_layer.group_send(
@@ -162,6 +177,12 @@ class GrConsumer(AsyncJsonWebsocketConsumer):
 		)
 	
 	# ----------------------------------Handlers--------------------------------------------------------------------------------------------------#
+	async def CHAT_REMOVE_EVENT(self,event):
+
+		if (event['target_user'] == self.db_user['_id'] ):
+			await self.send_json({"type": "CHAT_REMOVE_EVENT"})
+			await self.close()
+		
 	async def CHAT_ONLINE_USERS_EVENT(self,event):
 		users = redis_service.smembers(self.connect_group_name)
 		#users.discard(f"{self.me}__:__{self.db_user['profile_picture']}")
@@ -200,6 +221,7 @@ class GrConsumer(AsyncJsonWebsocketConsumer):
 
 	@sync_to_async(thread_sensitive=False)
 	def load_user(self):
+		global user_collection
 		try:
 			user = user_collection.find_one({'sqlite_id':self.me} ,{'_id':1,'user_name':1,'profile_picture':1})
 			if user:
@@ -219,6 +241,7 @@ class GrConsumer(AsyncJsonWebsocketConsumer):
 
 	@sync_to_async(thread_sensitive=False)
 	def load_group(self, group_id, join_key):
+		global group_collection
 		
 		try:
 			group = group_collection.find_one({'group_key':group_id,'join_key':join_key})
@@ -235,8 +258,11 @@ class GrConsumer(AsyncJsonWebsocketConsumer):
 		
 
 	async def add_user(self):
+		global redis_service
+		redis_service.sadd(self.connect_group_name, f"{self.db_user['_id']}__:__{self.db_user['profile_picture']}__:__{self.db_user['user_name']}")
 		
-		redis_service.sadd(self.connect_group_name, f"{self.me}__:__{self.db_user['profile_picture']}")
+		print(self.db_user)
+		
 
 
 	def get_group_users(self, group):
@@ -246,15 +272,10 @@ class GrConsumer(AsyncJsonWebsocketConsumer):
 
 	@sync_to_async(thread_sensitive=False)
 	def remove_user(self):
-		redis_service.srem(self.connect_group_name, f"{self.me}__:__{self.db_user['profile_picture']}")
-		length = self.get_group_users(self.connect_group_name)
+		global redis_service
+		redis_service.srem(self.connect_group_name, f"{self.db_user['_id']}__:__{self.db_user['profile_picture']}__:__{self.db_user['user_name']}")
 
-		# if(length == 0):
-		# 	try:
-		# 		result = collection.delete_one({'group_key':self.group_name})
-		# 		print(result)
-		# 	except PyMongoError as e:
-		# 		print("error in deleting ",str(e))
+		
 
 
 	async def handle_images(self, bytes_data):
@@ -275,6 +296,16 @@ class GrConsumer(AsyncJsonWebsocketConsumer):
 		try:
 			metadata_str = metadata_bytes.decode("utf-8").strip("\x00")
 			meta_data = json.loads(metadata_str)
+			print(meta_data)
+			file_size = meta_data['fileSize']
+			max_size_mb = 80
+
+			max_size_bytes = max_size_mb * 1024 * 1024
+
+			if file_size > max_size_bytes:
+				print("File is larger than 80MB")
+				return
+			
 		except UnicodeDecodeError:
 			print("Error decoding metadata. Invalid format.")
 			return

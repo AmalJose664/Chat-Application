@@ -6,12 +6,13 @@ import SendMessage from '../../../../assets/SendMessage'
 import './MessageSendComp.css'
 import EmojiBox from './EmojiBox'
 import ChatMessageDiv from './ChatMessageDiv'
+import { loadPreferences } from '../../../../lib/chatUtilities'
 
 
 
 
 
-function MessageSendComp( ) {
+function MessageSendComp({ enterSend, mesgTrans } ) {
 
 
 	const sendMessage = useChatStore(state => state.sendMessage)
@@ -85,10 +86,9 @@ function MessageSendComp( ) {
 		chatTextArea.current.innerText = ""
 		setChatMessage("")
 	}
-
   return (
 	
-	  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }} className="home-message-type">
+	  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }} className={mesgTrans ? 'home-message-type transparent' : 'home-message-type'}>
 		<div className="h-m-type-inner">
 			<div className="home-message-emoji">
 				  <div className={showEmoji ? "h-m-emoji-inner emoji-shown" : "h-m-emoji-inner" } onClick={() => toggleEmoji()}>
@@ -96,7 +96,7 @@ function MessageSendComp( ) {
 				</div>
 				
 			</div>
-			  <ChatMessageDiv closeOnEnter={handleSendUi} typeTimeRef={typingTimerRef} typeSentRef={typingSentRef} chatTextArea={chatTextArea} setChatMessage={setChatMessage} sendTypeStatus={sendTypeStatus}/>
+			  <ChatMessageDiv enterSend={enterSend} closeOnEnter={handleSendUi} typeTimeRef={typingTimerRef} typeSentRef={typingSentRef} chatTextArea={chatTextArea} setChatMessage={setChatMessage} sendTypeStatus={sendTypeStatus}/>
 			  
 				
 			  <div className="home-message-file-or-send-btn" onClick={handleSendUi}>

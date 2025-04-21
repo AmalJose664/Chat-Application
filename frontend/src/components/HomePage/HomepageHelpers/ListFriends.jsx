@@ -3,6 +3,7 @@ import './ListFriends.css'
 import { motion } from 'framer-motion'
 import { axiosApiInstance } from '../../../lib/axios'
 import { userDataStore } from '../../../store/userDataStore'
+import { useChatStore } from '../../../store/useChatStore'
 
 
 function ListFriends() {
@@ -33,6 +34,7 @@ function ShowFriends({ setTab, showFriends } ) {
 	const setUserFriends = userDataStore( state => state.setUserFriends)
 	const userFriends = userDataStore(state => state.userFriends)
 	const setSelectUser = userDataStore(state => state.setSelectUser)
+	const deleteSocket = useChatStore((state) => state.deleteSocket);
 	const [loader, setLoader] = useState(false)
 
 	const fetchFriends = async (signal)=>{
@@ -60,6 +62,7 @@ function ShowFriends({ setTab, showFriends } ) {
 	},[showFriends])
 
 	const setNewConv = (value)=>{
+		deleteSocket()
 		setSelectUser({
 			user_name: value.user_name,
 			id: value._id,

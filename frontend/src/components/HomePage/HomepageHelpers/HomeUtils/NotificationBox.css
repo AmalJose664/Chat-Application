@@ -1,9 +1,15 @@
 .home-list-title{
 	position: relative;
 }
+.h-t-n-each-inner{
+	text-decoration: none;
+}
+
 .home-title-notifications-icon{
-	transform: translate(80px,15px);
+	margin-top: 30px;
 	cursor: pointer;
+	margin-left: auto;
+	margin-right: 6%;
 	transition: .3s ease-in;
 	.number-of-request{
 		background-color: royalblue;

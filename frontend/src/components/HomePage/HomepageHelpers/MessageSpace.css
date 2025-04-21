@@ -15,7 +15,7 @@
 .home-message-type{
 	position: absolute;
 	bottom: 20px;
-	background-color:rgba(5, 13, 43, 0.388);
+	background-color: rgb(13 20 46);
 	backdrop-filter: blur(4px);
 	min-height: 50px;
 	width: 80%;
@@ -23,10 +23,14 @@
 	margin-left: 92px;
 	padding: 10px;
 	transition: border .3s ease;
-	border: 1px solid red;
+	border: 1px solid transparent;
 	&:hover{
 		border-color: rgb(6, 80, 199);
 	}
+}
+.home-message-type.transparent{
+	background-color: rgba(5, 13, 43, 0.388);
+	backdrop-filter: blur(4px);
 }
 .home-message-type::-webkit-scrollbar{
 	display: none;
@@ -127,7 +131,6 @@
 	padding-bottom: 80px;
   	margin: 0 10px;
   	border-radius: 10px;
-  	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .messages-loading-message-space{

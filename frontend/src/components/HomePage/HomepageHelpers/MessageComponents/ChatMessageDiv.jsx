@@ -1,10 +1,11 @@
 import React from 'react'
 
 
-function ChatMessageDiv({ chatTextArea, typeTimeRef, typeSentRef, setChatMessage, sendTypeStatus=null, closeOnEnter  }) {
+function ChatMessageDiv({ chatTextArea, typeTimeRef, typeSentRef, setChatMessage, sendTypeStatus = null, closeOnEnter, enterSend  }) {
+	
 	
 	const sendOnEnter = (e)=>{
-		if (e.key === "Enter") {
+		if (e.key === "Enter" && enterSend) {
 			closeOnEnter();
 			e.preventDefault();
 			chatTextArea.current.innerText=""

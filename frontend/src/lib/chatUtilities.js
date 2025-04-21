@@ -93,7 +93,7 @@ export function getContrastColor(hex) {
 	return yiq >= 128 ? '#000000' : '#FFFFFF';
 }
 
-export const APP_Name = "Me Chat..."
+export const APP_Name = "Connectify..."
 export let colors = [
 
 	{ s: "#C5F7A4", r: "#FFFFFF" },  // Vibrant WhatsApp green + white
@@ -137,7 +137,7 @@ export const convertStringToCss = (data)=>{
 	const styles = {} 
 	
 	data.split(';').forEach((style)=>{
-		const [attr, value] = style.split(':')
+		const [attr, value] = style.split(':::')
 		if(attr && value){
 			styles[attr.trim()] = value.trim()
 		}
@@ -157,28 +157,29 @@ export const loadPreferences = ()=>{
 			chatColor: { r: '', s: '' },
 			tickColor: { r: '', d: '' },
 			enterSend:true,
-			messageCrnr:10
+			messageCrnr:10,
+			mesgTrans:true,
 		}
 	}
 }
 
 export const bgImages = [
-	`background: url('/32947939_491362538070.jpg')center/cover;`,
+	`background::: url('/32947939_491362538070.jpg')center/cover;`,
 	
-	`backgroundColor: #111111;backgroundImage: linear-gradient(32deg, rgba(0, 0, 0, 0.74) 30px, transparent);backgroundSize: 60px 60px;backgroundPosition: -5px -5px;`,
+	`backgroundColor::: #111111;backgroundImage::: linear-gradient(32deg, rgba(0, 0, 0, 0.74) 30px, transparent);backgroundSize::: 60px 60px;backgroundPosition::: -5px -5px;`,
 	
-	`--color: rgba(114, 114, 114, 0.3);
-	backgroundColor: #191a1a;
-  backgroundImage: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
+	`--color::: rgba(114, 114, 114, 0.3);
+	backgroundColor::: #191a1a;
+  backgroundImage::: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
       linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
-  backgroundSize: 55px 55px;`,
+  backgroundSize::: 55px 55px;`,
 
-  `--s: 200px;
-  --c1: #1d1d1d;
-  --c2: #4e4f51;
-  --c3: #3c3c3c;
+  `--s::: 200px;
+  --c1::: #1d1d1d;
+  --c2::: #4e4f51;
+  --c3::: #3c3c3c;
 
-  background: repeating-conic-gradient(
+  background::: repeating-conic-gradient(
         from 30deg,
         #0000 0 120deg,
         var(--c3) 0 180deg
@@ -190,21 +191,21 @@ export const bgImages = [
       var(--c2) 0 120deg,
       var(--c3) 0 180deg
     );
-  backgroundSize: var(--s) calc(var(--s) * 0.577);`,
+  backgroundSize::: var(--s) calc(var(--s) * 0.577);`,
 
-  `--color: #E1E1E1;
-  backgroundColor: #F3F3F3;
-  backgroundImage: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
+  `--color::: #E1E1E1;
+  backgroundColor::: #F3F3F3;
+  backgroundImage::: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
       linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
-  backgroundSize: 55px 55px;`,
+  backgroundSize::: 55px 55px;`,
 
-  `--s: 82px;
-  --c1: #353535;
-  --c2: #090909;
-  --c3: #252121;
+  `--s::: 82px;
+  --c1::: #353535;
+  --c2::: #090909;
+  --c3::: #252121;
 
-  --_g: var(--c3) 0 120deg, #0000 0;
-  background: conic-gradient(from -60deg at 50% calc(100% / 3), var(--_g)),
+  --_g::: var(--c3) 0 120deg, #0000 0;
+  background::: conic-gradient(from -60deg at 50% calc(100% / 3), var(--_g)),
     conic-gradient(from 120deg at 50% calc(200% / 3), var(--_g)),
     conic-gradient(
       from 60deg at calc(200% / 3),
@@ -220,9 +221,9 @@ export const bgImages = [
       var(--c1) 0 calc(500% / 6),
       var(--c2) 0
     );
-  backgroundSize: calc(1.732 * var(--s)) var(--s);`,
+  backgroundSize::: calc(1.732 * var(--s)) var(--s);`,
 
-  `background: radial-gradient(
+  `background::: radial-gradient(
         circle farthest-side at 0% 50%,
         #282828 23.5%,
         rgba(255, 170, 0, 0) 0
@@ -267,7 +268,26 @@ export const bgImages = [
       0 0,
     linear-gradient(90deg, #2c3539 2%, #282828 0, #282828 98%, #2c3539 0%) 0 0
       #282828;
-  backgroundSize: 40px 60px;`,
+  backgroundSize::: 40px 60px;`,
+
+  `background::: #000000;
+  --gap::: 5em;
+  --line::: 1px;
+  --color::: rgba(255, 255, 255, 0.2);
+
+  background-image::: linear-gradient(
+      -90deg,
+      transparent calc(var(--gap) - var(--line)),
+      var(--color) calc(var(--gap) - var(--line) + 1px),
+      var(--color) var(--gap)
+    ),
+    linear-gradient(
+      0deg,
+      transparent calc(var(--gap) - var(--line)),
+      var(--color) calc(var(--gap) - var(--line) + 1px),
+      var(--color) var(--gap)
+    );
+  background-size::: var(--gap) var(--gap);`,
 
 
 

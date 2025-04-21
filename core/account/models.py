@@ -69,11 +69,8 @@ class User_mongo(Document):
     email = EmailField(required = True)
     password = StringField(required=True)
     profile_picture = StringField(default="https://icons.iconarchive.com/icons/papirus-team/papirus-status/512/avatar-default-icon.png")
-    is_online = BooleanField(default=False)
-    last_seen = DateTimeField()
+
     created_at = DateTimeField(default=datetime.now)
-    updated_at = DateTimeField(default=datetime.now)
-    last_login = DateTimeField()
     
     meta = {
         'indexes': [

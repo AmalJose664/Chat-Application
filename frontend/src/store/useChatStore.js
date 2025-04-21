@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { axiosMessageInstance, ip, wsProto } from "../lib/axios";
 import { userDataStore } from "./userDataStore";
-import { toast } from "react-toastify";
+import { toast } from 'sonner';
 import { useAuthStore } from "./useAuthStore";
 import { useSpecialStore } from "./specialStore";
 
@@ -70,9 +70,11 @@ function chatRoomChange(set,get,data){
 	const setSelectUser = userDataStore.getState().setSelectUser
 	const tempSelectedUser = userDataStore.getState().tempSelectedUser
 	const setTempSelectedUser = userDataStore.getState().setTempSelectedUser
+	const checkSelectecUserOnline = useSpecialStore.getState().checkSelectecUserOnline
 	
 	if(data.code == 200){
 		setSelectUser(tempSelectedUser)
+		checkSelectecUserOnline(tempSelectedUser.sqlId)
 		setTempSelectedUser(null)
 	}else{
 		setTempSelectedUser(null)
@@ -82,7 +84,7 @@ function chatRoomChange(set,get,data){
 
 function chatNotifications(set, get, data){
 	console.log("Notifications", data);
-	toast.success(`Message from ${data.name} '${data.message}'`, { autoClose: 2000 })
+	toast.success(`Message from ${data.name} '${data.message}'`, { duration: 2000 })
 	const bringConvsToTop = userDataStore.getState().bringConvsToTop
 	const incrmtUnread = userDataStore.getState().incrmtUnreadAndLstm
 	bringConvsToTop(data.sender)
@@ -106,7 +108,7 @@ function chatDeleteEvent(set,get,data){
 		deleteMessagesFromArray(message_time, message_id)
 		const user = useAuthStore.getState().authUser
 		if(user.db_user._id == deleteUser){
-			toast.info("Message Deleted , "+message,{autoClose:1500})
+			toast.info("Message Deleted , "+message,{duration:1500})
 		} 
 	}
 	
@@ -361,8 +363,30 @@ export const useChatStore = create((set, get) => ({
 			if(mId != ""){
 				return { selectedUserMessages: state.selectedUserMessages .filter(item => item._id != mId || item.t != mtime)}
 			}else{
-				return { selectedUserNewMessages: state.selectedUserMessages.filter(item =>  item.t != mtime) }
+				return { selectedUserNewMessages: state.selectedUserNewMessages.filter(item =>  item.t != mtime) }
 			}
+		})
+	},
+	setReadMessages:(status)=>{
+		if(status==0 || status>=3) return
+		console.log("updating messgaes")
+		
+		set(state=>{
+			const updatedArray = [...state.selectedUserNewMessages];
+			let i = updatedArray.length-1
+			console.log("Insidesssssssss", i)
+			for(i; i >= 0; i--){
+				
+				if (updatedArray[i].sa != status) {
+					updatedArray[i] = { ...updatedArray[i], sa: status }
+					console.log("updating messgaes", updatedArray[i], status)
+				}else{
+					break
+				}
+			}
+			console.log(updatedArray);
+			
+			return { selectedUserNewMessages: updatedArray }
 		})
 	}
 

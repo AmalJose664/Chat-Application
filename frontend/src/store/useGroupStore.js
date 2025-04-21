@@ -1,4 +1,6 @@
 import { create } from "zustand";
+import { axiosGroupsInstance } from "../lib/axios";
+import { toast } from 'sonner';
 
 export const useGroupStore = create((set,get)=> ({
 	selectedGroup:null,
@@ -45,7 +47,10 @@ export const useGroupStore = create((set,get)=> ({
 			return state;
 		})
 	},
-	clearGroupMessages:()=>set({groupMessages:[]}),
+	clearGroupMessages:()=>{
+		
+		set({ groupMessages: [] })
+	},
 
 	availableGroups:[],
 	setAddToAvailableGrps :(obj)=>set( state => {
@@ -57,6 +62,29 @@ export const useGroupStore = create((set,get)=> ({
 	setAvailableGroups:(array)=>set({availableGroups:array}),
 
 	scrollRef:null,
-	setScrollRef:(fn)=>set({scrollRef:fn})
+	setScrollRef:(fn)=>set({scrollRef:fn}),
+
+
+	groupLoader:false,
+	getGroups : async (name) => {
+		if(!name) name =''
+		try {
+			set({ groupLoader: true })
+			const response = await axiosGroupsInstance.get(`/${name}`)
+			console.log(response.data)
+			if(response.data.groups.length >0){
+				set({ availableGroups: response.data.groups })
+			}else{
+				set({ availableGroups: [] })
+			}
+			
+		} catch (err) {
+			console.log(err.message, err);
+		} finally {
+			set({ groupLoader: false })
+		}
+	},
+	searchGroups:false,
+	setSeachGroups: () => set(state => ({ searchGroups: !state.searchGroups }))
 	
 }))

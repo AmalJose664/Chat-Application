@@ -1,12 +1,13 @@
 import React, {  useState } from 'react'
 import './ProfileComp.css'
+import '/dark-abstract-3840x2160-contemporary-design-sleek-lines-26426343.jpg'
 import {  motion } from 'framer-motion'
 import {axiosSpecialAuthInstance} from '../../lib/axios'
 import {useAuthStore} from '../../store/useAuthStore'
 import Pencil from '../../assets/Pencil'
 import EditProfile from './EditProfile'
-import { ToastContainer, Flip } from 'react-toastify'
-import { Link } from 'react-router-dom'
+import { toast } from 'sonner';
+import { Link, useParams } from 'react-router-dom'
 import {lastMessage} from '../../lib/lastMessageFilter'
 import { userDataStore } from '../../store/userDataStore'
 
@@ -28,25 +29,19 @@ function ProfileComp() {
 			setGetData(true)
 		}catch(err){
 			console.log(err, err.message);
-			toast.error(err.response.data || err.message, {
-				style: {
-					background: "#000",
-					color: "#fff"
-				},
-			});
+			toast.error(err.response.data || err.message);
 		}finally{
 			setGetingData(false)
 
 		}
 	}
 	
-	
+	const { tab } = useParams()
 
   return (
 	<div className='profile-component'>
 		<div className="profile-component-container">
 			<div className="prfile-inner-box">
-
 				<motion.div className="profile-content" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, delay:.4}}>
 					  {edit ? <EditProfile closeTab={editMode} /> : <motion.div className={edit ? "content-inner-profile close" : "content-inner-profile"} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, delay: .8 }}>
 
@@ -134,20 +129,8 @@ function ProfileComp() {
 					  </motion.div>}
 				</motion.div>
 			</div>
-		  </div><ToastContainer
-			  position="top-center"
-			  autoClose={3500}
-			  hideProgressBar={false}
-			  newestOnTop={false}
-			  closeOnClick
-			  rtl={false}
-			  pauseOnFocusLoss
-			  draggable
-			  pauseOnHover
-			  theme="dark"
-			  transition={Flip}
-		  />
-		  <Link to={'/home/chats'} className="profile-page-go-back-btn">
+		  </div>
+		  <Link to={`/home/${tab == 'Chats' ? 'chats' : 'groups'}`} className="profile-page-go-back-btn">
 			  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white" viewBox="0 0 16 16">
 				  <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
 			  </svg>

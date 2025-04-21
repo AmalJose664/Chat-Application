@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import {userDataStore} from  '../../../../store/userDataStore'
 import {SingleMessage } from './SingleMessage';
 import './SingleMessage.css'
-import { ToastContainer,Flip } from 'react-toastify';
 import MessageSendComp from './MessageSendComp';
 import { useChatStore } from '../../../../store/useChatStore';
 import { useSpecialStore } from '../../../../store/specialStore'; 
@@ -58,19 +57,7 @@ function MessageSpace() {
 					</motion.div>
 			</div>
 			}
-			<ToastContainer
-				position="top-right"
-				autoClose={800}
-				hideProgressBar={false}
-				newestOnTop={false}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-				theme="dark"
-				transition={Flip}
-			/>
+			
 		</div>
 	)
 }
@@ -82,11 +69,13 @@ function MessageSpaceMessages({ selectedUser }){
 	const setMakeConnection = useChatStore((state) => state.setMakeConnection);
 	const clearSelectedUserMessages = useChatStore(state => state.clearSelectedUserMessages)
 	const loadSelectedUserMessages = useChatStore((state) => state.loadSelectedUserMessages);
+	
 
 	const selectedUserMessages = useChatStore((state) => state.selectedUserMessages);
 	const messageLoading = useChatStore(state => state.messageLoading)
 
 	const setScrollFnRef = useSpecialStore(state => state.setScrollFnRef)
+	const chatSocket = useChatStore(state => state.chatSocket);
 	
 	
 	const messagesEndRef = useRef(null);
@@ -107,6 +96,7 @@ function MessageSpaceMessages({ selectedUser }){
 	}, [selectedUserMessages])
 
 	useEffect(() => {
+
 		fetchAndStoreSelectedUser();
 		
 		//loadSelectedUserMessages()
@@ -117,8 +107,8 @@ function MessageSpaceMessages({ selectedUser }){
 		
 	}, [selectedUser]);
 
-	
 	const getMessages = ()=>{
+		//load old messages
 		loadSelectedUserMessages()
 	}
 	
@@ -160,19 +150,34 @@ function MessageSpaceMessages({ selectedUser }){
 					)))  : <p style={{textAlign:'center'}}>Say Hi and Start a Chat !! </p>}
 					<NewMessages customPrefrns={customPrefrns}/>  
 					<SelectedUserLdr messageCrnr={customPrefrns.messageCrnr}/>
-					<div className="message__h type-timedate" onClick={() => setMakeConnection(true)}>
+
+					{selectedUserMessages.length == 0 && <div className="message__h type-timedate" onClick={() => getMessages()}
+						style={{ backgroundColor: 'gray', marginTop: '25%', cursor: 'pointer', padding: '15px' }}
+						>
 						<div className="time__show">
 							<span className="time__">
-								--------Yesterday---------
+								Load Old Messages
 							</span>
 						</div>
-					</div>
+					</div>}
+
+
+					{!chatSocket && <div className="message__h type-timedate" onClick={() => setMakeConnection(true)}
+						style={{backgroundColor:'royalblue', marginTop:'1%', cursor:'pointer', padding:'20px'}}
+						>
+						<div className="time__show">
+							<span className="time__">
+								Start Messaging
+							</span>
+						</div>
+					</div>}
+					
 					<div className="scroll__to_" ref={messagesEndRef}>
 					</div>
 				</div>
 
 			</motion.div>
-			<MessageSendComp />
+			<MessageSendComp enterSend={customPrefrns.enterSend} mesgTrans={customPrefrns.mesgTrans} />
 		</div>
 	)
 }

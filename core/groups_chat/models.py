@@ -7,6 +7,7 @@ class ChatGroups_mongo(Document):
 	a_data = StringField()
 	join_key = StringField( default="0000-0000", required=True)
 	created_at = DateTimeField(default=datetime.now)
+	created_by = StringField(default='Some User')
 	is_private = BooleanField(default=False)
 	
 # Create your models here.

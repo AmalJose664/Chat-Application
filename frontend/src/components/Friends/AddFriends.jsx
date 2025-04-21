@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { axiosApiInstance } from '../../lib/axios'
 import Search from '../../assets/Search'
 import { motion } from 'framer-motion'
-import { toast, ToastContainer,Flip } from 'react-toastify';
+import { toast } from 'sonner';
 
 import './Friends.css'
 
@@ -91,9 +91,9 @@ function AddFriends() {
 		try{
 			const response = await axiosApiInstance.get(`add-requests/${id}`)
 			console.log(response);
-			if (response.data.update == "Already Friends"){
-				toast.info("Already Friends",{autoClose:3000})
-			}
+			if (response.status == 204){
+				toast.info("Already Friends",{duration:3000})
+			}else toast.success("Friends Request Added", { duration: 3000 })
 		}catch(err){
 			console.log(err.message);
 		}finally{
@@ -159,19 +159,6 @@ function AddFriends() {
 					</motion.div>
 				</div>
 			</div>
-			<ToastContainer
-				position="top-right"
-				autoClose={3000}
-				hideProgressBar={false}
-				newestOnTop={false}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-				theme="dark"
-				transition={Flip}
-			/>
 		</div>
 	)
 }

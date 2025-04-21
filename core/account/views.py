@@ -47,25 +47,29 @@ class Signinview(APIView):
 	permission_classes = [AllowAny]
 
 	def post(self ,request):
-		email = request.data.get('email')  
-		password = request.data.get('password')
-		if not email or not password:
-			return Response({'error': 'Missing fields'}, status=status.HTTP_400_BAD_REQUEST)
-		
-		user = authenticate (email=email, password=password)
-		if not user:
-			return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED, )
-		
-		user_data = get_auth_for_user(user)
-		res = Response(user_data, status=status.HTTP_200_OK)
-		res.set_cookie(
-			key="refresh_token",
-			value=str(RefreshToken.for_user(user)),
-			httponly=True,
-			secure=True,
-            samesite="Strict",
-			max_age=7 * 24 * 60 * 60,
-		)
+		try:
+			email = request.data.get('email')  
+			password = request.data.get('password')
+			if not email or not password:
+				return Response({'error': 'Missing fields'}, status=status.HTTP_400_BAD_REQUEST)
+			
+			user = authenticate (email=email, password=password)
+			if not user:
+				return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED, )
+			
+			user_data = get_auth_for_user(user)
+			res = Response(user_data, status=status.HTTP_200_OK)
+			res.set_cookie(
+				key="refresh_token",
+				value=str(RefreshToken.for_user(user)),
+				httponly=True,
+				secure=True,
+				samesite="Strict",
+				max_age=7 * 24 * 60 * 60,
+			)
+		except Exception as e:
+			print("server error ",str(e))
+			res = Response({"error",'Internal server error'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 		return res
 
 class Signupview(APIView):
@@ -73,23 +77,28 @@ class Signupview(APIView):
 
 	def post(self ,request):
 		
-		request.data['name'] = request.data.pop('username')
+		try:
+			request.data['name'] = request.data.pop('username')
 		
-		new_user = SignUpSerializer(data=request.data)
-		new_user.is_valid(raise_exception=True)
-		user = new_user.save()
-		create_mongo_db_user(user)
-		user_data = get_auth_for_user(user)
-		
-		res = Response(user_data, status=status.HTTP_200_OK)
-		res.set_cookie(
-			key="refresh_token",
-			value=str(RefreshToken.for_user(user)),
-			httponly=True,
-			secure=True,
-            samesite="Strict",
-			max_age=7 * 24 * 60 * 60,
-		)
+			new_user = SignUpSerializer(data=request.data)
+			new_user.is_valid(raise_exception=True)
+			user = new_user.save()
+			create_mongo_db_user(user)
+			user_data = get_auth_for_user(user)
+			
+			res = Response(user_data, status=status.HTTP_200_OK)
+			res.set_cookie(
+				key="refresh_token",
+				value=str(RefreshToken.for_user(user)),
+				httponly=True,
+				secure=True,
+				samesite="Strict",
+				max_age=7 * 24 * 60 * 60,
+			)
+			
+		except Exception as e:
+			print("server error ",str(e))
+			res = Response({"error",'Internal server error'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 		return res
 
 
@@ -149,7 +158,7 @@ class Add_Friend_Request(APIView):
 				is_friend = User_data_mongo.objects(user=request_user, friends__in=[request_to_user.id]).first()
 				if is_friend:
 					print("Already firends")
-					return JsonResponse({"update": "Already Friends"}, status=status.HTTP_200_OK)
+					return JsonResponse({"update": "Already Friends"}, status=status.HTTP_204_NO_CONTENT)
 
 				if request_to_user.id == request_user.id:
 					print('same')
@@ -192,13 +201,9 @@ class Random_users(APIView):
 			new_list = []
 			for u in users:
 
-				
-				u.pop('is_online')
 				u.pop('password')
 				u.pop('created_at')
 				u.pop('email')
-				u.pop('last_login')
-				u.pop('updated_at')
 				u.pop('sqlite_id')
 				u['_id'] = str(u['_id'])
 				new_list.append(u)
@@ -440,11 +445,15 @@ class Update_Profile(APIView):
 		user_sqlite = User.objects.get(id=request.user.id)
 		email = request.data.get('email','')
 		username = request.data.get('username','')
+		password = request.data.get('password','')
 
-		print(request.data)
+		print(request.data, password)
+		if not user_sqlite.check_password(password):
+			return JsonResponse({
+				'error':"User not Found",},status=status.HTTP_404_NOT_FOUND)
 
 
-		if (not username) or (not email):
+		if (not username) or (not email) or( not password):
 			print("No data provided!!!")
 			return JsonResponse({
 				'error':"Data  not provided",},status=status.HTTP_400_BAD_REQUEST)

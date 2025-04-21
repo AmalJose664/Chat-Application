@@ -14,6 +14,9 @@
 	margin: 10px;
 
 }
+.home-refresh.users{
+	left: 0;
+}
 .home-group-select-section.selected{
 	
 	background-color: rgb(45, 45, 45);
@@ -54,4 +57,91 @@
 	svg{
 		transform: translateY(3px);
 	}
+}
+
+.home-online-users-wrapper{
+	position: absolute;
+	top: 20%;
+	left: 20%;
+	z-index: 99;
+	
+
+}
+
+.home-group-online-users-tab{
+background-color: rgb(40, 40, 40);
+	border-radius: 9px;
+	max-height: 700px;
+	overflow-y: scroll;
+}
+.h-g-o-u-tab-inner{
+	margin: 10px;
+	
+}
+.h-g-o-u-each-inner{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	transition: .1s ease-in;
+	&:hover{
+		background-color: black;
+		border-radius: 9px;
+	}
+	div{
+		margin: 4px 10px;
+		
+	}
+}
+
+
+.home-online-user-image{
+	img{
+		width: 50px;
+		height: auto;
+		border-radius: 24px;
+		aspect-ratio: 1/1;
+		border-radius: 50%;
+		object-fit: cover;
+		overflow: hidden;
+	}
+}
+.home-online-user-remove, .home-online-user-view{
+	margin-left: auto;
+	button {
+			padding: 8px 10px;
+			background-color: rgb(225, 65, 65);
+			border-radius: 12px;
+			border: none;
+			color: black;
+			transition: 40ms ease-in transform;
+	
+			&:active {
+				transform: scale(.9);
+			}
+		}
+}
+.home-online-user-view{
+	button{
+		background-color: royalblue;
+	}
+}
+.home-search-group{
+	
+	input{
+		margin-left: 5px;
+		border-radius: 4px;
+		padding: 3px 20px;
+		width: calc(100% - 5px);
+		border: 1px solid gray;
+		outline: none;
+		transition: .2s ease-in;
+		&:focus {
+			padding: 10px;
+		}
+
+	}
+}
+.home-group-search-icon{
+	margin-left: 150px;
+	margin-top: 30px;
 }

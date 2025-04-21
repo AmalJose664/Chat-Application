@@ -11,6 +11,8 @@ import ReadReceipts from '../../../assets/ReadReceipts.jsx';
 import { useAuthStore } from '../../../store/useAuthStore.js';
 import { getTime } from '../../../lib/timefilter.js';
 import { useChatStore } from '../../../store/useChatStore.js';
+import { useGroupConnectStore } from '../../../store/useGroupConnect.js';
+import Refresh from '../../../assets/Refresh.jsx';
 
 
 newtonsCradle.register()
@@ -22,6 +24,7 @@ function ListUsers() {
 	const setConversationsStore = userDataStore(state => state.setConversationsStore)
 	const selectedUserId = userDataStore(state => state.selectedUser?.sqlId)
 	const deleteSocket = useChatStore((state) => state.deleteSocket);
+	const deleteSocketGroup = useGroupConnectStore(state => state.deleteSocket)
 
 	const usersOnline = useSpecialStore(state => state.usersOnline)
 	const [convLoader,setConvLoader] = useState(false)
@@ -48,6 +51,7 @@ function ListUsers() {
 	
 	
 	useEffect(()=>{
+		deleteSocketGroup()
 		if(conversations.length==0){
 			getConversations()
 		}
@@ -60,6 +64,9 @@ function ListUsers() {
 	
   return (
 	<div className='home-users-container'>
+		  <div className="home-refresh users" onClick={() => {setConversationsStore([],0);getConversations()}}>
+			<Refresh color='white'/>
+		</div>
 		<div className="home-users">
 			  {convLoader && <motion.div className='list-friends-loader' initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, }}>
 				  < l-newtons-cradle
@@ -92,6 +99,7 @@ const EachConversations = React.memo(({ value, i: index, type, isOnline,  })=>{
 	
 	const authUser = useAuthStore(state => state.authUser)
 	const clearUnread = userDataStore(state => state.clearUnread)
+	
 	
 	const setSelectUser = userDataStore(state => state.setSelectUser)
 	const getSocketDetails = useChatStore(state => state.getSocketDetails)
@@ -185,7 +193,8 @@ const EachConversations = React.memo(({ value, i: index, type, isOnline,  })=>{
 								{getTime(value.t,false)}
 							</div>
 							{filterLastMessage(value.lst_m, authUser.db_user._id) ? <><ReadReceipts status={value.l_s} />
-								<p>{value.l_s}</p></> : ""}
+								{/* <p>{value.l_s}</p> */}
+								</> : ""}
 						</div>
 					</div>
 				</div>

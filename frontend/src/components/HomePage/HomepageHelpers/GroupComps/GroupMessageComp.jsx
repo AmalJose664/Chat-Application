@@ -3,7 +3,7 @@ import {motion} from 'framer-motion'
 import { useGroupStore } from '../../../../store/useGroupStore';
 import { SingleNewMessages } from '../MessageComponents/SingleNewMessages';
 import MessageSendGroupComp from './MessageSendGroupComp';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { convertStringToCss, loadPreferences } from '../../../../lib/chatUtilities';
 
 function GroupMessageComp() {
@@ -16,11 +16,12 @@ function GroupMessageComp() {
 	};
 	useEffect(()=>{
 		const timer = setTimeout(() => setScrollRef(scrollToBottom),500)
-		toast.info("Group messages are not persistent !", {autoClose:3500})
-		toast.info("Group will be deleted after everyone Exits !!", { autoClose: 2500,delay:1000 })
+		const toastTimer = setTimeout(() => toast.warning("Group will be deleted after everyone Exits !!", { duration: 2500 }), 1000)
+		toast.warning("Group messages are not persistent !", {duration:3500})
+		
 		return () => {
 			clearTimeout(timer)
-
+			clearTimeout(toastTimer)
 		}
 	},[])
 	const customPrefrns = loadPreferences()
@@ -36,7 +37,7 @@ function GroupMessageComp() {
 			  </div>
 
 		  </motion.div>
-		  <MessageSendGroupComp/>
+		  <MessageSendGroupComp enterSend={customPrefrns.enterSend} mesgTrans={customPrefrns.mesgTrans}/>
 	  </div>
   )
 }

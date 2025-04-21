@@ -3,7 +3,6 @@ import './SignupComp.css'
 import { useAuthStore } from '../../store/useAuthStore'
 import Dybtn from '../../assets/Dybtn.jsx'
 import { EyeFill, EyeIcon } from '../../assets/eye.jsx'
-import { Flip, ToastContainer, toast } from 'react-toastify';
 import Logo from '../../assets/Logo.jsx'
 import SignupImage from '../../assets/SignupImage.jsx'
 import { Link } from 'react-router-dom'
@@ -23,18 +22,16 @@ function SignupComp() {
 
 	const validateForm = () => {
 		
-		let toastSettings = {
-			style: {
-				background: "#000",
-				color: "#fff"
-			},
+		
+		if (!formData.username.trim()) return toast.error("Full name is required", );
+		if (!formData.email.trim()) return toast.error("Email is required",  );
+		if (!/\S+@\S+\.\S+/.test(formData.email)) return toast.error("Invalid email format",  );
+		if (!formData.password) return toast.error("Password is required",  );
+		if (formData.password.length < 6) return toast.error("Password must be at least 6 characters" );
+		if (formData.username.includes('__')) {
+			toast.info("User name cannot have __ charector")
+			formData.username = formData.replace("__","_")
 		}
-		if (!formData.username.trim()) return toast.error("Full name is required", toastSettings);
-		if (!formData.email.trim()) return toast.error("Email is required",  toastSettings);
-		if (!/\S+@\S+\.\S+/.test(formData.email)) return toast.error("Invalid email format",  toastSettings);
-		if (!formData.password) return toast.error("Password is required",  toastSettings);
-		if (formData.password.length < 6) return toast.error("Password must be at least 6 characters" , toastSettings);
-
 		return true;
 	};
 	const handleSubmit = async (e) => {

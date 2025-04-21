@@ -2,8 +2,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import { axiosApiInstance } from '../../../../lib/axios'
 import { motion } from 'framer-motion'
 import { userDataStore } from '../../../../store/userDataStore';
+import DashBoardICon from '../../../../assets/DashBoardICon';
+import { toast } from 'sonner';
 
-const  GetUser = React.memo(({closeFunct, status=false, group=false, id}) =>{
+const  GetUser = React.memo(({closeFunct, status=false, group=false, id,isMe= false}) =>{
 	const selectedUser = userDataStore(state => state.selectedUser);
 	const [data, setData] = useState({})
 	const detailRef = useRef(null)
@@ -32,6 +34,28 @@ const  GetUser = React.memo(({closeFunct, status=false, group=false, id}) =>{
 			day: 'numeric'
 		})
 		return formatedDate
+	}
+	const sendRequest = async (id) => {
+		console.log(id)
+		
+		if (!id && !group) {
+			id = selectedUser.id
+		}else{
+			return
+		}
+		
+		try {
+			const response = await axiosApiInstance.get(`add-requests/${id}`)
+			console.log(response);
+			if (response.status == 204) {
+				toast.info("Already Friends", { duration: 3000 })
+			}else if(response.status == 200){
+				toast.info("Friend Request Added", { duration: 3000 })
+			}
+		} catch (err) {
+			console.log(err.message);
+		}
+
 	}
 	useEffect(()=>{
 		getData()
@@ -62,6 +86,9 @@ const  GetUser = React.memo(({closeFunct, status=false, group=false, id}) =>{
 			transition={{ duration: .3, ease:'easeIn'}}>
 				<div className="s-u-t-g-picture">
 					<img src={data.profile_picture} alt="User Image" />
+					{!isMe && <div onClick={()=>sendRequest(id)}>
+						<DashBoardICon type='add' color='white'/>
+					</div>}
 				</div>
 				<div className="s-u-t-g-details">
 					<table>

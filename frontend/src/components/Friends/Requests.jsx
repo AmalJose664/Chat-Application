@@ -86,11 +86,7 @@ function Requests() {
 					) : !loader && <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, }}
 						className=''>No Friend Requests Yet</motion.p>}
 				
-					<button onClick={() => {
-						logout()
-						console.log("logged out");
-					}}>Logout</button>
-					<Link to={'/login'}>Login</Link>
+					
 				</div>
 			</motion.div>
 		</div>

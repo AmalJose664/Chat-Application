@@ -20,7 +20,9 @@ export const SingleNewMessages = React.memo(({ message, i, isGroupMessage = fals
 	const [showUser, setShowUser] = useState(false)
 	const [detailBox, setDetailBox] = useState(false)
 	const { authUser } = useAuthStore()
-	const receive = message.s == authUser.db_user._id
+	const isSentMsg = message.s == authUser.db_user._id
+
+	
 
 	useEffect(()=>{
 		return ()=>{
@@ -29,6 +31,8 @@ export const SingleNewMessages = React.memo(({ message, i, isGroupMessage = fals
 			}
 		}
 	},[])
+	const color = !isSentMsg ? customPrefrns.chatColor.s : customPrefrns.chatColor.r // message color bg
+	const inverseColor = getContrastColor(color) // for color inversion
 	if (isGroupMessage){
 		
 		if (message.type =="CHAT_JOIN_DISCONNECT"){
@@ -46,16 +50,16 @@ export const SingleNewMessages = React.memo(({ message, i, isGroupMessage = fals
 			const fileRef = useRef(null)
 //--------------------------------------- display files------------------------------------------------------------------------------------------------------------------------------------
 			return(
-				<motion.div key={i} className={message.s == authUser.db_user._id ? "message__h type-sent" : "message__h type-receive"}
-					initial={{ opacity: 0, x: receive ? 28 : -28 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: message.c_id ? .3 : .1, }}
+				<motion.div key={i} className={isSentMsg ? "message__h type-sent" : "message__h type-receive"}
+					initial={{ opacity: 0, x: isSentMsg ? 28 : -28 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: message.c_id ? .3 : .1, }}
 					style={{ borderRadius: `${customPrefrns.messageCrnr}px` }}
 				>
 					<div className={detailBox ? "message__wrapper group_wrapper hide" : "message__wrapper group_wrapper"} 
-						style={{ background: customPrefrns.chatColor.r, borderRadius: `${customPrefrns.messageCrnr}px` }}
+						style={{ background: color, borderRadius: `${customPrefrns.messageCrnr}px` }}
 					>
 						<div className="message__in">
 							<div className="message__content" 
-								style={{ color: getContrastColor(customPrefrns.chatColor.r), fontSize: `${customPrefrns.fontSize}px` }}
+								style={{ color: inverseColor, fontSize: `${customPrefrns.fontSize}px` }}
 							>
 								{message.fileType.startsWith("image/") && <img src={message.c} alt="" /> }
 								{message.fileType.startsWith("video/") && <video controls controlsList="nodownload">
@@ -67,15 +71,15 @@ export const SingleNewMessages = React.memo(({ message, i, isGroupMessage = fals
 									Your browser does not support the audio tag.
 								</audio>)}
 								
-								{!/^image\/|video\/|audio\//.test(message.fileType) && <File color="white" />}
+								{!/^image\/|video\/|audio\//.test(message.fileType) && <File color={inverseColor} />}
 
 								<br />
 								{message.ct}
 							</div>
-							<span className="message__time" style={{ color: getContrastColor(customPrefrns.chatColor.r) }}>
+							<span className="message__time" style={{ color: inverseColor }}>
 								{getTime(message.t)}
 							</span>
-							{message.s == authUser.db_user._id ? <span className='message__status'>
+							{isSentMsg ? <span className='message__status'>
 								<ReadReceipts status={message.sa} dColor={customPrefrns.tickColor.d} rColor={customPrefrns.tickColor.r} />
 							</span> : ""}
 
@@ -88,7 +92,7 @@ export const SingleNewMessages = React.memo(({ message, i, isGroupMessage = fals
 								<img src={message.pic} alt="" />
 							</div>
 						</div>
-						<div className="message__group__sender__name">
+						<div className="message__group__sender__name" >
 							<p style={{ color: message.show_color }}>{message.user}</p>
 						</div>
 						<div className="message__group__file" ref={fileRef} onClick={()=>{
@@ -101,11 +105,12 @@ export const SingleNewMessages = React.memo(({ message, i, isGroupMessage = fals
 								document.body.removeChild(link);
 							}
 						}}>
-							<Download color="white" size={20}/>
-							<span>{" "+getFileSize(message.fileSize) + "  / " + message.fileType}</span>
+							<Download color={inverseColor} size={20}/>
+							<span style={{ color: inverseColor, fontSize: `${customPrefrns.fontSize}px` }}
+							>{" "+getFileSize(message.fileSize) + "  / " + message.fileType}</span>
 						</div>
 						<AnimatePresence>
-							{showUser && <GetUser group={true} id={message.userId} closeFunct={() => setShowUser(false)} />}
+							{showUser && <GetUser isMe={isSentMsg} group={true} id={message.userId} closeFunct={() => setShowUser(false)} />}
 						</AnimatePresence>
 
 					</div>
@@ -115,28 +120,28 @@ export const SingleNewMessages = React.memo(({ message, i, isGroupMessage = fals
 //--------------------------------------- display groups only text Messages------------------------------------------------------------------------------------------------------------------------------------
 
 		return (
-			<motion.div key={i} className={message.s == authUser.db_user._id ? "message__h type-sent" : "message__h type-receive"}
-				initial={{ opacity: 0, x: receive ? 28 : -28 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: message.c_id ? .3 : .1, }}
+			<motion.div key={i} className={isSentMsg ? "message__h type-sent" : "message__h type-receive"}
+				initial={{ opacity: 0, x: isSentMsg ? 28 : -28 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: message.c_id ? .3 : .1, }}
 				style={{ borderRadius: `${customPrefrns.messageCrnr}px` }}
 			>
 				<div className={detailBox ? "message__wrapper group_wrapper hide" : "message__wrapper group_wrapper"}
-					style={{ background: customPrefrns.chatColor.s, borderRadius: `${customPrefrns.messageCrnr}px` }}
+					style={{ background: color, borderRadius: `${customPrefrns.messageCrnr}px` }}
 				>
 					<div className="message__in">
-						<div className="message__content" style={{ color: getContrastColor(customPrefrns.chatColor.s), fontSize: `${customPrefrns.fontSize}px` }}>
+						<div className="message__content" style={{ color: inverseColor, fontSize: `${customPrefrns.fontSize}px` }}>
 							{message.c}
 						</div>
-						<span className="message__time" style={{ color: getContrastColor(customPrefrns.chatColor.s) }}>
+						<span className="message__time" style={{ color: inverseColor }}>
 							{getTime(message.t)}
 						</span>
-						{message.s == authUser.db_user._id ? <span className='message__status'>
-							<ReadReceipts status={message.sa} dColor={customPrefrns.tickColor.d} rColor={customPrefrns.tickColor.r} />
+						{isSentMsg ? <span className='message__status'>
+							<ReadReceipts  status={message.sa} dColor={customPrefrns.tickColor.d} rColor={customPrefrns.tickColor.r} />
 						</span> : ""}
 
 					</div>
 					<div className="message__options">
 						<div onClick={() => setSmallBoxActive(!smallBoxActive)} onMouseLeave={() => setSmallBoxActive(false)} className="m__option" >
-							<DashBoardICon type='dots' color='grey' />
+							<DashBoardICon type='dots' color={inverseColor} />
 							{smallBoxActive && <SmallBox m_id={message._id} message={message.c} time={message.t} togleDetailBox={setDetailBox} side={message.s != authUser.db_user._id} />}
 						</div>
 					</div>
@@ -145,11 +150,11 @@ export const SingleNewMessages = React.memo(({ message, i, isGroupMessage = fals
 							<img src={message.pic} alt="" />
 						</div>
 					</div>
-					<div className="message__group__sender__name">
+					<div className="message__group__sender__name" >
 						<p style={{ color: message.show_color }}>{message.user}</p>
 					</div>
 					<AnimatePresence>
-						{showUser && <GetUser group={true} id={message.userId} closeFunct={() => setShowUser(false)}/>}
+						{showUser && <GetUser isMe={isSentMsg} group={true} id={message.userId} closeFunct={() => setShowUser(false)}/>}
 					</AnimatePresence>
 					
 				</div>{detailBox && <GetMessageDetails togleDetailBox={setDetailBox} group={true} gMessage={message}/>}
@@ -160,27 +165,27 @@ export const SingleNewMessages = React.memo(({ message, i, isGroupMessage = fals
 
 	return (
 		<motion.div key={i} className={message.r == authUser.db_user._id ? "message__h type-receive" : "message__h type-sent"}
-			initial={{ opacity: 0, x: receive ? 28 : -28 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: message.c_id ? .3 : .1, delay: message.c_id ? i / 20 : 0 }}
+			initial={{ opacity: 0, x: isSentMsg ? 28 : -28 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: message.c_id ? .3 : .1, delay: message.c_id ? i / 20 : 0 }}
 			style={{ borderRadius: `${customPrefrns.messageCrnr}px` }}
 		>
 			<div className={detailBox ? "message__wrapper hide" : "message__wrapper"} 
-				style={{ background: customPrefrns.chatColor.s, borderRadius: `${customPrefrns.messageCrnr}px` }}
+				style={{ background: color, borderRadius: `${customPrefrns.messageCrnr}px` }}
 			>
 				<div className="message__in">
-					<div className="message__content" style={{ color: getContrastColor(customPrefrns.chatColor.s), fontSize: `${customPrefrns.fontSize}px` }}>
+					<div className="message__content" style={{ color: inverseColor, fontSize: `${customPrefrns.fontSize}px` }}>
 						{message.c}
 					</div>
-					<span className="message__time" style={{ color: getContrastColor(customPrefrns.chatColor.s) }}>
+					<span className="message__time" style={{ color: inverseColor }}>
 						{getTime(message.t)}
 					</span>
-					{message.s == authUser.db_user._id ? <span className='message__status'>
+					{isSentMsg ? <span className='message__status'>
 						<ReadReceipts status={message.sa} dColor={customPrefrns.tickColor.d} rColor={customPrefrns.tickColor.r} />
 					</span> : ""}
 
 				</div>
 				<div className="message__options">
 					<div onClick={() => setSmallBoxActive(!smallBoxActive)} onMouseLeave={() => setSmallBoxActive(false)} className="m__option" >
-						<DashBoardICon type='dots' color='grey' />
+						<DashBoardICon type='dots' color={inverseColor ? inverseColor : 'white'} />
 						{smallBoxActive && <SmallBox m_id={message._id} message={message.c} time={message.t} togleDetailBox={setDetailBox} side={message.r == authUser.db_user._id} />}
 					</div>
 				</div>

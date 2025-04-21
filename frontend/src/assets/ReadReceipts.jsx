@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ReadReceipts({status , rColor='white', dColor='royalblue' }) {
+function ReadReceipts({status , rColor, dColor }) {
 	
 	
 	if (status==0){

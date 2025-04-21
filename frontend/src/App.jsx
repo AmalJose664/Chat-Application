@@ -13,6 +13,9 @@ import SettingsPage from './pages/SettingsPage'
 import Home from './pages/Home'
 import Friends from './pages/Friends'
 import { Component } from './test'
+import { APP_Name } from './lib/chatUtilities'
+import { Toaster } from 'sonner'
+import SonnerIcons from './assets/SonnerIcons'
 
 
 
@@ -32,7 +35,7 @@ function App() {
 		checkAuth().then(() => setLoading(false));	
 	}, []);
 	if (loading) return <div className='loader-center'>
-		<h3>Me Chat.... </h3>
+		<h3>{APP_Name} </h3>
 		< l-newtons-cradle
 			size="78"
 			speed="1.2"
@@ -48,13 +51,31 @@ function App() {
 		<Route path='/home' element={authUser ?< Home /> : <Navigate to="/login" />}/>
 		<Route path='/login' element={authUser ? <Navigate to="/home/chats" /> : < LoginPage />}/>
 		<Route path='/create' element={authUser ? <Navigate to="/home/chats" /> : < Create />}/>
-		<Route path='/settings' element={< SettingsPage/>}/>
-		<Route path='/profile'  element={authUser ?< Profile /> : <Navigate to="/login" />}/>
+		<Route path='/settings/:tab' element={< SettingsPage/>}/>
+		<Route path='/settings/' element={< SettingsPage/>}/>
+		<Route path='/profile/:tab'  element={authUser ?< Profile /> : <Navigate to="/login" />}/>
 		<Route path='/friends/:tab'  element={authUser ?< Friends /> : <Navigate to="/login" />}/>
+		<Route path='/profile/'  element={authUser ?< Profile /> : <Navigate to="/login" />}/>
+		<Route path='/friends/'  element={authUser ?< Friends /> : <Navigate to="/login" />}/>
 	
 		<Route path='/test' element={< Component/>}/>
 	  </Routes>
-		
+		  <Toaster theme='dark' visibleToasts={11}
+			  toastOptions={{
+				  style: {
+					  fontSize:'14px',
+					  border:'1px solid royalblue',
+				  },
+			  }}
+			  position="top-center"
+			  
+			  icons={{
+				  success: <SonnerIcons type='tick' color='#1afa71' size={18} />,
+				  warning: <SonnerIcons type='warning' color='#fadd1a' size={18} />,
+				  info: <SonnerIcons type='info' color='#1abffa' size={18} />,
+				  error: <SonnerIcons type='error' color='#fa3b1a' size={18} />
+
+			  }} closeButton={true} />	
 	</div>
   )
 }

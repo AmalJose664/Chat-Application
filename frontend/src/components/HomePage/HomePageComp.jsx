@@ -15,6 +15,7 @@ import GroupMessageSpace from './HomepageHelpers/GroupComps/GroupMessageSpace'
 import SelectedGroup from './HomepageHelpers/GroupComps/SelectedGroup'
 import { APP_Name } from '../../lib/chatUtilities'
 
+
 function HomePageComp() {
 	
 	const { chatType } = useParams()
@@ -55,7 +56,7 @@ function HomePageComp() {
 				</div>
 
 				<div className="home-content home-list-title">
-					<HomeTitle showInterface={viewItem}/>
+					<HomeTitle showInterface={viewItem} back={chatType}/>
 				</div>
 				<div className="home-content home-user-title">
 					<div className="home-selected-chat">
@@ -73,7 +74,7 @@ function HomePageComp() {
 					</div>
 					{authUser && <motion.div className='home-sidebar-profile-icon' initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, delay: 0.4 }}>
 						<div className="h-s-p-i-inner">
-							<Link to={'/profile'} className="h-s-p-i-inner2">
+							  <Link to={`/profile/${chatType == 'Chats' ? 'chats' : 'groups'}`} className="h-s-p-i-inner2">
 								<div className="h-s-p-i-image">
 									<img src={authUser.db_user.profile_picture} alt="Image" />
 								</div>
@@ -99,6 +100,7 @@ function HomePageComp() {
 				</div>
 			</div>
 		</div>
+		
 	</div>
   )
 }

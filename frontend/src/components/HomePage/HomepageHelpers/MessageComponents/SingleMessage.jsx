@@ -5,7 +5,7 @@ import DashBoardICon from '../../../../assets/DashBoardICon'
 import ReadReceipts from '../../../../assets/ReadReceipts';
 import { motion } from 'framer-motion';
 import './SingleMessage.css'
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import Copybtn from '../../../../assets/Copybtn'
 import { userDataStore } from '../../../../store/userDataStore';
 import Search from '../../../../assets/Search'
@@ -13,6 +13,8 @@ import GetMessageDetails from './GetMessageDetails';
 import { useChatStore } from '../../../../store/useChatStore';
 import Trash from '../../../../assets/Trash'
 import { getContrastColor } from '../../../../lib/chatUtilities';
+import { senderFind } from '../../../../lib/lastMessageFilter';
+
 
 export const SingleMessage = React.memo(({ message, i, customPrefrns }) =>{
 	
@@ -20,21 +22,31 @@ export const SingleMessage = React.memo(({ message, i, customPrefrns }) =>{
 	const [smallBoxActive, setSmallBoxActive] = useState(false)
 	const [detailBox, setDetailBox] = useState(false)
 	const { authUser } = useAuthStore()
-	const receive = message.s == authUser.db_user._id
+	let sent 
+	if(!message.s){
+		sent = senderFind(message.c_id, authUser.db_user._id)
+	}else{
+		sent = message.s == authUser.db_user._id
+	}
+
+	
+
+	const color = !sent ? customPrefrns.chatColor.s : customPrefrns.chatColor.r // message color bg
+	const reciMsgClr = getContrastColor(color) // for color inversion
 	
 	return (
-	<motion.div key={i} className={message.r == authUser.db_user._id ? "message__h type-receive" : "message__h type-sent"}
-		initial={{ opacity: 0 , x: receive ? 28 : -28}} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: message.c_id ? .3 : .1, delay: message.c_id ? i/20 : 0 }}
+	<motion.div key={i} className={!sent ? "message__h type-receive" : "message__h type-sent"}
+		initial={{ opacity: 0 , x: sent ? 28 : -28}} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: message.c_id ? .3 : .1, delay: message.c_id ? i/20 : 0 }}
 			style={{ borderRadius: `${customPrefrns.messageCrnr}px` }}
 	>
-			<div className={detailBox ? "message__wrapper hide" : "message__wrapper hhhhhhh"} 
-				style={{ background: customPrefrns.chatColor.s, borderRadius: `${customPrefrns.messageCrnr}px` }}
+			<div className={detailBox ? "message__wrapper hide" : "message__wrapper"} 
+				style={{ background: color, borderRadius: `${customPrefrns.messageCrnr}px` }}
 			>
 			<div className="message__in">
-					<div className="message__content" style={{ color: getContrastColor(customPrefrns.chatColor.s), fontSize: `${customPrefrns.fontSize}px` }}>
+					<div className="message__content" style={{ color: reciMsgClr, fontSize: `${customPrefrns.fontSize}px` }}>
 					{message.c}
 				</div>
-					<span className="message__time" style={{ color: getContrastColor(customPrefrns.chatColor.s) }}>
+					<span className="message__time" style={{ color: reciMsgClr }}>
 					{getTime(message.t)}
 				</span>
 				{message.s == authUser.db_user._id ? <span className='message__status'>
@@ -44,7 +56,7 @@ export const SingleMessage = React.memo(({ message, i, customPrefrns }) =>{
 			</div>
 			<div className="message__options">
 				<div onClick={()=>setSmallBoxActive(!smallBoxActive)} onMouseLeave={()=>setSmallBoxActive(false)} className="m__option" >
-					<DashBoardICon type='dots' color='grey' />
+						<DashBoardICon type='dots' color={reciMsgClr || 'white'} />
 						{smallBoxActive && <SmallBox m_id={message._id} message={message.c} time={message.t} togleDetailBox={setDetailBox} side={message.r == authUser.db_user._id}/>}
 				</div>
 			</div>

@@ -5,10 +5,10 @@ import DashBoardICon from '../../../../assets/DashBoardICon';
 import SendMessage from '../../../../assets/SendMessage'
 import EmojiBox from '../MessageComponents/EmojiBox'
 import { useGroupConnectStore } from '../../../../store/useGroupConnect';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import File from '../../../../assets/File';
 
-function MessageSendGroupComp() {
+function MessageSendGroupComp({ enterSend, mesgTrans }) {
 
 	const setGroupChatMessage = useGroupConnectStore(state => state.setGroupChatMessage)
 	const sendGroupMessage = useGroupConnectStore(state => state.sendGroupMessage)
@@ -81,7 +81,7 @@ function MessageSendGroupComp() {
 
 	return (
 
-		<motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }} className="home-message-type">
+		<motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }} className={mesgTrans ? 'home-message-type transparent' : 'home-message-type'}>
 			<div className="h-m-type-inner">
 				<div className="home-message-emoji">
 					<div className={showEmoji ? "h-m-emoji-inner emoji-shown" : "h-m-emoji-inner"} onClick={() => toggleEmoji()}>
@@ -89,7 +89,7 @@ function MessageSendGroupComp() {
 					</div>
 
 				</div>
-				<ChatMessageDiv closeOnEnter={handleSendUi} chatTextArea={chatTextArea} setChatMessage={setGroupChatMessage}/>
+				<ChatMessageDiv enterSend={enterSend} closeOnEnter={handleSendUi} chatTextArea={chatTextArea} setChatMessage={setGroupChatMessage}/>
 				
 
 				<div className="home-message-file-or-send-btn" >
@@ -120,8 +120,8 @@ function MessageOptions({ sendMessage, chatTextArea }) {
 		let file = e.target.files[0]
 		console.log(file.type)
 		
-		if (file.size > 100 * 1024 * 1024) {
-			return toast.error("File size must be less than 100 MB.");
+		if (file.size > 80 * 1024 * 1024) {
+			return toast.error("File size must be less than 80 MB.");
 		}
 		const reader = new FileReader()
 		reader.onloadend = (e)=>{

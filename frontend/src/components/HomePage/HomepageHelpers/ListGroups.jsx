@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import './ListGroups.css'
 import { useGroupStore } from '../../../store/useGroupStore'
-import { axiosGroupsInstance } from '../../../lib/axios'
 import DashBoardICon from '../../../assets/DashBoardICon'
 import Lock from '../../../assets/Lock'
-import { getRandomColorInRange } from '../../../lib/chatUtilities'
 import Refresh from '../../../assets/Refresh'
 
 
@@ -15,32 +13,42 @@ function ListGroups() {
 	const setAvailableGroups = useGroupStore(state => state.setAvailableGroups)
 	const selectedGroup = useGroupStore(state => state.selectedGroup)
 	
-	const [loader,setLoader] = useState(false)
-	const getGroups = async()=>{
-		try{
-			setLoader(true)
-			const response = await axiosGroupsInstance.get('/')
-			console.log(response.data)
-			setAvailableGroups(response.data.groups)
-		}catch(err){
-			console.log(err.message, err);
-		}finally{
-			setLoader(false)
-		}
-	}
+	const getGroups = useGroupStore(state => state.getGroups)
+	const groupLoader = useGroupStore(state => state.groupLoader)
+
+	const searchGroups = useGroupStore(state => state.searchGroups)
+
+
+	const [searchKey, setSearchKey] = useState('')
+
 	useEffect(()=>{
 		if (availableGroups.length ==0){
 			getGroups()
 		}
 
 	},[])
+	useEffect(()=>{
+		if(!searchKey) return
+		const debounce = setTimeout(() => {
+			getGroups(searchKey)
+		}, 780);
+		return ()=>clearTimeout(debounce)
+	},[searchKey])
+		
   return (
 	<div className='home-groups-container'>
-		<div className="home-groups-refresh home-refresh" onClick={()=>{setAvailableGroups([]); getGroups();}}>
+		<div className="home-refresh" onClick={()=>{setAvailableGroups([]); getGroups();}}>
 			<Refresh color='white'/>
 		</div>
 		<div className="home-groups">
-			{loader && 
+			<AnimatePresence>
+				  {searchGroups && <motion.div className="home-search-group"
+					  initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, }} exit={{ opacity: 0, y: -20 }}
+				 		 >
+					  <input type="text" value={searchKey} onChange={(e) => setSearchKey(e.target.value)} placeholder='search for groups....' />
+				  </motion.div>}
+			</AnimatePresence>
+			{groupLoader && 
 				  <motion.div className='list-friends-loader' initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, }}>
 					  < l-newtons-cradle
 						  size="78"
@@ -49,13 +57,15 @@ function ListGroups() {
 					  ></l-newtons-cradle >
 				  </motion.div>
 			}
-			{availableGroups.length != 0 ? (availableGroups.map((group,i)=>{
-				return (
-					<div key={i} className={selectedGroup?._id == group._id ? "home-group-select-section selected" : "home-group-select-section"}>
-						<EachGroup i={i} value={group} key={i} />
-					</div>
-				)
-			})) : (!loader && <p>No Online groups Found <br />Create New Group</p>) }
+			  {!groupLoader && 
+				  availableGroups.length != 0 ? (availableGroups.map((group, i) => {
+					  return (
+						  <div key={i} className={selectedGroup?._id == group._id ? "home-group-select-section selected" : "home-group-select-section"}>
+							  <EachGroup i={i} value={group} key={i} />
+						  </div>
+					  )
+				  })) : (!groupLoader && <p style={{ textAlign: 'center' }}>No Online groups Found <br />Create New Group</p>)
+			   }
 			
 		</div>
 	</div>

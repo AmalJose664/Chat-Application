@@ -3,6 +3,7 @@ import "./NotificationBox.css"
 import { motion } from 'framer-motion'
 import { useSpecialStore } from '../../../../store/specialStore'
 import { filterNotifications } from '../../../../lib/chatUtilities'
+import { Link } from 'react-router-dom'
 
 const NotificationBox = ({ onClose, outRef }) => {
 	const setNotifications = useSpecialStore(state => state.setNotifications)
@@ -38,11 +39,11 @@ const NotificationBox = ({ onClose, outRef }) => {
 					return (
 						<motion.div className={"h-t-notifictns-each" + " " + displayStyle } key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} 
 							transition={{ duration: 0.2, delay:i/20 }}>
-						<div className="h-t-n-each-inner">
+						<Link to={'/friends/'} className="h-t-n-each-inner">
 							<div className="h-t-n-content">
 								{displayData}
 							</div>
-						</div>
+						</Link>
 						</motion.div>)
 				})
 			) : <>

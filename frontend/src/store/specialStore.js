@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { useChatStore } from "./useChatStore";
 import { axiosApiInstance } from "../lib/axios";
+import { userDataStore } from "./userDataStore";
 
 
 export const useSpecialStore = create( (set,get)=>({
@@ -96,13 +97,17 @@ export const useSpecialStore = create( (set,get)=>({
 			});
 
 			newOnlineIdsSet.forEach(userIds => {
+				const setMessageRead = get().setMessageRead
+				const changeUnread = userDataStore.getState().changeUnread
 				if(!currentOnlinesUsers[userIds]){
-					console.log("Update INSERT =>", userIds);
 					ensureCopy()
 					updatedOnlineUsers[userIds] = true
 					if (selectedChatUser && selectedChatUser.sqlId == userIds){
 						set({ selectedChatOnline: true })
-					}
+					} 
+					setMessageRead(1)
+					changeUnread(userIds,1)
+					
 					
 				}
 			})
@@ -129,6 +134,11 @@ export const useSpecialStore = create( (set,get)=>({
 		}finally{
 			set({ notiLoader: false })
 		}
+	},
+
+	setMessageRead:(status)=>{
+		const setReadMessages = useChatStore.getState().setReadMessages
+		setReadMessages(status)
 	},
 	//----------------------------------user profilepic----------------------------------------------------------
 	userData:null,
