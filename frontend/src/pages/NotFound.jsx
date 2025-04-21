@@ -1,7 +1,8 @@
-
+import PageTransition from './PageTransitions'
 
 export default function NotFound() {
 	return (
+	<PageTransition>
 		<div className="notfound-container">
 			<div className="notfound-content">
 				<h1 className="notfound-title">404</h1>
@@ -9,5 +10,7 @@ export default function NotFound() {
 				<a href="/" className="notfound-link">Go Back Home</a>
 			</div>
 		</div>
+		
+	</PageTransition>
 	);
 }
