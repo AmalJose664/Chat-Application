@@ -16,6 +16,7 @@ import { Component } from './test'
 import { APP_Name } from './lib/chatUtilities'
 import { Toaster } from 'sonner'
 import SonnerIcons from './assets/SonnerIcons'
+import NotFound from './pages/NotFound'
 
 
 
@@ -59,6 +60,7 @@ function App() {
 		<Route path='/friends/'  element={authUser ?< Friends /> : <Navigate to="/login" />}/>
 	
 		<Route path='/test' element={< Component/>}/>
+		<Route path="*" element={<NotFound />} />
 	  </Routes>
 		  <Toaster theme='dark' visibleToasts={11}
 			  toastOptions={{

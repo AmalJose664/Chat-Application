@@ -47,3 +47,59 @@ body {
 	min-height: 90vh;
 	flex-direction: column;
 }
+/* ----------------------not found page 404----------------------------------------- */
+.notfound-container {
+	background-color: #000;
+	color: #fff;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.notfound-content {
+	text-align: center;
+	animation: fadeIn 1s ease-in-out;
+}
+
+.notfound-title {
+	font-size: 3rem;
+	margin: 0;
+	color: royalblue;
+	text-shadow: 0 0 20px royalblue;
+}
+
+.notfound-subtitle {
+	font-size: 1.5rem;
+	margin-bottom: 20px;
+	color: #ccc;
+}
+
+.notfound-link {
+	display: inline-block;
+	padding: 12px 24px;
+	color: royalblue;
+	border: 2px solid royalblue;
+	border-radius: 4px;
+	text-decoration: none;
+	border-radius: 9px;
+	transition: background 0.3s ease, color 0.3s ease;
+}
+
+.notfound-link:hover {
+	background: royalblue;
+	color: #000;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(-20px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
