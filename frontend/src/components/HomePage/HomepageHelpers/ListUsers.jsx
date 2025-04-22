@@ -77,17 +77,47 @@ function ListUsers() {
 			  </motion.div>}
 			{( conversations.length != 0 ) ? (conversations.map((value, i) => {
 				return (
-					<div key={i} className={value.other_user.sqlite_id == selectedUserId ? "home-list-users-each selected" : "home-list-users-each"}>
-						<EachConversations value={value} i={i} key={i} type={!!convListTyping[value.other_user.sqlite_id]}
-							isOnline={!!usersOnline[value.other_user.sqlite_id]} />
-					</div>
+					<>
+						<div key={i} className={value.other_user.sqlite_id == selectedUserId ? "home-list-users-each selected" : "home-list-users-each"}>
+							<EachConversations value={value} i={i} key={i} type={!!convListTyping[value.other_user.sqlite_id]}
+								isOnline={!!usersOnline[value.other_user.sqlite_id]} />
+						</div>
+						<div key={i} className={value.other_user.sqlite_id == selectedUserId ? "home-list-users-each selected" : "home-list-users-each"}>
+							<EachConversations value={value} i={i} key={i} type={!!convListTyping[value.other_user.sqlite_id]}
+								isOnline={!!usersOnline[value.other_user.sqlite_id]} />
+						</div>
+						<div key={i} className={value.other_user.sqlite_id == selectedUserId ? "home-list-users-each selected" : "home-list-users-each"}>
+							<EachConversations value={value} i={i} key={i} type={!!convListTyping[value.other_user.sqlite_id]}
+								isOnline={!!usersOnline[value.other_user.sqlite_id]} />
+						</div>
+						<div key={i} className={value.other_user.sqlite_id == selectedUserId ? "home-list-users-each selected" : "home-list-users-each"}>
+							<EachConversations value={value} i={i} key={i} type={!!convListTyping[value.other_user.sqlite_id]}
+								isOnline={!!usersOnline[value.other_user.sqlite_id]} />
+						</div>
+						<div key={i} className={value.other_user.sqlite_id == selectedUserId ? "home-list-users-each selected" : "home-list-users-each"}>
+							<EachConversations value={value} i={i} key={i} type={!!convListTyping[value.other_user.sqlite_id]}
+								isOnline={!!usersOnline[value.other_user.sqlite_id]} />
+						</div>
+						<div key={i} className={value.other_user.sqlite_id == selectedUserId ? "home-list-users-each selected" : "home-list-users-each"}>
+							<EachConversations value={value} i={i} key={i} type={!!convListTyping[value.other_user.sqlite_id]}
+								isOnline={!!usersOnline[value.other_user.sqlite_id]} />
+						</div>
+						<div key={i} className={value.other_user.sqlite_id == selectedUserId ? "home-list-users-each selected" : "home-list-users-each"}>
+							<EachConversations value={value} i={i} key={i} type={!!convListTyping[value.other_user.sqlite_id]}
+								isOnline={!!usersOnline[value.other_user.sqlite_id]} />
+						</div>
+						<div key={i} className={value.other_user.sqlite_id == selectedUserId ? "home-list-users-each selected" : "home-list-users-each"}>
+							<EachConversations value={value} i={i} key={i} type={!!convListTyping[value.other_user.sqlite_id]}
+								isOnline={!!usersOnline[value.other_user.sqlite_id]} />
+						</div>
+					</>
 				)
 				
 			})) : !convLoader && <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, }}
 				className=''>Start a new Chat</motion.p> } 
 			
 		</div>
-		<ListFriends/>
+		
 		
 	</div>
 	

@@ -1,6 +1,6 @@
 
 function SonnerIcons({ size = 24, color = 'white',type='' }) {
-	console.log(type);
+
 	
   
 	if(type == "tick"){

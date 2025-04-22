@@ -20,7 +20,10 @@ export const useAuthStore = create((set, get) => ({
 			set({ authUser: res.data });
 			
 		}catch(err){
-			toast.error(err.response.data.error, );
+			if(err.status == 401){
+				return toast.error(err.response.data.error,);
+			}
+			toast.error("Server error")
 			console.log("error on logging in,", err.response.data, " Invalid credientails");
 		}finally{
 			set({ isLoggginIn: false });
@@ -45,7 +48,7 @@ export const useAuthStore = create((set, get) => ({
 				toast.error("Email already exists. Please try with a different Email",);
 				
 			}
-			
+			toast.error("Server error. Please try again later")
 		}finally{
 			set({ isSigningUp: false });
 		}
@@ -58,7 +61,7 @@ export const useAuthStore = create((set, get) => ({
 			set({ authUser: null });
 			localStorage.removeItem('access_token')
 		} catch (err) {
-			console.log("error on logging out,", err.message);
+			toast.error("error on logging out,", );
 
 		} finally {
 			set({ isLoggginIn: false });
@@ -67,11 +70,11 @@ export const useAuthStore = create((set, get) => ({
 	checkAuth: async()=>{
 		try {
 			const res = await axiosSpecialAuthInstance.get('check-auth/')
-			//console.log(res.data);
+
 			set({ authUser: res.data })
 		} catch (err) {
 			if (err.status == 401) {
-				console.log("Not authenticated Please log in");
+				toast.error("Not Logged in !!!!",{duration:500})
 			}
 		}
 	},
@@ -84,14 +87,10 @@ export const useAuthStore = create((set, get) => ({
 			console.log("Fetching");
 			const response = await axiosSpecialAuthInstance.post('update/', data,{
 				headers: { "Content-Type": "multipart/form-data" },
-			})
-			if (response.data.profile_update ==1){
-				toast.success('Profile Updated Successfully',);
-			}
-			console.log(response.data);	
-			
+			})	
 			if(response.data.update !=0){
 				set({ authUser: response.data.updated_user })
+				toast.success('Profile Updated Successfully')
 			}
 			
 		}catch(err){
@@ -103,6 +102,8 @@ export const useAuthStore = create((set, get) => ({
 			}else if (err.status == 404){
 				toast.error(err.response.data.error
 				)
+			}else{
+				toast.error("Server error. Please try again later")
 			}
 			
 		}finally{

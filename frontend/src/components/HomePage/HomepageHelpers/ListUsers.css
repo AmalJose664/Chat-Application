@@ -2,8 +2,13 @@
 	padding: 0;
 	width: 100%;
 	height: 100%;
+	max-height: calc(100vh - 91px);
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
-
+.home-users-container{
+	position: relative;
+}
 .list-friends-loader{
 	margin-left: 180px;
 	margin-top: 200px;

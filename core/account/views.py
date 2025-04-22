@@ -50,6 +50,7 @@ class Signinview(APIView):
 		try:
 			email = request.data.get('email')  
 			password = request.data.get('password')
+			
 			if not email or not password:
 				return Response({'error': 'Missing fields'}, status=status.HTTP_400_BAD_REQUEST)
 			

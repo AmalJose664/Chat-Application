@@ -94,7 +94,7 @@
 
 
 .home-messages {
-	max-height: 651px;
+	height: calc(100vh - 91px);
 	width: 100%;
 	opacity: 1;
 	overflow-x: hidden;

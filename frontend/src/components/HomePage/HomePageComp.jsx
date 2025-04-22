@@ -14,6 +14,7 @@ import { useSpecialStore } from '../../store/specialStore'
 import GroupMessageSpace from './HomepageHelpers/GroupComps/GroupMessageSpace'
 import SelectedGroup from './HomepageHelpers/GroupComps/SelectedGroup'
 import { APP_Name } from '../../lib/chatUtilities'
+import ListFriends from './HomepageHelpers/ListFriends'
 
 
 function HomePageComp() {
@@ -89,6 +90,7 @@ function HomePageComp() {
 					<div className="in-list-userorgroup">
 						{viewItem === 'Chats' ? <ListUsers /> : <ListGroups/> }
 					</div>
+					{viewItem === 'Chats' && <ListFriends/>}
 				</div>
 				<div className="home-content home-message">
 					<div className="home-message-box">

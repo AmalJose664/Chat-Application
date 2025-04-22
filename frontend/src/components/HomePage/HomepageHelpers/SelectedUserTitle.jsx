@@ -93,7 +93,7 @@ function Extras({ outRef, onClose, showDetails }){
 					<div className="h-s-extrabox-each" onClick={showDetails}>
 						Get Details
 					</div>
-					<Link to={'/settings'} className="h-s-extrabox-each">
+					<Link to={'/settings'} className="h-s-extrabox-each" style={{marginTop:'30px'}}>
 						Change Background
 					</Link>
 				</div>
