@@ -113,10 +113,20 @@
 	transition: .3s ease all; 
 	animation: backgroundCycle 10s infinite;
 }
+@media screen and (max-width: 868px) {
+	.sections {
+		grid-template-columns: 1fr 1fr;
+	}
+	
+	.home-title,
+	.home-options {
+		display: none !important;
+	}
+}
 .sections.green {
 	transition: .3s ease all;
 	background-color: rgb(2, 243, 175);
-	animation: none;
+	animation: greenFlowNotification 10s infinite;
 }
 .sections.animate{
 	transition: .3s ease all;
@@ -124,7 +134,26 @@
 	animation:sectionsNotification 10s infinite
 }
 
-
+@keyframes greenFlowNotification {
+	0% {
+		background-color: #7cd77c;
+	}
+	20% {
+		background-color: #539d3a;
+	}
+	40% {
+		background-color: #13e913;
+	}
+	60% {
+		background-color: #22b722;
+	}
+	80% {
+		background-color: #006400;
+	}
+	100% {
+		background-color: #013220;
+	}
+}
  @keyframes sectionsNotification {
  	0% {
  		background-color: #000000;

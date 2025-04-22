@@ -161,7 +161,7 @@ export const useChatStore = create((set, get) => ({
 		try {
 			set({messageLoading:true})
 			const response = await axiosMessageInstance.get(`chat/${get().selectedChatUser.sqlId}/?limit=90&cursor=0000000`)
-			set({selectedUserMessages:response.data.messages})
+			set({ selectedUserMessages: response.data.messages, selectedUserNewMessages :[]})
 			
 		} catch (err) {
 			console.log(err, err.message);

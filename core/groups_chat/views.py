@@ -155,7 +155,8 @@ class Join_Group(APIView):
 		try:
 
 			group = ChatGroups_mongo.objects.get(id=object_id)
-			if not group.is_private or (group.is_private and group.join_key == join_key):
+			creator = group.created_by.split('__')[0] == str(request.user.id)
+			if not group.is_private or (group.is_private and group.join_key == join_key) or (creator):
 
 				group_data = group.to_mongo().to_dict()
 				group_data['_id'] = str(group_data['_id'])

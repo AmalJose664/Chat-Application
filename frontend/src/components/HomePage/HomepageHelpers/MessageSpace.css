@@ -74,7 +74,6 @@
 }
 
 .h-m{
-	transition: .3s ease all;
 	transform: translateY(0px);
 	visibility: visible;
 	position: relative;
@@ -128,11 +127,13 @@
 	flex-direction: column;
  	 gap: 10px;
   	padding: 20px;
-	padding-bottom: 80px;
   	margin: 0 10px;
   	border-radius: 10px;
+	padding-bottom: 35px;
 }
-
+.wrapper .scroll__to_{
+	margin-bottom: 40px;
+}
 .messages-loading-message-space{
 	margin: 0 auto;
 }

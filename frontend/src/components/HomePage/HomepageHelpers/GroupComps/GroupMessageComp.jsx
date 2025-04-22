@@ -26,9 +26,9 @@ function GroupMessageComp() {
 	},[])
 	const customPrefrns = loadPreferences()
   return (
-	  <div className='h-m' style={{ ...convertStringToCss(customPrefrns.customBackground) }}>
+	  <motion.div className='h-m' style={{ ...convertStringToCss(customPrefrns.customBackground) }} exit={{ opacity: 0, y: 10 }} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.38 }} >
 
-		  <motion.div className="home-messages" exit={{ opacity: 0, y: 20 }} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28 }} >
+		  <div className="home-messages" >
 			  <div className='wrapper'>
 
 				  <NewMessages customPrefrns={customPrefrns} />
@@ -36,9 +36,9 @@ function GroupMessageComp() {
 				  </div>
 			  </div>
 
-		  </motion.div>
+		  </div>
 		  <MessageSendGroupComp enterSend={customPrefrns.enterSend} mesgTrans={customPrefrns.mesgTrans}/>
-	  </div>
+	  </motion.div>
   )
 }
 
