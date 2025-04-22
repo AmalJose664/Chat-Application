@@ -1,5 +1,7 @@
 
 export const filterNotifications = (value)=>{
+	console.log(value);
+	
 	const filtered = value.split("__")
 	if (filtered[0] =="FRIEND_REQUEST"){
 		return ["Friend Request from " + filtered[1], filtered[0].toLocaleLowerCase()]
@@ -10,6 +12,7 @@ export const filterNotifications = (value)=>{
 	else if (filtered[0] == "FRIEND_REMOVED") {
 		return ["Friend Deleted " + filtered[1], filtered[0].toLocaleLowerCase()]
 	}
+	return ["Unknown Notification", "unknown"];
 }
 
 export const filterMessageByDay = (messageArray)=>{

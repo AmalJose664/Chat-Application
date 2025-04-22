@@ -6,9 +6,6 @@
 	overflow-y: scroll;
 	overflow-x: hidden;
 }
-.home-users-container{
-	position: relative;
-}
 .list-friends-loader{
 	margin-left: 180px;
 	margin-top: 200px;

@@ -123,6 +123,7 @@ export const useSpecialStore = create( (set,get)=>({
 	setNotiCount: (count) => set({ notificationsCount:count }),
 	
 	notiLoader:false,
+	clearNotification: () => set({ notifications:[] }),
 	setNotifications:async( value )=>{
 		try{
 			set({ notiLoader: true })

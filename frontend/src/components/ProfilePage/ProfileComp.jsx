@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import { Link, useParams } from 'react-router-dom'
 import {lastMessage} from '../../lib/lastMessageFilter'
 import { userDataStore } from '../../store/userDataStore'
+import { useSpecialStore } from '../../store/specialStore'
 
 
 
@@ -145,7 +146,7 @@ function ProfileComp() {
 function Logout(){
 	const setConversationsStore = userDataStore(state => state.setConversationsStore)
 	const setSelectUser = userDataStore.getState().setSelectUser;
-	
+	const clearNotification = useSpecialStore(state => state.clearNotification)
 	
 	
 	const logout = useAuthStore(state => state.logout)
@@ -153,6 +154,7 @@ function Logout(){
 		setConversationsStore([])
 		logout()
 		setSelectUser({})
+		clearNotification()
 	}
 	return (
 		<div className="profile-page-logout-user">

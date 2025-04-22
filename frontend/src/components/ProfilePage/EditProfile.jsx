@@ -23,7 +23,11 @@ function EditProfile(  {closeTab} ) {
 	
 	const handleSubmit = async(e)=>{
 		e.preventDefault()
-		setPassTab(true)
+		if(formData.email && formData.username){
+			setPassTab(true)
+		}else{
+			toast.error(" !! ")
+		}
 
 	}
 	const handleImageUpload = (e) => {
