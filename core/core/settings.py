@@ -175,8 +175,12 @@ CHANNEL_LAYERS = CUSTOM_CHANNEL_LAYERS_CONNECTIFY
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql', 
+        'NAME': getenv('SQL_NAME'),
+        'USER': getenv('SQL_USER_NAME'),
+        'PASSWORD': getenv('SQL_PASSWORD'),
+        'HOST': getenv('SQL_HOST'),
+        'PORT': getenv('SQL_PORT'),
     },
 }
 
