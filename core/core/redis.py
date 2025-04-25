@@ -34,11 +34,19 @@ def redis_connect(db_no):
 		raise e
 
 def pymongo_connect():
-	myclient = pymongo.MongoClient(settings.MONGODB_SETTINGS['LINK'])
+	uri = settings.MONGODB_SETTINGS['LINK']
+	myclient = pymongo.MongoClient(uri)
 	mydb = myclient[settings.MONGODB_SETTINGS['db']]
 	try:
 		myclient.admin.command('ping')
-		print("Pinged your deployment. You successfully connected to MongoDB!🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊")
+		is_online = BooleanField
+		if uri.startswith("mongodb+srv://"):
+			is_online = True
+		if "mongodb.net" in uri:
+			is_online = True
+		if "localhost" in uri or "127.0.0.1" in uri:
+			is_online = False
+		print("Pinged your deployment. You successfully connected to MongoDB!🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊 ", "Mongo server Online-> ", is_online)
 	except Exception as e:
 		print(e)
 	return mydb
