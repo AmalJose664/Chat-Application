@@ -32,6 +32,7 @@ function App() {
 	const { authUser, checkAuth } = useAuthStore()
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
+		console.log(authUser,"//////////////////////");
 		
 		checkAuth().then(() => setLoading(false));	
 	}, []);

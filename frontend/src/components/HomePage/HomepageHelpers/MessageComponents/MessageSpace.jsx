@@ -151,7 +151,7 @@ function MessageSpaceMessages({ selectedUser }){
 					<NewMessages customPrefrns={customPrefrns}/>  
 					<SelectedUserLdr messageCrnr={customPrefrns.messageCrnr}/>
 
-					{(selectedUserMessages.length == 0 && selectedUserNewMessages.length > 5) && 
+					{selectedUserMessages.length == 0  && 
 						<div className="message__h type-timedate" onClick={() => getMessages()}
 						style={{ backgroundColor: 'gray', marginTop: '25%', cursor: 'pointer', padding: '15px' }}
 						>

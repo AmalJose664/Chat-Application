@@ -1,16 +1,19 @@
 import axios from 'axios'
 
 
-export let ip = 'localhost'
+export let ip = location.hostname || 'localhost'	
 
 export let proto = location.protocol != 'http:' ? "https" : "http"
 export let wsProto = location.protocol != 'http:' ? "wss" : "ws"
-if (ip == 'localhost' || ip == '192.168.253.21' ){
+if (proto == 'https'){
+	
+	ip = 'f8b5-2403-a080-410-e260-9c5e-7ab3-def7-98af.ngrok-free.app'
+	//proto = "http"
+	//wsProto = 'ws'
+}else{
 	ip=ip+":8000"
-	proto = "http"
-	wsProto = 'ws'
-
 }
+
 const axiosInstance = axios.create({
 	baseURL: `${proto}://${ip}/api/friends`,
 	headers:{

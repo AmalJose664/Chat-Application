@@ -84,7 +84,7 @@ SAVE_MESSAGES = True
 connect(MONGODB_SETTINGS['db'], host=f'{MONGODB_SETTINGS['LINK']}{MONGODB_SETTINGS['db']}')
 
 
-CORS_ALLOWED_ORIGINS=['http://localhost:5173',getenv('NGROK_BACKEND_URL',''),'http://192.168.253.21:5173']
+CORS_ALLOWED_ORIGINS=['http://localhost:5173','https://7e37-2403-a080-410-e260-9c5e-7ab3-def7-98af.ngrok-free.app','http://192.168.20.3:5173']
 CORS_ALLOW_CREDENTIALS = True 
 CSRF_COOKIE_SECURE = False  
 SESSION_COOKIE_SECURE = False

@@ -17,8 +17,8 @@ function LoginComp() {
 	const { login } = useAuthStore()
 	const [passShow, setPassShow] = useState(false)
 	const [formData, setForm] = useState({
-		email: 'amal446446@gmail.com',
-		password: '1234567',
+		email: '',
+		password: '',
 	})
 	const handleSubmit = async (e) => {
 		e.preventDefault()

@@ -21,13 +21,23 @@ from rest_framework import status
 # Create your views here.
 
 def create_mongo_db_user(new_user):
-	monogo_user = User_mongo(user_name=new_user.name, email=new_user.email,
+	try:
+		monogo_user = User_mongo(user_name=new_user.name, email=new_user.email,
 						  password=new_user.password,
-						  sqlite_id=str(new_user.id),last_login=datetime.now()
+						  sqlite_id=str(new_user.id)
 						  )
-	monogo_user_data = User_data_mongo(user=monogo_user)
-	monogo_user.save()
-	monogo_user_data.save()
+		monogo_user_data = User_data_mongo(user=monogo_user)
+		monogo_user.save()
+		monogo_user_data.save()
+		return True
+	except mongoengine.errors.ValidationError as e:
+		print("User create error ,",str(e))
+		print("Deelting created user")
+		return False
+	except Exception as e:
+		print("User create error ,",str(e))
+		print("Deelting created user")
+		return False
 
 def get_auth_for_user(user):
 	refresh = RefreshToken.for_user(user)
@@ -48,6 +58,7 @@ class Signinview(APIView):
 
 	def post(self ,request):
 		try:
+			print("requestss")
 			email = request.data.get('email')  
 			password = request.data.get('password')
 			
@@ -78,13 +89,12 @@ class Signupview(APIView):
 
 	def post(self ,request):
 		
-		try:
+		#try:
 			request.data['name'] = request.data.pop('username')
 		
 			new_user = SignUpSerializer(data=request.data)
 			new_user.is_valid(raise_exception=True)
 			user = new_user.save()
-			create_mongo_db_user(user)
 			user_data = get_auth_for_user(user)
 			
 			res = Response(user_data, status=status.HTTP_200_OK)
@@ -97,10 +107,10 @@ class Signupview(APIView):
 				max_age=7 * 24 * 60 * 60,
 			)
 			
-		except Exception as e:
-			print("server error ",str(e))
-			res = Response({"error",'Internal server error'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-		return res
+		# except Exception as e:
+		# 	print("server error at signup",str(e))
+		# 	res = Response({"error",'Internal server error'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+			return res
 
 
 

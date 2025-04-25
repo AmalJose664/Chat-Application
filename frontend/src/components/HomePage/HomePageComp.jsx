@@ -77,10 +77,10 @@ function HomePageComp() {
 						<div className="h-s-p-i-inner">
 							  <Link to={`/profile/${chatType == 'Chats' ? 'chats' : 'groups'}`} className="h-s-p-i-inner2">
 								<div className="h-s-p-i-image">
-									<img src={authUser.db_user.profile_picture} alt="Image" />
+									<img src={authUser.db_user?.profile_picture} alt="Image" />
 								</div>
 								<div className="h-s-p-i-title">
-									{authUser.db_user.user_name}
+									{authUser.db_user?.user_name}
 								</div>
 							</Link>
 						</div>

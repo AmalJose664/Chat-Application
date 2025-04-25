@@ -36,6 +36,11 @@ def redis_connect(db_no):
 def pymongo_connect():
 	myclient = pymongo.MongoClient(settings.MONGODB_SETTINGS['LINK'])
 	mydb = myclient[settings.MONGODB_SETTINGS['db']]
+	try:
+		myclient.admin.command('ping')
+		print("Pinged your deployment. You successfully connected to MongoDB!🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊")
+	except Exception as e:
+		print(e)
 	return mydb
 
 

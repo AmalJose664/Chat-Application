@@ -15,9 +15,9 @@ function SignupComp() {
 	const { createUser,  } = useAuthStore()
 	const [passShow, setPassShow] = useState(false)
 	const [formData, setForm] = useState({
-		username:'telmey',
-		email: 'amal446446@gmail.com',
-		password: '123456',
+		username:'',
+		email: '',
+		password: '',
 	})
 
 	const validateForm = () => {

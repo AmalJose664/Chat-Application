@@ -23,6 +23,7 @@ export const useAuthStore = create((set, get) => ({
 			if(err.status == 401){
 				return toast.error(err.response.data.error,);
 			}
+			console.log(err);
 			toast.error("Server error")
 			console.log("error on logging in,", err.response.data, " Invalid credientails");
 		}finally{
