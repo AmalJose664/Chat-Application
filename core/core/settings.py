@@ -103,7 +103,7 @@ REST_FRAMEWORK = {
     )
 }
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     
 }
@@ -144,13 +144,14 @@ WSGI_APPLICATION = 'core.wsgi.application'
 ASGI_APPLICATION = 'core.asgi.application'
 
 
-
 if ONLINE_REDIS:
 	HOST_REDIS =f'redis://default:{REDIS_SETTINGS['ONLINE_PASS']}@{REDIS_SETTINGS['REDIS_ONLINE_IP']}:{REDIS_SETTINGS['REDIS_ONLINE_PORT']}'
 else:
 	HOST_REDIS =f'redis://{REDIS_SETTINGS['REDIS_IP']}:{REDIS_SETTINGS['REDIS_PORT']}/{REDIS_SETTINGS['DB_FOR_CACHE']}'
 
-CHANNEL_LAYERS = {
+USE_REDIS_MEMORY_LAYER= getenv('USE_REDIS_MEMORY_LAYER','True')  == 'True'
+if USE_REDIS_MEMORY_LAYER:
+	CUSTOM_CHANNEL_LAYERS_CONNECTIFY = {
 		# 'default': {
 		# 	'BACKEND':"channels.layers.InMemoryChannelLayer",  
 		# },
@@ -162,7 +163,13 @@ CHANNEL_LAYERS = {
 			},
 		},
 	}
-
+else:
+	CUSTOM_CHANNEL_LAYERS_CONNECTIFY = {
+		'default': {
+			'BACKEND':"channels.layers.InMemoryChannelLayer",  
+		},
+	}
+CHANNEL_LAYERS = CUSTOM_CHANNEL_LAYERS_CONNECTIFY
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
