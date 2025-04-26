@@ -17,7 +17,7 @@ from mongoengine import connect
 BASE_DIR = Path(__file__).resolve().parent.parent
 from datetime import timedelta
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv(BASE_DIR/'.env')
 
 
 # Quick-start development settings - unsuitable for production
@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv('SERVER_SECRET_KEY','')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG_T_F', 'False') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',')
 
 
 
@@ -84,7 +84,7 @@ SAVE_MESSAGES = True
 connect(MONGODB_SETTINGS['db'], host=f'{MONGODB_SETTINGS['LINK']}{MONGODB_SETTINGS['db']}')
 
 
-CORS_ALLOWED_ORIGINS=['http://localhost:5173','https://7e37-2403-a080-410-e260-9c5e-7ab3-def7-98af.ngrok-free.app','http://192.168.20.3:5173']
+CORS_ALLOWED_ORIGINS=os.environ.get('DJANGO_CORS_ALLOWED_ORIGINS', '').split(',') #'https://dsdadsa.csds'
 CORS_ALLOW_CREDENTIALS = True 
 CSRF_COOKIE_SECURE = False  
 SESSION_COOKIE_SECURE = False
