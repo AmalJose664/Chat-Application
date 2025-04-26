@@ -19,6 +19,7 @@ function MyFriends() {
 	const [loader, setLoader] = useState(false)
 	const [cursor, setCursor] = useState('')
 	const [showUser, setShowUser] = useState('')
+	const [showLoadMore, setLoadMore] = useState(false)
 
 	
 	const fecthUsers = async()=>{
@@ -32,6 +33,7 @@ function MyFriends() {
 				return setUserFriends([...userFriends, ...response.data.users])
 			}
 			setUserFriends(response.data.users)
+			setLoadMore(response.data.is_last)
 			setCursor(response.data.next_cursor)
 		}
 		catch(err){
@@ -119,7 +121,7 @@ function MyFriends() {
 							
 						) : !loader && <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, }}
 							className=''>No Friends Yet.</motion.p> }
-							{userFriends.length != 0 && 
+						{(userFriends.length != 0 && !showLoadMore) && 
 							<button className='friend-load-more' onClick={fecthUsers}>Load More</button>
 							}
 

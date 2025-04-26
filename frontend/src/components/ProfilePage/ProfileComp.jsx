@@ -11,6 +11,7 @@ import { Link, useParams } from 'react-router-dom'
 import {lastMessage} from '../../lib/lastMessageFilter'
 import { userDataStore } from '../../store/userDataStore'
 import { useSpecialStore } from '../../store/specialStore'
+import { useGroupConnectStore } from '../../store/useGroupConnect'
 
 
 
@@ -147,14 +148,16 @@ function Logout(){
 	const setConversationsStore = userDataStore(state => state.setConversationsStore)
 	const setSelectUser = userDataStore.getState().setSelectUser;
 	const clearNotification = useSpecialStore(state => state.clearNotification)
+	const deleteSocketGroup = useGroupConnectStore(state => state.deleteSocket)
 	
 	
 	const logout = useAuthStore(state => state.logout)
 	const logoutUser = () => {
 		setConversationsStore([])
-		logout()
 		setSelectUser({})
 		clearNotification()
+		deleteSocketGroup()
+		logout()
 	}
 	return (
 		<div className="profile-page-logout-user">

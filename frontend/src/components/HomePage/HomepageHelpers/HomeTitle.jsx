@@ -23,7 +23,7 @@ const HomeTitle = ({ showInterface, back }) => {
 		}>
 			{showInterface}
 		</div>
-		{showInterface == 'Groups' && <div className="home-group-search-icon" onClick={()=>setSeachGroups()}>
+		  {(showInterface == 'Groups'|| showInterface == 'groups' )&& <div className="home-group-search-icon" onClick={()=>setSeachGroups()}>
 			<Search />
 		</div>}
 		
