@@ -80,6 +80,20 @@
 			}
 		}
 }
+.server-test-btn{
+		padding: 10px 14px;
+		margin: 0 20px;
+		margin-top: 30px;
+		background-color: royalblue;
+		border-radius: 12px;
+		border: none;
+		color: black;
+		transition: 40ms ease-in transform;
+
+		&:active {
+			transform: scale(.9);
+		}
+	}
 .s-action-place{
 	
 	button{

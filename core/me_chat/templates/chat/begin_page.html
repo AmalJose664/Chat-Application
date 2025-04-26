@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/png" href="{% static 'images/logo.png' %}" />
+	<title>Connectify</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: #1a1a1a;
+			color: white;
+			font-family: 'Poppins', 'Arial', sans-serif;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+			text-align: center;
+		}
+		img {
+			width: 80px;
+			height: auto;
+			margin-bottom: 20px;
+		}
+		a {
+			display: inline-block;
+			margin-top: 20px;
+			padding: 10px 20px;
+			background-color: #ffffff22;
+			color: white;
+			text-decoration: none;
+			border-radius: 8px;
+			transition: background-color 0.3s ease;
+		}
+		a:hover {
+			background-color: #ffffff44;
+		}
+	</style>
+</head>
+<body>
+	<img src="{% static 'images/logo.png' %}" alt="Logo">
+	<h1>Welcome! Connectify server page backend 🌊🌪️☄️</h1>
+	<a href="/admin/">Go to Admin Page</a>(if u r a staff)
+</body>
+</html>
+    

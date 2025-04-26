@@ -20,16 +20,17 @@ from django.conf.urls.i18n import i18n_patterns
 from django.views.generic import TemplateView
 from django.views.i18n import set_language
 
+from me_chat.views import begin_point
 
 
 
 urlpatterns = [
+	path('', begin_point),
 	path('admin/', admin.site.urls),
 	path('api/',include('me_chat.urls'),name='other'),
-	path('defalut_api/',include('core.api.urls')),
+	path('default_api/',include('core.api.urls')),
 	path('api/',include('account.urls')),
 	path('api/',include('groups_chat.urls')),
-    #re_path(r'^.*$', TemplateView.as_view(template_name="index.html") ),
 
 	
 ]

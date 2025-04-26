@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from django.contrib.auth.decorators import login_required
 from  account.models import User, User_data_mongo, User_mongo
-from . models import Conversations_mongo, Message_mongo
+from . models import Message_mongo
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -202,12 +202,15 @@ class Get_Conversations(APIView):
 
 
 def test_api_endpoint(request):
-	user = request.user.name
+	user = ''
+	if request.user.is_authenticated:
+		user = request.user.name
 	if not user:
 		user='Anonymus user'
-	return JsonResponse({'status_w':'working','status':'200','user':user},status=status.HTTP_200_OK)
+	return JsonResponse({'status_w':'Connectify app working','status':'200','user':user},status=status.HTTP_200_OK)
 
-		
+def begin_point(request):
+		return render(request, 'chat/begin_page.html')
 
 
 @login_required

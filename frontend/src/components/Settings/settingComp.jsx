@@ -5,6 +5,7 @@ import Logo from '../../assets/Logo'
 import { APP_Name, bgImages, colors, convertStringToCss, getContrastColor, loadPreferences } from '../../lib/chatUtilities'
 import { toast } from 'sonner';
 import { motion,AnimatePresence } from 'framer-motion'
+import {axiosApiInstance,ip,proto} from '../../lib/axios'
 
 import { Link, useParams } from 'react-router-dom'
 
@@ -65,6 +66,35 @@ function SettingComp() {
 			
 		}
 	},[])
+	const test = ()=>{
+		
+		// const myPromise = new Promise((resolve,reject) => {
+		// 	setTimeout(() => {
+		// 		resolve({ name: 'My toast' });
+		// 	}, 3000);
+		// });
+		try {
+			const myPromise = axiosApiInstance.get('default_api/test-api', { baseURL: `${proto}://${ip}` })
+
+
+			toast.promise(myPromise, {
+				loading: 'Loading...',
+				success: (axiosData) => {
+					console.log(axiosData)
+					
+					return `Status=> ${axiosData.data.status_w} || User=> ${axiosData.data.user} || Status_code=> ${axiosData.data.status}`;
+				},
+				error: 'Error => Server Connecting Error',
+			});
+		} catch (error) {
+			console.log(error)
+			
+		}
+		
+	}
+		
+	
+	
 	return (
 		<div className="setting-component" >
 			<div className="setting-inner">
@@ -206,7 +236,13 @@ function SettingComp() {
 								>
 								Reset Preferences
 							</motion.button>
+
 						</div>
+						<motion.button onClick={test} className='server-test-btn'
+							initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 1.9 }}
+						>
+							Test Server
+						</motion.button>
 					</motion.div>
 
 
@@ -265,10 +301,10 @@ function SettingComp() {
 									</div>
 								</motion.div>
 								<motion.div className="s-demo-type-interface"
-									initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 1.1 }}
+									initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 1.2 }}
 									>
 									<div className={mesgTrans ? 's-demo-type-inner transparent' : 's-demo-type-inner'}>
-										<div className="s-type-part" contentEditable='plaintext-only'>
+										<div className="s-type-part" contentEditable='plaintext-only' suppressContentEditableWarning={true}>
 											Type a Message !
 										</div>
 									</div>
