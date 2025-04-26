@@ -12,7 +12,8 @@ __pycache__/
 /.env
 *.env
 
-
+/core/db.sqlite3
+/core/initial_data.json
 /frontend/node_modules/
 /frontend/build/
 /frontend/.env

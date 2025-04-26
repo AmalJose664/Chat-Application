@@ -1,16 +1,17 @@
+import django
+django.setup()
 
 import os
-from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.security.websocket import AllowedHostsOriginValidator
 from django_channels_jwt_auth_middleware.auth import JWTAuthMiddlewareStack
 from django.core.asgi import get_asgi_application
 
+from me_chat import routing
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 
 
-from me_chat import routing
-
+django_asgi_application=get_asgi_application()
 
 class WebSocketNotFoundMiddleware:
     """Middleware to catch routing errors and return a proper 404 response."""
@@ -38,7 +39,6 @@ class WebSocketNotFoundMiddleware:
                 raise e
 
 
-django_asgi_application=get_asgi_application()
 
 application = ProtocolTypeRouter({
 	'http':django_asgi_application,

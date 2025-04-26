@@ -29,13 +29,13 @@ SECRET_KEY = getenv('SERVER_SECRET_KEY','')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = getenv('DEBUG_T_F', 'False') == 'True'
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 
 INSTALLED_APPS = [
-	'jazzmin',
 	'daphne',
+	'jazzmin',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -113,6 +113,9 @@ MIDDLEWARE = [
 	
 	'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+
+	"whitenoise.middleware.WhiteNoiseMiddleware",
+
 	'django.middleware.locale.LocaleMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -139,6 +142,13 @@ TEMPLATES = [
         },
     },
 ]
+
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 WSGI_APPLICATION = 'core.wsgi.application'
 ASGI_APPLICATION = 'core.asgi.application'
@@ -222,11 +232,26 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR/'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #themes ------------------------------------------------------------------------------------------
 JAZZMIN_SETTINGS = {
