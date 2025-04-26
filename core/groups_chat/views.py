@@ -124,7 +124,7 @@ class Create_Group(APIView):
 			lock = not bool(lock)
 			print('call to create ', lock)
 			group_join_key = str(uuid.uuid4())[:8]
-			group_id  = f"{group_name.lower().replace(' ',"")}__{random_text(8)}"
+			group_id  = f"{group_name.lower().replace(' ','')}__{random_text(8)}"
 
 			existing_group = ChatGroups_mongo(name=group_name, group_key=group_id, join_key=group_join_key, is_private=lock, 
 									 created_by=f"{str(request.user.id)}__{request.user.name}").save()

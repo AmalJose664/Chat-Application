@@ -164,7 +164,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 		conv_id = text_data_json.get('conv_id',"00000")
 		read=0
 
-		notifying_user_channel = redis_service.hget(f'user_channel_mapping', self.intended_user)
+		notifying_user_channel = redis_service.hget('user_channel_mapping', self.intended_user)
 		intented_user_target=""
 		temp_online_users = redis_service.smembers('online_users')
 
@@ -213,7 +213,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 				)
 			else:
 				
-				my_room_count = int(redis_service.hget(f"active_rooms_user_count" , self.room_group_name) or 0)
+				my_room_count = int(redis_service.hget("active_rooms_user_count" , self.room_group_name) or 0)
 				
 				if my_room_count == 2:
 					read = 2
@@ -473,11 +473,11 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 		# critical function
 		if self.intended_user in self.users_online:
 			
-			request_user_room = redis_service.hget(f'user_room_mapping', self.intended_user) or "000-000"
+			request_user_room = redis_service.hget('user_room_mapping', self.intended_user) or "000-000"
 			
 			self.room_name = random_text(16)
 			self.room_group_name = f'chat_{self.room_name}'
-			request_room_count = int(redis_service.hget(f"active_rooms_user_count" , request_user_room) or 0)
+			request_room_count = int(redis_service.hget("active_rooms_user_count" , request_user_room) or 0)
 
 
 			
@@ -522,12 +522,12 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 			pipeline.hdel("user_channel_mapping", self.me)
 		pipeline.hdel('user_room_mapping', self.me)
 			
-		pipeline.hincrby(f"active_rooms_user_count", self.room_group_name, -1)
+		pipeline.hincrby("active_rooms_user_count", self.room_group_name, -1)
 		pipeline.execute()
-		user_count = int(redis_service.hget(f"active_rooms_user_count" , self.room_group_name)) or 0
+		user_count = int(redis_service.hget("active_rooms_user_count" , self.room_group_name)) or 0
 
 		if int(user_count) <= 0:
-			pipeline.hdel(f"active_rooms_user_count", self.room_group_name)
+			pipeline.hdel("active_rooms_user_count", self.room_group_name)
 			pipeline.srem("all_active_rooms", str(self.room_group_name))
 			pipeline.execute()
 		
@@ -541,16 +541,16 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 		pipeline.sadd("all_active_rooms", str(self.room_group_name))
 		pipeline.execute()
 
-		user_count = redis_service.hget(f"active_rooms_user_count" , self.room_group_name) or 0
+		user_count = redis_service.hget("active_rooms_user_count" , self.room_group_name) or 0
 		
 		if (int (user_count) ==0):
-			redis_service.hset(f"active_rooms_user_count", self.room_group_name, 1)
+			redis_service.hset("active_rooms_user_count", self.room_group_name, 1)
 			
 		else:
-			redis_service.hincrby(f"active_rooms_user_count", self.room_group_name, 1)
+			redis_service.hincrby("active_rooms_user_count", self.room_group_name, 1)
 			
 		pipeline.hset("user_room_mapping", self.me, self.room_group_name)
-		pipeline.expire(f"active_rooms_user_count", 1800) 
+		pipeline.expire("active_rooms_user_count", 1800) 
 		pipeline.execute()
 	
 
