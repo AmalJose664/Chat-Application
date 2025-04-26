@@ -32,7 +32,7 @@ function SideBar({ setTab, tab }) {
 					  </div>
 				  </div>
 			  </div>
-				<div className={tab === 'groups' ? "side-option selected" : "side-option "} onClick={() => { setTab('Groups'); navigate('/home/groups', { replace: true }); }}>
+				<div className={tab === 'groups' ? "side-option selected" : "side-option "} onClick={() => { setTab('Groups'.toLowerCase()); navigate('/home/groups', { replace: true }); }}>
 				  <div className="home-side-option-cont">
 					  <div className="home-side-svg">
 						  <DashBoardICon type='group' />
@@ -51,6 +51,17 @@ function SideBar({ setTab, tab }) {
 					  </div>
 					  <div className="home-side-text">
 						  Profile
+					  </div>
+				  </Link>
+			  </div>
+			  <div className="side-option">
+				  <Link  to={`/friends?back=${tab}`} className="home-side-option-cont">
+					  <div className="home-side-svg">
+						  <DashBoardICon type='add' />
+						  <DashBoardICon type='profile2' />
+					  </div>
+					  <div className="home-side-text">
+						  Friends
 					  </div>
 				  </Link>
 			  </div>

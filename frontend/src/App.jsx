@@ -56,7 +56,7 @@ function App() {
 		<Route path='/settings/:tab' element={< SettingsPage/>}/>
 		<Route path='/settings/' element={< SettingsPage/>}/>
 		<Route path='/profile/:tab'  element={authUser ?< Profile /> : <Navigate to="/login" />}/>
-		<Route path='/friends/:tab'  element={authUser ?< Friends /> : <Navigate to="/login" />}/>
+		<Route path='/friends/:tabType'  element={authUser ?< Friends /> : <Navigate to="/login" />}/>
 		<Route path='/profile/'  element={authUser ?< Profile /> : <Navigate to="/login" />}/>
 		<Route path='/friends/'  element={authUser ?< Friends /> : <Navigate to="/login" />}/>
 	

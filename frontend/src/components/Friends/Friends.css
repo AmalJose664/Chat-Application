@@ -99,8 +99,8 @@ input:focus {
 	margin: 20px 0;
 	padding: 10px;
 }
-.friends-loader{
-	
+.select-user-title-get-friend-details{
+	z-index: 99999;
 }
 
 .friends-loader.my-friends{
@@ -222,6 +222,7 @@ input:focus {
 }
 
 .friends-each-inner{
+	
 	padding: 8px;
 	display: flex;
 	align-items: center;
@@ -248,6 +249,7 @@ input:focus {
 }
 
 .friend-added-section2{
+
 	padding: 8px;
 	display: flex;
 	align-items: center;

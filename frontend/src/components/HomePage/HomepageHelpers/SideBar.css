@@ -19,6 +19,7 @@
 }
 .side-option.selected{
 	background-color: rgb(44, 44, 44) ;
+	border: 1px solid royalblue;
 }
 .home-side-option-cont{
 	display: flex;

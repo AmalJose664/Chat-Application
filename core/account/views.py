@@ -230,7 +230,7 @@ class List_Given_Users(APIView):
 		import re
 		re_new_friend = re.compile(f'.*{re.escape(new_friend)}.*', re.IGNORECASE) 
 		users = User_mongo.objects(Q(sqlite_id=new_friend) | Q(email=new_friend) | Q(user_name=re_new_friend) & 
-    								Q(sqlite_id__ne=str(request.user.id))).only('id','user_name','profile_picture').as_pymongo()[:20]
+    								Q(sqlite_id__ne=str(request.user.id))).only('id','user_name','profile_picture').as_pymongo()[:40]
 		
 		if users:
 			new_list = []

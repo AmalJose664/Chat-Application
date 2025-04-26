@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { axiosApiInstance } from '../../lib/axios'
 import { userDataStore } from '../../store/userDataStore'
 import { lineWobble } from 'ldrs'
+import GetUser from '../HomePage/HomepageHelpers/HomeUtils/GetUser'
 lineWobble.register()
 
 
@@ -16,7 +17,9 @@ function MyFriends() {
 	const setUserFriends = userDataStore(state => state.setUserFriends)
 
 	const [loader, setLoader] = useState(false)
-	const [cursor,setCursor] = useState('')
+	const [cursor, setCursor] = useState('')
+	const [showUser, setShowUser] = useState('')
+
 	
 	const fecthUsers = async()=>{
 		setLoader(true)
@@ -87,6 +90,7 @@ function MyFriends() {
 
 						{userFriends.length != 0 ? (
 							userFriends.map((value, i) => {
+								
 								return (
 									<motion.div className="friends-added-each" key={i} initial={{ opacity: 0,x:40, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, delay: (i / 10+.2) }}>
 										<div className="friends-each-inner">
@@ -99,11 +103,10 @@ function MyFriends() {
 												</div>
 											</div>
 											<div className="friend-added-section2">
-												<div className="friend-message-btn friend-btn">
-													<button>Message</button>
-												</div>
+												
 												<div className="friend-view  friend-btn">
-													<button>View Details</button>
+													<button onClick={()=>setShowUser(value._id)}>View Details</button>
+													{showUser && (value._id == showUser && <GetUser group={true} id={showUser} closeFunct={() => setShowUser('')} />)}
 												</div>
 												<div className="friend-remove  friend-btn">
 													<button onClick={() => removeFriend(value._id, i)}>Remove Friend</button>
