@@ -56,7 +56,7 @@ class Get_Messages(APIView):
 					print("Error on read update", str(e))
 					result = None
 
-				
+				#print(f"data==>Chat to user{chat_to_user.id}, reques user{user.id} filters==> {filter1} other filter {filter2}",)
 				messages = Message_mongo.objects( ( ( Q(s=user.id) & Q(r=chat_to_user.id)) | ( Q(s=chat_to_user.id) & Q(r=user.id)) ) | ( Q(c_id = filter2) | Q(c_id = filter1) )  ).order_by('-t')
 				
 				if ObjectId.is_valid(cursor):
@@ -201,21 +201,23 @@ class Get_Conversations(APIView):
 		
 
 
+def test_api_endpoint(request):
+	user = request.user.name
+	if not user:
+		user='Anonymus user'
+	return JsonResponse({'status_w':'working','status':'200','user':user},status=status.HTTP_200_OK)
 
 		
-
-	
-
 
 
 @login_required
 def other(request):
-	
-    
+	if not request.user.is_staff:
+		return render (request, 'chat/another.html',{"data": [],'status':'error','reason':'You ar not Staff member'})
 	user = User.objects.all().exclude(email=request.user.email)
 
 	#return JsonResponse({"users":"helo"})
-	return render(request, 'chat/another.html',{"data": user})
+	return render(request, 'chat/another.html',{"data": user, 'status':'success'})
 
 
 	

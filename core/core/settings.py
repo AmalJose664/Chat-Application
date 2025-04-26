@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from os import getenv
+import os 
 from pathlib import Path
 from mongoengine import connect
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,10 +24,10 @@ load_dotenv()
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = getenv('SERVER_SECRET_KEY','')
+SECRET_KEY = os.getenv('SERVER_SECRET_KEY','')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = getenv('DEBUG_T_F', 'False') == 'True'
+DEBUG = os.getenv('DEBUG_T_F', 'False') == 'True'
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
@@ -57,20 +57,20 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'account.User'
 
 MONGODB_SETTINGS = {
-    'db': getenv('MONGO_DB_DATABASE'),
+    'db': os.getenv('MONGO_DB_DATABASE'),
     'host': 'localhost',
-    'port': getenv('MONGO_DB_PORT'),
-	'LINK': getenv('MONGO_DB_LINK'),
+    'port': os.getenv('MONGO_DB_PORT'),
+	'LINK': os.getenv('MONGO_DB_LINK'),
 }
 
 REDIS_SETTINGS = {
-	'REDIS_IP' : getenv('REDIS_IP'),
-	'REDIS_PORT':getenv('REDIS_PORT'),
-	'PASSWORD':getenv('REDIS_PASS'),
+	'REDIS_IP' : os.getenv('REDIS_IP'),
+	'REDIS_PORT':os.getenv('REDIS_PORT'),
+	'PASSWORD':os.getenv('REDIS_PASS'),
 
-	'REDIS_ONLINE_IP': getenv('REDIS_ONLINE_IP_1'),
-	'REDIS_ONLINE_PORT': getenv('REDIS_ONLINE_PORT_1'),
-	'ONLINE_PASS':getenv('REDIS_ONLINE_PASS_1'),
+	'REDIS_ONLINE_IP': os.getenv('REDIS_ONLINE_IP_1'),
+	'REDIS_ONLINE_PORT': os.getenv('REDIS_ONLINE_PORT_1'),
+	'ONLINE_PASS':os.getenv('REDIS_ONLINE_PASS_1'),
 
 	'DB_FOR_CHATS' : '0',
 	'DB_FOR_CACHE' : '1',
@@ -159,7 +159,7 @@ if ONLINE_REDIS:
 else:
 	HOST_REDIS =f'redis://{REDIS_SETTINGS['REDIS_IP']}:{REDIS_SETTINGS['REDIS_PORT']}/{REDIS_SETTINGS['DB_FOR_CACHE']}'
 
-USE_REDIS_MEMORY_LAYER= getenv('USE_REDIS_MEMORY_LAYER','True')  == 'True'
+USE_REDIS_MEMORY_LAYER= os.getenv('USE_REDIS_MEMORY_LAYER','True')  == 'True'
 if USE_REDIS_MEMORY_LAYER:
 	CUSTOM_CHANNEL_LAYERS_CONNECTIFY = {
 		# 'default': {
@@ -180,17 +180,22 @@ else:
 		},
 	}
 CHANNEL_LAYERS = CUSTOM_CHANNEL_LAYERS_CONNECTIFY
+
+
+
+
+
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql', 
-        'NAME': getenv('SQL_NAME'),
-        'USER': getenv('SQL_USER_NAME'),
-        'PASSWORD': getenv('SQL_PASSWORD'),
-        'HOST': getenv('SQL_HOST'),
-        'PORT': getenv('SQL_PORT'),
+        'NAME': os.getenv('SQL_NAME'),
+        'USER': os.getenv('SQL_USER_NAME'),
+        'PASSWORD': os.getenv('SQL_PASSWORD'),
+        'HOST': os.getenv('SQL_HOST'),
+        'PORT': os.getenv('SQL_PORT'),
     },
 }
 
@@ -231,8 +236,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR/'staticfiles'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),  
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

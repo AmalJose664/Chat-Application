@@ -3,20 +3,33 @@ import './Friends.css'
 import { motion } from 'framer-motion'
 import { axiosApiInstance } from '../../lib/axios'
 import { userDataStore } from '../../store/userDataStore'
+import { lineWobble } from 'ldrs'
+lineWobble.register()
+
+
 
 
 function MyFriends() {
 
 	
-	const { setUserFriends, userFriends } = userDataStore()
+	const userFriends = userDataStore(state => state.userFriends)
+	const setUserFriends = userDataStore(state => state.setUserFriends)
+
 	const [loader, setLoader] = useState(false)
+	const [cursor,setCursor] = useState('')
 	
 	const fecthUsers = async()=>{
 		setLoader(true)
 		try {
-			const response = await axiosApiInstance.get('my-friends/0/g')
+			if(!cursor) setCursor('000000000')
+			const response = await axiosApiInstance.get('my-friends/0/g?cursor=' + cursor)
 			console.log(response.data);
+			if(cursor){
+				setCursor(response.data.next_cursor)
+				return setUserFriends([...userFriends, ...response.data.users])
+			}
 			setUserFriends(response.data.users)
+			setCursor(response.data.next_cursor)
 		}
 		catch(err){
 			console.log(err.message, err);
@@ -27,6 +40,8 @@ function MyFriends() {
 		
 	}
 
+
+		
 	useEffect(()=>{
 		if (userFriends.length == 0) {
 			fecthUsers()
@@ -53,17 +68,21 @@ function MyFriends() {
 			<div className="friends-space">
 				<motion.hr initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, }} />
 				<motion.div className="friends-added" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, delay: .3 }}>
-					<p style={{display:'inline'}}>My Friends</p> 
-					<span style={{float:'right', cursor:'pointer'}} onClick={fecthUsers}>  
+					<p style={{display:'inline'}}>My Friends
+						
+						</p> 
+					<span style={{float:'right', cursor:'pointer'}} onClick={()=>{setCursor('');fecthUsers()}}>  
 						Refresh Friends	
 					</span>
 					<div className="friends-list-inner-modified">
-						{loader && <motion.div className='friends-loader my-friends' initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2,  }}>
-							< l-newtons-cradle
-								size="78"
-								speed="1.2"
+						{loader && <motion.div className='friends-loader ' initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, }}>
+							< l-line-wobble
+								size="500"
+								stroke="2"
+								bg-opacity="0.1"
+								speed="1.75"
 								color="white"
-							></l-newtons-cradle >
+							></l-line-wobble >
 						</motion.div>}
 
 						{userFriends.length != 0 ? (
@@ -94,8 +113,12 @@ function MyFriends() {
 									</motion.div>
 								)
 							})
+							
 						) : !loader && <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, }}
 							className=''>No Friends Yet.</motion.p> }
+							{userFriends.length != 0 && 
+							<button className='friend-load-more' onClick={fecthUsers}>Load More</button>
+							}
 
 
 					</div>

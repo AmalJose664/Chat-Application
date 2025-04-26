@@ -97,52 +97,60 @@
 		</style>
 	</head>
   <body>
-	<input type="text" id="access" placeholder="Speical token" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ0NzQwNzY4LCJpYXQiOjE3NDQ2NTQzNjgsImp0aSI6ImYwNTQxMGQxMjIzODQ0YjhiZjVmM2E3ZGMxMGM1ZTY4IiwidXNlcl9pZCI6IjU3OWMwYmI0LWRlNjAtNDI5MS1iNzVjLWVlMjc0YmFiZDgyMiJ9.DaFJKUL38jObllv_VoLUZfjl5dmjJiSSwNea8B_WpXY"> 
-	guest ? <input type="checkbox" id="guest-or-not">
 	
-	<button id="type-data">Send status</button>
-	<input type="text" id="conv_id" placeholder="Conseration id">
-	<input type="text" id="room_change" placeholder="room change id" value="d35b5de3-083f-426e-982a-9b1de80c526a">
-    <center><h1>Hello , Welcome to my chat site ! {{request.user}}</h1>
-	<h6>My id = {{ request.user.id }}</h6>
-	</center>
-    <br>
-    {% if request.user.is_authenticated  %}
-    <center> Logout the chat Page <a href = "">Logout</a></center>
-    {% endif %}
-    <div class="container">
-		<div class="chat__item__container" id="id_chat_item_container" style="font-size: 20px">
-			<br />
-			<input type="text" id="id_message_send_input" onkeyup="sendViaEnter(this,event)"/>
-			<button type="submit" id="id_message_send_button">Send Message</button>
-			<br />
-			<br />
-		</div>
-
-		<div class="btns">
-			<button onclick="connect()">
-				connect to chat
-			</button>
-			<button onclick="disconnect()">
-				disconetc from chat
-			</button>
-		</div>
-		<div class="left-side-request-user ">
-			<button onclick="clearChats()">Clear chat</button>
-			{% for users in data %}
+	{% if request.user.is_staff %}
+		<input type="text" id="access" placeholder="Speical token"
+			value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ0NzQwNzY4LCJpYXQiOjE3NDQ2NTQzNjgsImp0aSI6ImYwNTQxMGQxMjIzODQ0YjhiZjVmM2E3ZGMxMGM1ZTY4IiwidXNlcl9pZCI6IjU3OWMwYmI0LWRlNjAtNDI5MS1iNzVjLWVlMjc0YmFiZDgyMiJ9.DaFJKUL38jObllv_VoLUZfjl5dmjJiSSwNea8B_WpXY">
+		guest ? <input type="checkbox" id="guest-or-not">
+		
+		<button id="type-data">Send status</button>
+		<input type="text" id="conv_id" placeholder="Conseration id">
+		<input type="text" id="room_change" placeholder="room change id" value="d35b5de3-083f-426e-982a-9b1de80c526a">
+		<center>
+			<h1>Hello , Welcome to my chat site ! {{request.user}}</h1>
+			<h6>My id = {{ request.user.id }}</h6>
+		</center>
+		<br>
+		{% if request.user.is_authenticated %}
+		<center> Logout the chat Page <a href="">Logout</a></center>
+		{% endif %}
+		<div class="container">
+			<div class="chat__item__container" id="id_chat_item_container" style="font-size: 20px">
+				<br />
+				<input type="text" id="id_message_send_input" onkeyup="sendViaEnter(this,event)" />
+				<button type="submit" id="id_message_send_button">Send Message</button>
+				<br />
+				<br />
+			</div>
+		
+			<div class="btns">
+				<button onclick="connect()">
+					connect to chat
+				</button>
+				<button onclick="disconnect()">
+					disconetc from chat
+				</button>
+			</div>
+			<div class="left-side-request-user ">
+				<button onclick="clearChats()">Clear chat</button>
+				{% for users in data %}
 				<div class="user" data-id="{{ users.id }}" onclick="select(this,'{{ users.id }}')">
 					<h4 style="margin: 0;padding: 0;"> {{ users.email }} </h4>
 					<h6 style="margin-top: 8px;"> {{ users.id }} </h6>
-					<h5> {% firstof users.name  'no name' %} </h5> 
-					<p  style="display: none;"> {{ users.id }}</p>
+					<h5> {% firstof users.name 'no name' %} </h5>
+					<p style="display: none;"> {{ users.id }}</p>
 					<span> O </span>
 				</div>
-			{% endfor %}
-				
-			
-		</div>
+				{% endfor %}
 		
-	</div>
+		
+			</div>
+		
+		</div>
+	{% else %}
+	<h1>Not staff member cant access the page</h1>
+	{% endif %}
+		
     <script>
 
 

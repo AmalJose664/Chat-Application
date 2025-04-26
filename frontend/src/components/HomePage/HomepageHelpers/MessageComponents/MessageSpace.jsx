@@ -107,10 +107,7 @@ function MessageSpaceMessages({ selectedUser }){
 		
 	}, [selectedUser]);
 
-	const getMessages = ()=>{
-		//load old messages
-		loadSelectedUserMessages()
-	}
+	
 	
 	const filteredMessages = filterMessageByDay(selectedUserMessages)
 	
@@ -130,7 +127,17 @@ function MessageSpaceMessages({ selectedUser }){
 							color="white"
 						></l-newtons-cradle >
 					</div>}
-
+					{selectedUserMessages?.length!=0 && 
+						<div className="message__h type-timedate" onClick={() => loadSelectedUserMessages()}
+							style={{ backgroundColor: '#6b9efc', marginTop: '25%', marginBottom: '10%', cursor: 'pointer', padding: '15px' }}
+						>
+							<div className="time__show">
+								<span className="time__">
+									Load More
+								</span>
+							</div>
+						</div>
+					}
 					{filteredMessages.length != 0 ? (
 					filteredMessages.map((dayMessages , mIndex) => ( 
 						<React.Fragment key={mIndex}>
@@ -152,7 +159,7 @@ function MessageSpaceMessages({ selectedUser }){
 					<SelectedUserLdr messageCrnr={customPrefrns.messageCrnr}/>
 
 					{selectedUserMessages.length == 0  && 
-						<div className="message__h type-timedate" onClick={() => getMessages()}
+						<div className="message__h type-timedate" onClick={() => loadSelectedUserMessages()}
 						style={{ backgroundColor: 'gray', marginTop: '25%', cursor: 'pointer', padding: '15px' }}
 						>
 						<div className="time__show">

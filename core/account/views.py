@@ -341,7 +341,7 @@ class Send_Response(APIView):
 class Get_My_Friends(APIView):
 
 	permission_classes = [IsAuthenticated]
-	def get(self,request, id, action):
+	def get(self,request, id, action, *args, **kwargs):
 		from mongoengine.errors import  ValidationError,DoesNotExist
 
 		try:
@@ -351,15 +351,26 @@ class Get_My_Friends(APIView):
 
 			if ObjectId.is_valid(id) and action == 'REMOVE':
 				return self.remove_friend(id, user_data_model, my_id=user_model.id)
-			
-			user_friends = User_mongo.objects(id__in=[u.id for u in user_data_model.friends]).only('id','sqlite_id', 'user_name', 'profile_picture').as_pymongo()
+			cursor = request.GET.get('cursor','')
+			limit=20
+			user_friends = User_mongo.objects(id__in=[u.id for u in user_data_model.friends]).only('id','sqlite_id', 'user_name', 'profile_picture').order_by('-id').limit(limit).as_pymongo()
 			#print(user_friends)
+			is_last = limit > len(user_friends)
+			if ObjectId.is_valid(cursor):
+					user_friends = user_friends.filter(id__lt=ObjectId(cursor))
+
+			
 			new_array =[]
+			next_cursor=""
+			
 			for f in user_friends:
 				
 				f['_id'] = str(f['_id'])
 				new_array.append(f)
-			return JsonResponse({"users": new_array}, status=status.HTTP_200_OK)
+				next_cursor = str(f['_id']) 
+
+			
+			return JsonResponse({"users": new_array,'next_cursor':next_cursor, 'is_last':is_last}, status=status.HTTP_200_OK)
 
 
 		except DoesNotExist as e:

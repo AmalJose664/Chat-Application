@@ -71,7 +71,17 @@
 		padding-right: 40px;
 	}
 }
-
+.friend-load-more{
+	padding: 10px;
+	border-radius: 9px;
+	transition: .2s ease;
+	border: 1px solid transparent;
+	&:hover{
+		background-color: royalblue;
+		color: black;
+		border-color: rgb(40, 64, 137);
+	}
+}
 .frineds-input input:active,
 input:focus + svg {
 	transform: translateX(-40px);
@@ -90,11 +100,12 @@ input:focus {
 	padding: 10px;
 }
 .friends-loader{
-	margin-left: 500px;
-	margin-top: 200px;
+	
 }
 
 .friends-loader.my-friends{
+	margin-left: 500px;
+	margin-top: 200px;
 	margin-left: 10px;
 }
 .friends-list-inner{

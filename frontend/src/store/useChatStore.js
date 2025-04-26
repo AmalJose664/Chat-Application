@@ -156,15 +156,26 @@ export const useChatStore = create((set, get) => ({
 	messageLoading:false,
 	selectedUserMessages:[],
 	selectedUserNewMessages:[],
+	lastMessageCursor:'',
 
 	loadSelectedUserMessages: async()=>{
 		try {
+			let cursor = get().lastMessageCursor
+			if(!cursor) cursor='0000000'
 			set({messageLoading:true})
-			const response = await axiosMessageInstance.get(`chat/${get().selectedChatUser.sqlId}/?limit=90&cursor=0000000`)
-			set({ selectedUserMessages: response.data.messages, selectedUserNewMessages :[]})
+			const response = await axiosMessageInstance.get(`chat/${get().selectedChatUser.sqlId}/?limit=60&cursor=${cursor}`)
+			if(cursor){
+				return set(state => ({ 
+					selectedUserMessages: [...response.data.messages, ...state.selectedUserMessages], 
+					selectedUserNewMessages: [], 
+					lastMessageCursor: response.data.next_cursor 
+				}))
+			}
+			set({ selectedUserMessages: response.data.messages, selectedUserNewMessages: [], lastMessageCursor: response.data.next_cursor })
 			
 		} catch (err) {
 			console.log(err, err.message);
+			toast.error("Error Loading Messages")
 		} finally {
 			set({ messageLoading: false })
 			

@@ -36,12 +36,21 @@ function ShowFriends({ setTab, showFriends } ) {
 	const setSelectUser = userDataStore(state => state.setSelectUser)
 	const deleteSocket = useChatStore((state) => state.deleteSocket);
 	const [loader, setLoader] = useState(false)
+	const [cursor, setCursor] = useState('')
+	const [showLoadMore, setLoadMore] = useState(false)
 
 	const fetchFriends = async (signal)=>{
+		const config = signal ? { signal } : {}; 
 		try{
 			setLoader(true)
-			const response = await axiosApiInstance.get('my-friends/0/g', { signal })
-			console.log(response.data);
+			if (!cursor) setCursor('000000000')
+			const response = await axiosApiInstance.get('my-friends/0/g?cursor=' + cursor, { config })
+
+			if (cursor) {
+				setCursor(response.data.next_cursor)
+				setLoadMore(response.data.is_last)
+				return setUserFriends([...userFriends, ...response.data.users])
+			}
 			setUserFriends(response.data.users)
 		}catch(err){
 			console.log(err,err.message);
@@ -105,6 +114,11 @@ function ShowFriends({ setTab, showFriends } ) {
 						)
 					})) : !loader && <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, }}
 						className=''>No Friends To Chat..... Try adding New Friends</motion.p>}
+					{(userFriends.length != 0 && !showLoadMore) && 
+						<button className='friend-load-more' onClick={fetchFriends}>
+						Load More
+					</button>
+					}
 				</div>
 			</div>
 		</motion.div>

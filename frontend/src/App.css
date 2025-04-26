@@ -38,7 +38,11 @@ body {
 	width: 6px;
 	background: transparent
 }
-
+button{
+	&:hover{
+		cursor: pointer;
+	}
+}
 
 .loader-center{
 	display: flex;
