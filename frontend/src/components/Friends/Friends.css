@@ -8,7 +8,9 @@
 .friends-select{
 	width: 100%;
 }
-
+.go-back-btn-arraow{
+	cursor: pointer;
+}
 .friends-select-inner{
 	padding-top: 10px;
 	padding-top: 10px;
