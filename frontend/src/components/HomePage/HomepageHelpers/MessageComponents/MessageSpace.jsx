@@ -18,7 +18,7 @@ function MessageSpace() {
 	const setMakeConnection = useChatStore((state) => state.setMakeConnection);
 	const getSocketDetails = useChatStore(state => state.getSocketDetails)
 	const deleteSocket = useChatStore((state) => state.deleteSocket);
-	const socketType = useChatStore((state) => state.socketType);
+
 
 
 	useEffect(()=>{

@@ -72,6 +72,7 @@ function chatRoomChange(set,get,data){
 	const checkSelectecUserOnline = useSpecialStore.getState().checkSelectecUserOnline
 	
 	if(data.code == 200){
+		set({ changingRoom: false })
 		setSelectUser(tempSelectedUser)
 		checkSelectecUserOnline(tempSelectedUser.sqlId)
 		setTempSelectedUser(null)
@@ -212,7 +213,7 @@ export const useChatStore = create((set, get) => ({
 		}
 		
 	},
-	socketType : null,
+	changingRoom : false,
 	setMakeConnection: (roomForUser)=>{
 		const existingSocket = get().chatSocket
 		if (existingSocket){
@@ -246,7 +247,7 @@ export const useChatStore = create((set, get) => ({
 		}
 		newSocket.onopen = (event) => {
 			console.log("Sockect opened and connected");
-			set(state => roomForUser ? ({ socketType: 'CHAT_USER', }) : ({ socketType: 'ONLINE_USER', }))
+			
 			const checkSelectecUserOnline = useSpecialStore.getState().checkSelectecUserOnline
 			if(roomForUser){
 				checkSelectecUserOnline(roomForUser)
@@ -261,7 +262,7 @@ export const useChatStore = create((set, get) => ({
 			const socketExit = useSpecialStore.getState().socketExit
 			socketExit()
 			if (existingSocket) {
-				set({ chatSocket: null, socketType: null })
+				set({ chatSocket: null})
 			}
 
 		}
@@ -272,7 +273,7 @@ export const useChatStore = create((set, get) => ({
 			const socketExit = useSpecialStore.getState().socketExit
 			socketExit()
 			if (existingSocket) {
-				set({ chatSocket: null, socketType: null })
+				set({ chatSocket: null})
 			}
 
 		}
@@ -325,6 +326,7 @@ export const useChatStore = create((set, get) => ({
 		}
 
 		try {
+			set({ changingRoom:true })
 			socket.send(JSON.stringify({
 				'type': 'CHAT_ROOM_CHANGE',
 				'name': user,
@@ -333,6 +335,7 @@ export const useChatStore = create((set, get) => ({
 		} catch (err) {
 			console.log(err, err.message);
 			toast.error("Error on user change !! "+err.message)
+			set({ changingRoom: false })
 		}
 	},
 

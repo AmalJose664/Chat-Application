@@ -8,7 +8,7 @@ import { motion,AnimatePresence } from 'framer-motion'
 import {axiosApiInstance,ip,proto} from '../../lib/axios'
 import { useAuthStore } from '../../store/useAuthStore';
 
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function SettingComp() {
 	
@@ -24,8 +24,8 @@ function SettingComp() {
 	const [colSelectChat, setColSelectChat] = useState(false)
 	const [colSelectTick, setColSelectTick] = useState(false)
 
-	const { tab } = useParams()
 	const authUser = useAuthStore(state => state.authUser)
+	const navigate = useNavigate()
 	
 	const saveData = ()=>{
 		const preference = {
@@ -330,11 +330,11 @@ function SettingComp() {
 					</motion.div>
 				</div>
 			</div>
-			<Link to={`/home/${tab == 'Chats' ? 'chats' : 'groups'}`} className="profile-page-go-back-btn">
+			<div onClick={() => navigate(-1)} className="profile-page-go-back-btn">
 				<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white" viewBox="0 0 16 16">
 					<path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
 				</svg>
-			</Link>
+			</div>
 			
 		</div>
 	)

@@ -56,7 +56,7 @@ function SideBar({ setTab, tab }) {
 				  </Link>
 			  </div>
 			  <div className="side-option">
-				  <Link  to={`/friends?back=${tab}`} className="home-side-option-cont">
+				  <Link  to={`/friends`} className="home-side-option-cont">
 					  <div className="home-side-svg">
 						  <FriendSvg />
 						  <DashBoardICon type='add' />

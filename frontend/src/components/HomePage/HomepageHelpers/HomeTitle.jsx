@@ -36,7 +36,7 @@ const HomeTitle = ({ showInterface, back }) => {
 		</div>
 		{userData && <ShowProfile/>}
 		{showNotifctns && <NotificationBox outRef={outSideRef} onClose={() => setShowNotifctns(false)} />}
-		<Link to={`/friends/add?back=${back}`}>
+		<Link to={`/friends/add`}>
 			<div className="home-add-new">
 				<DashBoardICon size={30} type='add' />
 			</div>

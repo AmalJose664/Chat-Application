@@ -103,6 +103,7 @@ const EachConversations = React.memo(({ value, i: index, type, isOnline,  })=>{
 	const getSocketDetails = useChatStore(state => state.getSocketDetails)
 	const changeRoomOrUser = useChatStore(state => state.changeRoomOrUser)
 	const setTempSelectedUser = userDataStore(state => state.setTempSelectedUser)
+	const changingRoom = useChatStore((state) => state.changingRoom);
 	
 
 	const setUserPictData = useSpecialStore(state => state.setUserPictData)
@@ -110,7 +111,7 @@ const EachConversations = React.memo(({ value, i: index, type, isOnline,  })=>{
 	
 	const changeUser = (value, i, unread) => {
 		const readyState = getSocketDetails()
-		if (readyState == 0){
+		if (readyState == 0 || changingRoom){
 			return
 		}
 		else if (readyState != 1) {
