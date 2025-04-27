@@ -127,7 +127,7 @@ function MessageSpaceMessages({ selectedUser }){
 						></l-newtons-cradle >
 					</div>}
 					{selectedUserMessages?.length!=0 && 
-						<div className="message__h type-timedate" onClick={() => loadSelectedUserMessages()}
+						<div className="message__h type-timedate" onClick={() => loadSelectedUserMessages(true)}
 							style={{ backgroundColor: '#6b9efc', marginTop: '25%', marginBottom: '10%', cursor: 'pointer', padding: '15px' }}
 						>
 							<div className="time__show">

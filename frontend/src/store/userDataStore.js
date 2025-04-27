@@ -87,7 +87,8 @@ export const userDataStore = create( (set,get) => ({
 				convs._id === convId ? {
 					...convs,
 					lst_m: message,
-					l_s:status
+					l_s:status,
+					t: new Date().toISOString()
 				}
 				:
 				convs

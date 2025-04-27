@@ -21,6 +21,14 @@
 				border-color: rgb(84, 255, 84);
 			}.container.group{
 				border-color: rgb(34, 107, 253);
+			}@media (max-width: 600px) {
+				.container {
+					/* Your styles here */
+					display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-direction: column-reverse;
+				}
 			}
 			.container.err{
 				border-color: red;
@@ -55,7 +63,14 @@
 					color: transparent;
 					transition: all .2s ease;
 				}
+			}.chat__item__container{
+				max-width: 600px;
 			}
+			.messages_got{
+				max-width: 400px;
+				word-wrap: break-word;
+				overflow-wrap: break-word;
+				white-space: normal; }
 			.user.notify{
 				h4,h5,h6,p{
 					animation-name: notify;
@@ -110,6 +125,16 @@
 		<input type="text" id="conv_id" placeholder="Conseration id">
 		<input type="text" id="room_change" placeholder="room change id" value="d35b5de3-083f-426e-982a-9b1de80c526a">
 		Is Group Chat<input type="checkbox" id="group_or_user">
+		<br><br>
+		<div class="btns">
+			<button onclick="connect()">
+				connect to chat
+			</button>
+			<button onclick="disconnect()">
+				disconetc from chat
+			</button><button onclick="clearChats()">Clear chat</button>
+		</div>
+		
 		<center>
 			<h1>Hello , Welcome to my chat site ! {{request.user}}</h1>
 			<h6>My id = {{ request.user.id }}</h6>
@@ -127,16 +152,9 @@
 				<br />
 			</div>
 		
-			<div class="btns">
-				<button onclick="connect()">
-					connect to chat
-				</button>
-				<button onclick="disconnect()">
-					disconetc from chat
-				</button>
-			</div>
+			
 			<div class="left-side-request-user ">
-				<button onclick="clearChats()">Clear chat</button>
+				
 				{% for users in data %}
 				<div class="user" data-id="{{ users.id }}" onclick="select(this,'{{ users.id }}')">
 					<h4 style="margin: 0;padding: 0;"> {{ users.email }} </h4>

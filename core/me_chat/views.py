@@ -34,7 +34,7 @@ class Get_Messages(APIView):
 		cursor = request.GET.get('cursor',"")
 
 		try:
-			limit = request.GET.get('limit',80) if int(request.GET.get('limit',80))<=120 else 90
+			limit = request.GET.get('limit',40) if int(request.GET.get('limit',40))<=65 else 45
 			limit = int(limit)
 		except Exception as e:
 			print("Error in parameters",str(e))
@@ -73,7 +73,7 @@ class Get_Messages(APIView):
 						m['s'] = str(m['s'])
 						m['r'] = str(m['r'])
 					except Exception as e:
-						print("Key error ",str(e),e)
+						pass
 					next_cursor = str(m['_id']) 
 					new_messages.append(m)
 

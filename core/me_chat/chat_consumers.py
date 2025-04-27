@@ -107,6 +107,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 		print(f"\n====================================================================================conect >>>>last<<<< ============================================================================================\n")
 		self.str_db_user = str(self.db_user)
 		self.str_db_receiver = str(self.db_receiver)
+		await self.make_messages_read()
 
 #----------------------------------------------connect close ----------------------------------------------------------------
 
@@ -385,6 +386,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 							'new_user':new_user,
 						}
 				)
+		await self.make_messages_read()
 		print("Room Change Success !!")
 		
 
@@ -694,6 +696,15 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 		self.db_conv.t = message[3]
 		self.db_conv.save()
 		print('Conv Updated')
+
+	@sync_to_async(thread_sensitive=False)
+	def make_messages_read(self):
+		global message_collection
+		result = message_collection.update_many({
+			'$and':[  {'r':self.db_user, 's':self.db_receiver}, {"sa": {"$in": [1, 0]}} ]}, { '$set': { "sa" : 2 }} 
+			)
+		print('modifyied=',result.modified_count,',matched=',result.matched_count)
+		
 
 	@sync_to_async(thread_sensitive=False)
 	def get_user_friends(self):

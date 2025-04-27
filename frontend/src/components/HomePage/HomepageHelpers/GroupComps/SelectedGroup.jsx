@@ -24,7 +24,13 @@ const SelectedGroup = React.memo(() => {
 		deleteSocket(); 
 		clearGroupMessages(); 
 	}
-	
+	const creator = selectedGroup?.created_by.split("__")[1]
+	const showGroupData = ()=>{
+		toast.info(`Group Creator: ${selectedGroup?.created_by}, ${creator} `,{duration:800})
+		toast.info(`Join_key: ${selectedGroup?.join_key|| "Join to know Details ..!"} `,{duration:800})
+		toast.info(`Group_key: ${selectedGroup?.group_key|| "Join to know Details ..!"} `,{duration:800})
+		toast.info(`Group Name: ${selectedGroup?.name}`,{duration:800})
+	}
   return (
 
 	  <AnimatePresence>
@@ -33,12 +39,12 @@ const SelectedGroup = React.memo(() => {
 			  <div className="home-select-user-image">
 				  <div className='home-group-avatar' style={{ backgroundColor: selectedGroup.color || getRandomColorInRange(100,200) }}>{selectedGroup.initial}</div>
 			  </div>
-			  <div className="h-s-u-title for-groups">
+			  <div className="h-s-u-title for-groups" onClick={showGroupData}>
 				  {selectedGroup.name} <Lock type={selectedGroup.is_private} size={20} color={selectedGroup.is_private ? "white" : "royalblue"} /> <br />
 				  <ConnectedUsers seTab={() => setOnlineShow(!onlineShow)}/>
 			  </div>
 			  <div style={{fontSize:'13px',position:'absolute',top:0, left:'50%'}}>
-				Group Creator : {selectedGroup.created_by.split("__")[1]}
+				Group Creator : {creator}
 			  </div>
 			  <div className="home-online-users-wrapper">
 				  <AnimatePresence>

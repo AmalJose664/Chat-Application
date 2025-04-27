@@ -140,8 +140,7 @@ export const useChatStore = create((set, get) => ({
 			
 			set({ selectedChatUser: selectedUser, selectedUserNewMessages: [] });
 			const typingChangeConv = useSpecialStore.getState().typingChangeConv
-			const selectedChatTyping = useSpecialStore.getState().typingChangeSelectedUser
-			selectedChatTyping(false)
+
 			typingChangeConv(false, selectedUser.id)
 		
 		} 		
@@ -158,13 +157,13 @@ export const useChatStore = create((set, get) => ({
 	selectedUserNewMessages:[],
 	lastMessageCursor:'',
 
-	loadSelectedUserMessages: async()=>{
+	loadSelectedUserMessages: async(prev=false)=>{
 		try {
 			let cursor = get().lastMessageCursor
 			if(!cursor) cursor='0000000'
 			set({messageLoading:true})
-			const response = await axiosMessageInstance.get(`chat/${get().selectedChatUser.sqlId}/?limit=60&cursor=${cursor}`)
-			if(cursor){
+			const response = await axiosMessageInstance.get(`chat/${get().selectedChatUser.sqlId}/?limit=42&cursor=${cursor}`)
+			if(cursor && prev){
 				return set(state => ({ 
 					selectedUserMessages: [...response.data.messages, ...state.selectedUserMessages], 
 					selectedUserNewMessages: [], 
@@ -182,7 +181,7 @@ export const useChatStore = create((set, get) => ({
 		}
 	},
 	clearSelectedUserMessages:()=>{
-		set({ selectedUserMessages: [], selectedUserNewMessages: [] })
+		set({ selectedUserMessages: [], selectedUserNewMessages: [], lastMessageCursor :''})
 	},
 	updateSelectedUserMessages: (newMessage) => {
 		if(!newMessage){return}
@@ -259,6 +258,8 @@ export const useChatStore = create((set, get) => ({
 			console.log("Sockect closed and disconnected.=> Manual close");
 			
 			const existingSocket = get().chatSocket
+			const socketExit = useSpecialStore.getState().socketExit
+			socketExit()
 			if (existingSocket) {
 				set({ chatSocket: null, socketType: null })
 			}
@@ -268,6 +269,8 @@ export const useChatStore = create((set, get) => ({
 			console.log("Sockect error and disconnected.=> Error close");
 			toast.error("Connection error, closed Automatically")
 			const existingSocket = get().chatSocket
+			const socketExit = useSpecialStore.getState().socketExit
+			socketExit()
 			if (existingSocket) {
 				set({ chatSocket: null, socketType: null })
 			}
@@ -281,7 +284,7 @@ export const useChatStore = create((set, get) => ({
 	deleteSocket:()=>{
 		const socket = get().chatSocket
 		if(socket){
-			console.log("Socket deleted", socket);
+			console.log("Socket deleted");
 			
 			socket.close()
 		}

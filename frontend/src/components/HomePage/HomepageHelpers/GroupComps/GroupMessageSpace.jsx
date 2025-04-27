@@ -41,7 +41,7 @@ const GroupMessageSpace = () => {
 		let timer
 		if(connected){
 			borderRef.current.classList.toggle('green')
-			timer = setTimeout(() => borderRef.current.classList.toggle('green'),10000)
+			timer = setTimeout(() => borderRef.current.classList.toggle('green'),9990)
 		}
 		return () => {
 			if(borderRef && borderRef.current) borderRef.current.classList.remove('green')

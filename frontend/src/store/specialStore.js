@@ -13,11 +13,23 @@ export const useSpecialStore = create( (set,get)=>({
 
 	checkSelectecUserOnline:(id)=> set(state => {
 		
-		const usersOnline = state.usersOnline
-		if(!!usersOnline[id] && !state.selectedChatOnline){
-			return {selectedChatOnline:true}
+		//check selected user is online or typing , only for selected user title 
+		const usersOnline = state.usersOnline;
+		const convListTyping = state.convListTyping;
+		
+		
+		const isOnline = !!usersOnline[id];
+		const isTyping = !!convListTyping[id];
+		if (isOnline === state.selectedChatOnline &&
+			isTyping === state.selectedChatTyping) {
+			return state;
 		}
-		return state.selectedChatOnline ? { selectedChatOnline: false } : state
+		return { selectedChatOnline: isOnline,selectedChatTyping: isTyping }
+		
+	}),
+
+	socketExit:()=>set(state=>{
+		return { selectedChatOnline: false, selectedChatTyping: false, convListTyping: {}, usersOnline:{}}
 	}),
 
 	convListTyping:{},
