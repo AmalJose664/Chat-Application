@@ -1,6 +1,6 @@
 
 export const filterNotifications = (value)=>{
-	console.log(value);
+
 	
 	const filtered = value.split("__")
 	if (filtered[0] =="FRIEND_REQUEST"){
@@ -134,7 +134,7 @@ export let colors = [
 ];
 
 export const convertStringToCss = (data)=>{
-	if(!data) return console.log("no image data");
+	if(!data) return 
 	
 	
 	const styles = {} 

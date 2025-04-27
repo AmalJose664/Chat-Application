@@ -21,7 +21,7 @@ function ProfileComp() {
 	const [getingData,setGetingData] = useState(false)
 	const  [userData, setUserData] = useState(null)
 	const [edit,editMode] = useState(false)
-	const { authUser } = useAuthStore()
+	const authUser = useAuthStore(state => state.authUser)
 	
 	const fetchData = async()=>{
 		try{

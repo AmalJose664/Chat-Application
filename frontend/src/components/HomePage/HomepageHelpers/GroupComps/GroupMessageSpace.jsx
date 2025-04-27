@@ -37,19 +37,18 @@ const GroupMessageSpace = () => {
 		
 	}, [selectedGroup])
 	const borderRef = useSpecialStore(state => state.borderRef)
-	// useEffect(()=>{
-	// 	let timer
-	// 	if(connected){
-	// 		borderRef.current.classList.toggle('green')
-	// 		timer = setTimeout(() => borderRef.current.classList.toggle('green'),10000)
-	// 	}
-	// 	return () => {
-	// 		if(borderRef) borderRef.current.classList.remove('green')
-	// 		clearTimeout(timer)
-	// 	}
-	// },[connected])
+	useEffect(()=>{
+		let timer
+		if(connected){
+			borderRef.current.classList.toggle('green')
+			timer = setTimeout(() => borderRef.current.classList.toggle('green'),10000)
+		}
+		return () => {
+			if(borderRef && borderRef.current) borderRef.current.classList.remove('green')
+			clearTimeout(timer)
+		}
+	},[connected])
 
-	
 	return (
 
 		<div className="home-message-component">
@@ -89,7 +88,7 @@ function JoinToGroup({ selectedGroup }){
 			if(!joinKey) return
 			
 			const response = await axiosGroupsInstance.get(`/join/${selectedGroup._id}/${joinKey}`)
-			console.log(response.data)
+
 			setSelectedGroup(response.data.group_data, true)
 			setGroupSocket(response.data.group_data.group_key, response.data.group_data.join_key)
 			setJoinKey("")
@@ -102,6 +101,7 @@ function JoinToGroup({ selectedGroup }){
 			}
 			else{
 				console.log(err);
+				toast.error("Error joining group !! "+err.message, { duration: 2000 })
 			}
 			
 		}finally{
@@ -170,7 +170,7 @@ function CreateGroup(){
 		try{
 			setLoader(true)
 			const response = await axiosGroupsInstance.get(`/create/${formData.groupName}/${!formData.isLocked ? 1 : 0}/`)
-			console.log(response.data);
+
 			formRef.current.reset()
 			setAddToAvailableGrps(response.data.group_data)
 			setSelectedGroup(response.data.group_data, true)
@@ -182,6 +182,7 @@ function CreateGroup(){
 				toast.error("Group Name not Available", { autoClose: 3000, })
 			}
 			console.log(err);
+			toast.error("Error creating group !! " + err.message, { duration: 2000 })
 			
 		}finally{
 			setLoader(false)

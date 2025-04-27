@@ -20,7 +20,6 @@ export const lastMessage = (message)=>{
 
 export const senderFind = (id, myid)=>{
 	const sender = id.split("__")[0]
-	console.log(sender, '<<<<<sneder')
 	
 	return sender == myid
 }

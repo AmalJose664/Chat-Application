@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 
-export let ip = location.hostname || 'localhost'	
+export let ip = import.meta.env.VITE_API_BASE_URL
 
 export let proto = location.protocol != 'http:' ? "https" : "http"
 export let wsProto = location.protocol != 'http:' ? "wss" : "ws"

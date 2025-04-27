@@ -118,7 +118,7 @@ function MessageOptions({ sendMessage, chatTextArea }) {
 	const handleFileInput = (e)=>{
 		
 		let file = e.target.files[0]
-		console.log(file.type)
+		console.log("Selected file type=>",file.type)
 		
 		if (file.size > 80 * 1024 * 1024) {
 			return toast.error("File size must be less than 80 MB.");

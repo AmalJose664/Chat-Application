@@ -2,6 +2,7 @@ import React from 'react'
 import DashBoardICon from '../../../assets/DashBoardICon'
 import './SideBar.css'
 import { Link, useNavigate } from 'react-router-dom'
+import FriendSvg from '../../../assets/FriendSvg'
 
 function SideBar({ setTab, tab }) {
 	const navigate = useNavigate()
@@ -57,8 +58,8 @@ function SideBar({ setTab, tab }) {
 			  <div className="side-option">
 				  <Link  to={`/friends?back=${tab}`} className="home-side-option-cont">
 					  <div className="home-side-svg">
+						  <FriendSvg />
 						  <DashBoardICon type='add' />
-						  <DashBoardICon type='profile2' />
 					  </div>
 					  <div className="home-side-text">
 						  Friends

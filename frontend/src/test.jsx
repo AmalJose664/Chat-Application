@@ -1,10 +1,24 @@
 
 import {axiosGroupsInstance, ip} from './lib/axios'
-import { toast, Toaster } from 'sonner';
+import { toast } from 'sonner';
 import SonnerIcons from './assets/SonnerIcons';
+import { useAuthStore } from './store/useAuthStore';
+import {  useNavigate } from 'react-router-dom'
 
 export function Component({ isVisible }) {
 
+	const authUser  = useAuthStore(state=>state.authUser)
+	if(!authUser.user.is_staff){
+		const navigate = useNavigate()
+		return (
+			<div className="" style={{display:'flex',alignItems:'center',marginTop:'25%',flexDirection:'column'}}>
+				Not a staff ? , cant visite the page {':('}  <br /> 
+				<span style={{textDecoration:'underline'}} onClick={() => navigate(-1)}>
+					Go back
+				</span> 
+			</div>
+		)
+	}
 	const getData = async()=>{
 		console.log('connecting to ',ip, axiosGroupsInstance.getUri());
 		
@@ -29,6 +43,7 @@ export function Component({ isVisible }) {
 		console.log(response.data)
 	}
 
+	
 
 
 	const soner =()=>{
@@ -60,6 +75,7 @@ export function Component({ isVisible }) {
 			duration: 5000,
 		});
 	}
+	
 	return (
 		<div>
 			<h2>Helo</h2>

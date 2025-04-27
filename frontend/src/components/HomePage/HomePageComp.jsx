@@ -49,9 +49,11 @@ function HomePageComp() {
 				<div className="home-content home-title">
 					<div className="home-logo">
 						<div className="in-content">
+							
 							<h3>
 								{APP_Name} <Logo color='white' size={35}/>
 							</h3>
+							{authUser.user.is_superuser && 'admin user'}
 						</div>
 					</div>
 				</div>

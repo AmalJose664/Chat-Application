@@ -17,9 +17,12 @@
 				div{
 					margin: 0 40px;
 				}
-			}.container.active{
+			}.container.chat{
 				border-color: rgb(84, 255, 84);
-			}.container.err{
+			}.container.group{
+				border-color: rgb(34, 107, 253);
+			}
+			.container.err{
 				border-color: red;
 			}
 
@@ -100,12 +103,13 @@
 	
 	{% if request.user.is_staff %}
 		<input type="text" id="access" placeholder="Speical token"
-			value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ0NzQwNzY4LCJpYXQiOjE3NDQ2NTQzNjgsImp0aSI6ImYwNTQxMGQxMjIzODQ0YjhiZjVmM2E3ZGMxMGM1ZTY4IiwidXNlcl9pZCI6IjU3OWMwYmI0LWRlNjAtNDI5MS1iNzVjLWVlMjc0YmFiZDgyMiJ9.DaFJKUL38jObllv_VoLUZfjl5dmjJiSSwNea8B_WpXY">
+			value="">
 		guest ? <input type="checkbox" id="guest-or-not">
 		
 		<button id="type-data">Send status</button>
 		<input type="text" id="conv_id" placeholder="Conseration id">
 		<input type="text" id="room_change" placeholder="room change id" value="d35b5de3-083f-426e-982a-9b1de80c526a">
+		Is Group Chat<input type="checkbox" id="group_or_user">
 		<center>
 			<h1>Hello , Welcome to my chat site ! {{request.user}}</h1>
 			<h6>My id = {{ request.user.id }}</h6>
@@ -171,6 +175,7 @@
 		const typeBtn = document.getElementById('type-data')
 		const convId = document.getElementById('conv_id')
 		const newRoom = document.getElementById('room_change')
+		const groupOrUser = document.getElementById('group_or_user')
 
 		
 		async function select(object,data){
@@ -262,13 +267,14 @@
 			if (chatSocket) {
 				chatSocket.close()
 			}
-			if(!room){
+			if(!room && !groupOrUser.checked){
 				alert("please select a chat to continue")
 				return
 			}
 			if(!accessToken){
-				alert("no token");
-				return
+				if(!confirm("no token, still continue?")){
+					return
+				}
 				
 			}
 			let time = performance.now()
@@ -276,21 +282,27 @@
 			if (guest.checked){
 				room = 'CONNECTION_FOR_ONLINE_STATUS'
 			}
-			// group_key: 'thelegendary__Zz6I9ESz',
-    		//join_key: 'd9f902bb'
-			room = "newfriends__q6bw0J5p"
-
-			chatSocket = new WebSocket(`${proto}://${window.location.host}/group-chat/${room}/14a6b11a/?token=${accessToken}`);
+			let group_key = ''
+			let join_key = ''
+			if(groupOrUser.checked){
+				group_key = prompt("Enter group key")
+				join_key = prompt("Enter group join key") // newlasttest__y3hw9wMx
+			}
+			if (groupOrUser.checked && (!group_key || !join_key)) return alert("Enter the 2 fields")
+			let link = groupOrUser.checked ? `${proto}://${window.location.host}/group-chat/${group_key}/${join_key}/?token=${accessToken}`
+											: `${proto}://${window.location.host}/ts/${room}/?token=${accessToken}`
+			
+			chatSocket = new WebSocket(link);
 
 			chatSocket.onopen = function (e) {
 				console.log("Time took to connect:", (performance.now() - time).toFixed(2), " ms <> The connection was setup successfully !");
 
-				container.classList.add('active')
+				container.classList.add(groupOrUser.checked ? 'group' : 'chat')
 				
 
 			};
 			chatSocket.onclose = function (e) {
-				container.classList.remove('active')
+				container.classList.remove('group','chat')
 				console.log("Room was Closed!! || or || Something unexpected happened !");
 			};
 

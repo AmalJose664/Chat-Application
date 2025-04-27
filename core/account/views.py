@@ -70,6 +70,7 @@ class Signinview(APIView):
 				return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED, )
 			
 			user_data = get_auth_for_user(user)
+			print(user_data)
 			res = Response(user_data, status=status.HTTP_200_OK)
 			res.set_cookie(
 				key="refresh_token",
@@ -144,12 +145,9 @@ class Check_Auth(APIView):
 		db_user=User_mongo.objects.exclude('password').get(sqlite_id=str(user.id))
 		db_user = db_user.to_mongo().to_dict()
 		db_user['_id'] = str(db_user['_id'])
-		 
-		user = {
-			'name':user.name,
-			'email':user.email,
-			'id':user.id
-		}
+
+		user = UserSerializer(user).data
+		
 		return  {
 		'user':user,
 		'db_user':db_user,

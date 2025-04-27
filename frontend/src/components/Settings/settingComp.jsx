@@ -6,6 +6,7 @@ import { APP_Name, bgImages, colors, convertStringToCss, getContrastColor, loadP
 import { toast } from 'sonner';
 import { motion,AnimatePresence } from 'framer-motion'
 import {axiosApiInstance,ip,proto} from '../../lib/axios'
+import { useAuthStore } from '../../store/useAuthStore';
 
 import { Link, useParams } from 'react-router-dom'
 
@@ -24,6 +25,7 @@ function SettingComp() {
 	const [colSelectTick, setColSelectTick] = useState(false)
 
 	const { tab } = useParams()
+	const authUser = useAuthStore(state => state.authUser)
 	
 	const saveData = ()=>{
 		const preference = {
@@ -97,13 +99,14 @@ function SettingComp() {
 	
 	return (
 		<div className="setting-component" >
+			
 			<div className="setting-inner">
 				<h1>Settings</h1>
 				<div className="s-flex-container">
 					<motion.div className="s-options" 
 						initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.4 }}
 						>
-						<div className="s-options-inner">
+						<div className="s-options-inner"><p>{authUser && authUser.user.name}'s settings</p>
 
 							<div className="s-each-options">
 								<motion.div className="s-opton-each-content"
@@ -223,6 +226,18 @@ function SettingComp() {
 									</div>
 								</motion.div>
 							</div>
+							{(authUser && authUser.user.is_superuser) &&
+								<div className="s-each-options">
+									<motion.div className="s-opton-each-content"
+										initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 1.7 }}
+									>
+										<Link to={import.meta.env.VITE_API_ADMIN_URL} target="_blank" className="s-option-title admin" >
+											Manage app users (admin only)
+										</Link>
+
+									</motion.div>
+								</div>
+							}
 
 						</div>
 						<div className="s-save-settings">

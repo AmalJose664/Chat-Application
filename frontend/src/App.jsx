@@ -60,7 +60,7 @@ function App() {
 		<Route path='/profile/'  element={authUser ?< Profile /> : <Navigate to="/login" />}/>
 		<Route path='/friends/'  element={authUser ?< Friends /> : <Navigate to="/login" />}/>
 	
-		<Route path='/test' element={< Component/>}/>
+		<Route path='/analyse' element={authUser ? < Component /> : <Navigate to="/login" />} /> 
 		<Route path="*" element={<NotFound />} />
 	  </Routes>
 		  <Toaster theme='dark' visibleToasts={11}

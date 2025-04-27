@@ -5,10 +5,15 @@
 .setting-inner{
 	padding: 10px;
 	h1 {
-			margin: 40px 40px 0 90px;
+			margin: 20px 40px 0 90px;
 		}
 }
-
+.s-option-title.admin{
+	color: rgb(73, 118, 255);
+	&:hover{
+		text-decoration: underline;
+	}
+}
 .s-flex-container{
 	display: flex;
 	flex-direction: row;

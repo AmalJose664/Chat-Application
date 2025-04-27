@@ -58,4 +58,4 @@ const NewMessages = React.memo(({ customPrefrns }) => {
 	)
 })
 
-export default GroupMessageComp
+export default React.memo(GroupMessageComp)
