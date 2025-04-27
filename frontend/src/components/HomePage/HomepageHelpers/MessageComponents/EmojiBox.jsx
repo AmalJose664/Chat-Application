@@ -6,7 +6,6 @@ const EmojiPicker = lazy(() => import('emoji-picker-react'));
 const EmojiBox = React.memo(({ handleEmojiClick, isOn }) => {
 
 
-	console.log("re rednderring");
 
 	return (
 		<motion.div initial={{ opacity: 0, scale: .1 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.1 }}>

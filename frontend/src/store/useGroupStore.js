@@ -11,7 +11,6 @@ export const useGroupStore = create((set,get)=> ({
 	setOnlineUsers:(array,len)=>{
 		set({onlineUsers:array})
 		set(state => {
-			console.log("Updating list")
 			
 			const selectedGroup = state.selectedGroup
 			return { availableGroups: state.availableGroups.map((group) => group._id == selectedGroup._id ? { ...group, count: len } : group) }
@@ -71,7 +70,6 @@ export const useGroupStore = create((set,get)=> ({
 		try {
 			set({ groupLoader: true })
 			const response = await axiosGroupsInstance.get(`/${name}`)
-			console.log(response.data)
 			if(response.data.groups.length >0){
 				set({ availableGroups: response.data.groups })
 			}else{
@@ -80,6 +78,7 @@ export const useGroupStore = create((set,get)=> ({
 			
 		} catch (err) {
 			console.log(err.message, err);
+			toast.error("Error fetching groups !!"+err.message)
 		} finally {
 			set({ groupLoader: false })
 		}

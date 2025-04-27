@@ -10,7 +10,6 @@ function GetMessageDetails({ togleDetailBox, group=false, gMessage }) {
 	const selectedUserNewMessages = useChatStore(state => state.selectedUserNewMessages)
 	
 
-	console.log("Id received", showMessageId," || ",group," || ",gMessage);
 	
 	let [message] = selectedUserMessages.filter(m => m._id === showMessageId)
 	

@@ -68,6 +68,7 @@ async function handleFileSend(set, get, data) {
 
 		if (i > 10000) {
 			console.error("Delimiter not found in reasonable range");
+			toast.error("A file was sent , Error occured while decoding file ")
 			return;
 		}
 	}
@@ -164,7 +165,7 @@ export const useGroupConnectStore = create((set, get) => ({
 
 		let newSocket = null
 		const url = `${wsProto}://${ip}/group-chat/${groupKey}/${joinKey}/?token=${accessToken}`
-		console.log(url.split('?')[0]);
+
 
 		newSocket = new WebSocket(url)
 		newSocket.binaryType = "arraybuffer";
@@ -186,14 +187,14 @@ export const useGroupConnectStore = create((set, get) => ({
 			setConnected(true)
 		}
 		newSocket.onclose = (event) => {
-			console.log("Sockect closed and disconnected");
+			console.log("Sockect closed and disconnected. Maunual close, Group connection socket");
 			
 			set({ groupSocket: null })
 			setConnected(false)
 			clearGroupMessages()
 		}
 		newSocket.onerror = (event) => {
-			console.log("Sockect error and disconnected");
+			console.log("Sockect error and disconnected. Error close, Group connection socket");
 			
 			set({ groupSocket: null })
 			clearGroupMessages()
@@ -215,7 +216,7 @@ export const useGroupConnectStore = create((set, get) => ({
 		const socket = get().groupSocket
 
 		if (!socket || socket.OPEN != socket.readyState) {
-			return toast.error("Error on sending message")
+			return toast.error("Error on sending message. Not connected !!")
 		}
 		const message = get().groupChatMessage
 		if(!message) return
@@ -231,7 +232,7 @@ export const useGroupConnectStore = create((set, get) => ({
 			
 		} catch (err) {
 			console.log(err, err.message);
-			return toast.error("Error on sending message, " + err.message,)
+			return toast.error("Error on sending message, " + err.message)
 		}
 	},
 	sendFileText: (file,text) => {
@@ -239,7 +240,7 @@ export const useGroupConnectStore = create((set, get) => ({
 		const socket = get().groupSocket
 
 		if (!socket || socket.OPEN != socket.readyState) {
-			return toast.error("Error on sending message")
+			return toast.error("Error on sending file. Not connected !!")
 		}
 		const user = useAuthStore.getState().authUser.db_user
 		try {
@@ -273,7 +274,7 @@ export const useGroupConnectStore = create((set, get) => ({
 
 		} catch (err) {
 			console.log(err, err.message);
-			return toast.error("Error on sending message, " + err.message,)
+			return toast.error("Error on sending file, " + err.message,)
 		}
 	},
 	removeUser: (remoUser='')=>{

@@ -13,6 +13,7 @@ import { getTime } from '../../../lib/timefilter.js';
 import { useChatStore } from '../../../store/useChatStore.js';
 import { useGroupConnectStore } from '../../../store/useGroupConnect.js';
 import Refresh from '../../../assets/Refresh.jsx';
+import { toast } from 'sonner';
 
 
 newtonsCradle.register()
@@ -33,21 +34,19 @@ function ListUsers() {
 		setConvLoader(true)
 		try{
 			const response = await axiosMessageInstance.get('conversations/?limit=30&cursor=0000000')
-			console.log(response.data);
+
 			setConversationsStore(response.data.conversations, response.data.unseen_noti)
 			
 		}catch(err){
 			console.log(err, err.message);
+			toast.error("Error on loading conversation !! "+ err.message )
 			
 		}finally{
 			setConvLoader(false)
 		}
 
 	}
-	useEffect(() => {
-		console.log("change in seleected user ");
-
-	}, [selectedUserId])  
+	 
 	
 	
 	useEffect(()=>{
@@ -59,8 +58,6 @@ function ListUsers() {
 			deleteSocket()
 		}
 	},[])
-
-	console.log("render in List ussers");
 	
   return (
 	<div className='home-users-container'>
@@ -149,7 +146,6 @@ const EachConversations = React.memo(({ value, i: index, type, isOnline,  })=>{
 		setUserPictData(obj)
 	}
 
-	console.log("render from each user change in ", value.other_user.user_name);
 
 	return (
 

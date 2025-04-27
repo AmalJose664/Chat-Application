@@ -111,7 +111,6 @@ function MessageSpaceMessages({ selectedUser }){
 	
 	const filteredMessages = filterMessageByDay(selectedUserMessages)
 	
-	console.log("Message space messages re render!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Online  list=>",);
 	
 	const customPrefrns = loadPreferences()
 	return (

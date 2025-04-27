@@ -16,7 +16,6 @@ function SelectedUserTitle() {
 	const selectedChatOnline = useSpecialStore(state => state.selectedChatOnline)
 
 	const loadSelectedUserMessages = useChatStore(state => state.loadSelectedUserMessages);
-	console.log("From selectusertitle");
 	
 	const [showExtras ,setShowExtras] = useState(false)
 	const [showUserDetails, setShowUserDetails] = useState(false)

@@ -40,9 +40,8 @@ function SignupComp() {
 
 		if (success === true){
 			createUser(formData)
-			console.log('finished');
 		}
-		return console.log('Validation failed');
+		return 
 		
 	}
   return (

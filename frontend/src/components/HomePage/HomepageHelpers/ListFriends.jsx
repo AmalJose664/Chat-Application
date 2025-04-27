@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { axiosApiInstance } from '../../../lib/axios'
 import { userDataStore } from '../../../store/userDataStore'
 import { useChatStore } from '../../../store/useChatStore'
+import { toast } from 'sonner'
 
 
 function ListFriends() {
@@ -54,6 +55,7 @@ function ShowFriends({ setTab, showFriends } ) {
 			setUserFriends(response.data.users)
 		}catch(err){
 			console.log(err,err.message);
+			toast.error("Error loading Friends..! "+err.message)
 			
 		}finally{
 			setLoader(false)

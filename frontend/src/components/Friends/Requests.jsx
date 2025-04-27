@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import './Friends.css'
 import { motion } from 'framer-motion'
-import { useAuthStore } from '../../store/useAuthStore'
 import { axiosApiInstance } from '../../lib/axios'
-import {Link }  from 'react-router-dom'
+import { toast } from 'sonner'
+
 
 function Requests() {
 
 
-	const { logout } = useAuthStore()
+
 	const [users, setUsers] = useState([])
 	const [loader, setLoader] = useState(true)
 	const loadRequests = async () => {
 		try {
 
 			const response = await axiosApiInstance.get('my-requests/')
-			console.log(response.data.users);
+
 			setUsers(response.data.users)
 		} catch (err) {
 			console.log(err.message);
+			toast.error("Error loading Friend requests " + err.message)
 		} finally {
 			setLoader(false)
 		}
@@ -33,7 +34,7 @@ function Requests() {
 		}
 		try {
 			const response = await axiosApiInstance.get(`handle-requests/${id}/${action}`)
-			console.log(response.data,key);
+
 			if(response.status == 200){
 				setUsers((preState) => {
 					return preState.filter((_, i) => i !== key)
@@ -41,8 +42,7 @@ function Requests() {
 			}
 		} catch (err) {
 			console.log(err);
-			
-			console.log(err.message);
+			toast.error("Error on operation !!" + err.message)
 
 		}
 	}

@@ -24,11 +24,11 @@ function AddFriends() {
 		try {
 			setLoader(true);
 			const response = await axiosApiInstance.get("/random-users");
-			console.log(response.data.users);
 			setUsers(response.data.users || []);
 			setBtnState(Array(response.data.users.length).fill(false))
 		} catch (error) {
 			console.log("Error fetching random users:", error.message);
+			toast.error("Random users error !! , "+error.message )
 			setUsers([]);
 			
 		} finally {
@@ -47,12 +47,12 @@ function AddFriends() {
 				setUsers([])
 				return
 			}
-			console.log(response.data.users);
 			setUsers(response.data.users)
 			setBtnState(Array(response.data.users.length).fill(false))
 			setLoader(false)
 		} catch (err) {
 			console.log(err.message);
+			toast.error("Error finding users !! , "+ err.message)
 		} finally {
 			setLoader(false);
 		}
@@ -90,12 +90,12 @@ function AddFriends() {
 		})
 		try{
 			const response = await axiosApiInstance.get(`add-requests/${id}`)
-			console.log(response);
 			if (response.status == 204){
 				toast.info("Already Friends",{duration:3000})
 			}else toast.success("Friends Request Added", { duration: 3000 })
 		}catch(err){
 			console.log(err.message);
+			toast.error("Error sending request !! , "+ err.message)
 		}finally{
 			setRLoading(false)
 		}

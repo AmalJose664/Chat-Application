@@ -5,6 +5,7 @@ import { axiosApiInstance } from '../../lib/axios'
 import { userDataStore } from '../../store/userDataStore'
 import { lineWobble } from 'ldrs'
 import GetUser from '../HomePage/HomepageHelpers/HomeUtils/GetUser'
+import { toast } from 'sonner'
 lineWobble.register()
 
 
@@ -27,7 +28,7 @@ function MyFriends() {
 		try {
 			if(!cursor) setCursor('000000000')
 			const response = await axiosApiInstance.get('my-friends/0/g?cursor=' + cursor)
-			console.log(response.data);
+
 			if(cursor){
 				setCursor(response.data.next_cursor)
 				return setUserFriends([...userFriends, ...response.data.users])
@@ -38,6 +39,7 @@ function MyFriends() {
 		}
 		catch(err){
 			console.log(err.message, err);
+			toast.error("Error on loading Friends.. ! "+err.message)
 		}finally{
 			setLoader(false)
 		}
@@ -56,13 +58,14 @@ function MyFriends() {
 	const removeFriend = async(id, key )=>{
 		try{
 			const response = await axiosApiInstance.get(`my-friends/${id}/REMOVE`)
-			console.log(response);
+
 			if (response.status == 200) {
-				
+				toast.info("Friend removed.. !")
 				setUserFriends(userFriends.filter((_,i)=> i !==key))
 			}
 		}catch(err){
 			console.log(err, err.message);
+			toast.error("Error on action.. ! "+ err.message)
 			
 		}
 		

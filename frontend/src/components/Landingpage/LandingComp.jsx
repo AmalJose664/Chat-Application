@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom"
-import {APP_Name as APP, APP_Name} from '../../lib/chatUtilities'
-import HoverBox from "./LandingPageHelpers/HoverBox"
+import { APP_Name} from '../../lib/chatUtilities'
 import { motion } from "framer-motion"
 import DashBoardICon from "../../assets/DashBoardICon"
 

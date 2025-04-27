@@ -12,7 +12,7 @@ import Download from "../../../../assets/Download"
 import File from "../../../../assets/File"
 import { getContrastColor, getFileSize } from "../../../../lib/chatUtilities"
 
-
+// this component only displays new messages => messgaes that are received in realtime
 
 export const SingleNewMessages = React.memo(({ message, i, isGroupMessage = false, customPrefrns }) => {
 

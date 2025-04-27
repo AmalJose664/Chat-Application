@@ -101,16 +101,11 @@ export const userDataStore = create( (set,get) => ({
 		}))
 	},
 	changeUnread: (otherUId,status=0) => {
-		console.log("updating convssss")
 		if(status == 1 || status ==2){
 			
 			return set(state => ({
 				conversations: state.conversations.map((object) => {
-					console.log(object, otherUId)
 					
-					if (object.other_user.sqlite_id == otherUId){
-						console.log("condition true");
-					}
 					return object.other_user.sqlite_id == otherUId ? { ...object, l_s: status } : object
 				})
 			}))

@@ -54,7 +54,6 @@ function EditProfile(  {closeTab} ) {
 		}
 	},[])
 	const update= async()=>{
-		console.log(formData);
 		
 		if(!formData.password || !formData.email || !formData.username) return toast.info("Please Enter Required details")
 		await updateProfile(formData)

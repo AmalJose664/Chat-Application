@@ -13,17 +13,16 @@ const  GetUser = React.memo(({closeFunct, status=false, group=false, id,isMe= fa
 		try{
 			if(group){
 				const response = await axiosApiInstance.get(`get-user/${id}`)
-				console.log(response.data);
 				setData(response.data.user)
 				return
 			}
 			const response = await axiosApiInstance.get(`get-user/${selectedUser.id}`)
-			console.log(response.data);
+
 			setData(response.data.user)
 			
 		}catch(err){
 			console.log(err,err.message);
-			
+			toast.error("Error finding user data !! , "+err.message)
 		}
 	}
 	const formatDate = (date)=>{
@@ -36,7 +35,6 @@ const  GetUser = React.memo(({closeFunct, status=false, group=false, id,isMe= fa
 		return formatedDate
 	}
 	const sendRequest = async (id) => {
-		console.log(id)
 		
 		if (!id && !group) {
 			id = selectedUser.id
@@ -46,13 +44,13 @@ const  GetUser = React.memo(({closeFunct, status=false, group=false, id,isMe= fa
 		
 		try {
 			const response = await axiosApiInstance.get(`add-requests/${id}`)
-			console.log(response);
 			if (response.status == 204) {
 				toast.info("Already Friends", { duration: 3000 })
 			}else if(response.status == 200){
 				toast.info("Friend Request Added", { duration: 3000 })
 			}
 		} catch (err) {
+			toast.error("Error sending request !! , "+err.message)
 			console.log(err.message);
 		}
 

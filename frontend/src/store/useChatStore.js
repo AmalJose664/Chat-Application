@@ -12,7 +12,6 @@ function updateMessages(set, get, data){
 	
 	const message = data.message
 
-	console.log("status +==>>",data.status,);
 	
 	const newMessage = {
 		r: data.receiver,
@@ -83,7 +82,7 @@ function chatRoomChange(set,get,data){
 
 
 function chatNotifications(set, get, data){
-	console.log("Notifications", data);
+
 	toast.success(`Message from ${data.name} '${data.message}'`, { duration: 2000 })
 	const bringConvsToTop = userDataStore.getState().bringConvsToTop
 	const incrmtUnread = userDataStore.getState().incrmtUnreadAndLstm
@@ -95,6 +94,7 @@ function chatNotifications(set, get, data){
 }
 function serverError(set, get, data){
 	console.log("errors here");
+	toast.error("Message, server error")
 	
 }
 function chatDeleteEvent(set,get,data){
@@ -175,7 +175,7 @@ export const useChatStore = create((set, get) => ({
 			
 		} catch (err) {
 			console.log(err, err.message);
-			toast.error("Error Loading Messages")
+			toast.error("Error Loading Messages " + err.message)
 		} finally {
 			set({ messageLoading: false })
 			
@@ -217,7 +217,7 @@ export const useChatStore = create((set, get) => ({
 	setMakeConnection: (roomForUser)=>{
 		const existingSocket = get().chatSocket
 		if (existingSocket){
-			console.log("socket exists returning");
+			console.log("socket exists returning, Cant create new socket");
 			return
 		}
 		
@@ -230,7 +230,7 @@ export const useChatStore = create((set, get) => ({
 
 		let newSocket = null
 		const url = `${wsProto}://${ip}/ts/${room}/?token=${accessToken}`
-		console.log(url.split('?'), roomForUser );
+
 		newSocket = new WebSocket(url)
 		newSocket.onmessage = (event)=>{
 			try{
@@ -239,6 +239,7 @@ export const useChatStore = create((set, get) => ({
 				get().handleSocketMessages(parsedData)
 			}catch(err){
 				console.log(err,err.message);
+				toast.error("Incorrect format message received !!")
 				
 			}
 			
@@ -255,7 +256,8 @@ export const useChatStore = create((set, get) => ({
 
 		}
 		newSocket.onclose = (event) => {
-			console.log("Sockect closed and disconnected");
+			console.log("Sockect closed and disconnected.=> Manual close");
+			
 			const existingSocket = get().chatSocket
 			if (existingSocket) {
 				set({ chatSocket: null, socketType: null })
@@ -263,7 +265,8 @@ export const useChatStore = create((set, get) => ({
 
 		}
 		newSocket.onerror = (event) => {
-			console.log("Sockect error and disconnected");
+			console.log("Sockect error and disconnected.=> Error close");
+			toast.error("Connection error, closed Automatically")
 			const existingSocket = get().chatSocket
 			if (existingSocket) {
 				set({ chatSocket: null, socketType: null })
@@ -278,7 +281,7 @@ export const useChatStore = create((set, get) => ({
 	deleteSocket:()=>{
 		const socket = get().chatSocket
 		if(socket){
-			console.log("SCOet Here ", socket);
+			console.log("Socket deleted", socket);
 			
 			socket.close()
 		}
@@ -292,7 +295,7 @@ export const useChatStore = create((set, get) => ({
 		const selectedConvId = useSpecialStore.getState().selectedConvId
 		
 		if (!socket || socket.OPEN != socket.readyState) {
-			return toast.error("Error on sending message")
+			return toast.error("Error on sending message. Not connected !!")
 		}
 		const message = get().chatMessage
 		if (!message) return
@@ -305,8 +308,8 @@ export const useChatStore = create((set, get) => ({
 				'conv_id': selectedConvId
 			}));
 		}catch(err){
-			console.log(err,err.message);
-			return toast.error("Error on sending message, "+err.message,)
+			console.log(err,err.message,"<===");
+			return toast.error("Error on sending message !! "+err.message)
 		}
 	},
 	changeRoomOrUser:(newRoom) =>{
@@ -315,7 +318,7 @@ export const useChatStore = create((set, get) => ({
 
 
 		if (!socket || socket.OPEN != socket.readyState) {
-			return console.log("retunred");
+			return console.log("No socket , returned");
 		}
 
 		try {
@@ -326,6 +329,7 @@ export const useChatStore = create((set, get) => ({
 			}))
 		} catch (err) {
 			console.log(err, err.message);
+			toast.error("Error on user change !! "+err.message)
 		}
 	},
 
@@ -333,10 +337,9 @@ export const useChatStore = create((set, get) => ({
 		const user = useAuthStore.getState().authUser.db_user
 		const socket = get().chatSocket
 
-		console.log(status,"user=>", user.user_name);
 		
 		if (!socket || socket.OPEN != socket.readyState) {
-			return console.log("retunred");
+			return console.log("No socket , returned");
 		}
 		
 		try{
@@ -354,7 +357,7 @@ export const useChatStore = create((set, get) => ({
 		const user = useAuthStore.getState().authUser.db_user
 		const socket = get().chatSocket
 		if (!socket || socket.OPEN != socket.readyState) {
-			return console.log("retunred");
+			return console.log("No socket , returned");
 		}
 		
 		try {
@@ -366,6 +369,7 @@ export const useChatStore = create((set, get) => ({
 			}))
 		} catch (err) {
 			console.log(err, err.message);
+			toast.error("Message deletion unsuccesful ! "+err.message)
 		}
 	},
 	deleteMessagesFromArray:(mtime , mId, )=>{
@@ -380,22 +384,18 @@ export const useChatStore = create((set, get) => ({
 	},
 	setReadMessages:(status)=>{
 		if(status==0 || status>=3) return
-		console.log("updating messgaes")
 		
 		set(state=>{
 			const updatedArray = [...state.selectedUserNewMessages];
 			let i = updatedArray.length-1
-			console.log("Insidesssssssss", i)
 			for(i; i >= 0; i--){
 				
 				if (updatedArray[i].sa != status) {
 					updatedArray[i] = { ...updatedArray[i], sa: status }
-					console.log("updating messgaes", updatedArray[i], status)
 				}else{
 					break
 				}
 			}
-			console.log(updatedArray);
 			
 			return { selectedUserNewMessages: updatedArray }
 		})

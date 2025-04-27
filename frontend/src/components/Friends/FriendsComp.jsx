@@ -16,7 +16,7 @@ function FriendsComp() {
 	const [params] = useSearchParams()
 	let backTab = 'chats'
 	if (params.get("back")) backTab = params.get("back").toLowerCase() 
-	console.log(tabType,"====");
+
 	
 	useEffect(()=>{
 		if (tabType == 'my-friends'){

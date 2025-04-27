@@ -6,7 +6,6 @@ import SendMessage from '../../../../assets/SendMessage'
 import './MessageSendComp.css'
 import EmojiBox from './EmojiBox'
 import ChatMessageDiv from './ChatMessageDiv'
-import { loadPreferences } from '../../../../lib/chatUtilities'
 
 
 

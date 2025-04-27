@@ -62,6 +62,7 @@ function SettingComp() {
 				setMesgTrans(parsedPrefrnc.mesgTrans)
 			}catch(err){
 				console.log(err);
+				toast.error("Error loading preferences !! "+err.message)
 			}
 			
 		}
@@ -80,7 +81,6 @@ function SettingComp() {
 			toast.promise(myPromise, {
 				loading: 'Loading...',
 				success: (axiosData) => {
-					console.log(axiosData)
 					
 					return `Status=> ${axiosData.data.status_w} || User=> ${axiosData.data.user} || Status_code=> ${axiosData.data.status}`;
 				},
@@ -88,7 +88,7 @@ function SettingComp() {
 			});
 		} catch (error) {
 			console.log(error)
-			
+			toast.error('Error => Server Connecting Error !! '+error.message)
 		}
 		
 	}
@@ -341,7 +341,6 @@ function BackgroundSelector({closeTab, setFunction}){
 			document.removeEventListener("mousedown", handleClickOutside);
 		};
 	}, [])
-	console.log("Imgae re render");
 	
 	return (
 		<motion.div  className='s-select-popup bg' ref={tabRef}
@@ -352,8 +351,6 @@ function BackgroundSelector({closeTab, setFunction}){
 				
 				<div className="s-list-bgs-inner">
 					{bgImages.map((image, i)=>{
-						
-						//console.log("Array value =>", i,convertStringToCss(image));
 						
 						return (
 							<div className="s-bg-images-each" key={i}>
@@ -413,11 +410,6 @@ function ColorSelector({ selected, setFunction, closeTab, isReadValue}){
 		};
 	},[])
 	
-	if(!isReadValue){
-		colors.push({ r: "#242424", d: "#272b37" })
-	}else{
-		colors.push({ d: "#fff", r: "#00b9da" })
-	}
 	
 	return (
 		<motion.div className='s-select-popup' ref={tabRef} 
@@ -427,7 +419,6 @@ function ColorSelector({ selected, setFunction, closeTab, isReadValue}){
 			<div className="-s-select-popup-inner">
 				<div className="s-select-colors">
 					{colors.map((c,i )=>{
-						console.log(c);
 						return (
 							<motion.div key={i} style={{ background: `linear-gradient(to right, ${c.s} 50%, ${c.r} 50%)` }} 
 							onClick={()=>{

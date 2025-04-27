@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { useChatStore } from "./useChatStore";
 import { axiosApiInstance } from "../lib/axios";
 import { userDataStore } from "./userDataStore";
+import { toast } from "sonner";
 
 
 export const useSpecialStore = create( (set,get)=>({
@@ -11,7 +12,6 @@ export const useSpecialStore = create( (set,get)=>({
 
 
 	checkSelectecUserOnline:(id)=> set(state => {
-		console.log("Checking selected chat");
 		
 		const usersOnline = state.usersOnline
 		if(!!usersOnline[id] && !state.selectedChatOnline){
@@ -83,7 +83,7 @@ export const useSpecialStore = create( (set,get)=>({
 
 			Object.keys(currentOnlinesUsers).forEach(userIds => {
 				if(!newOnlineIdsSet.has(userIds)){
-					console.log("Update REMOVE =>",userIds);
+					console.log("Update users =>", ""+userIds.slice(0, 20) + ".....");
 					ensureCopy()
 					delete updatedOnlineUsers[userIds]
 					const typingChangeConv = get().typingChangeConv
@@ -132,6 +132,7 @@ export const useSpecialStore = create( (set,get)=>({
 			set({notifications:response.data.Data})
 		}catch(err){
 			console.log(err.message, err);
+			toast.error("Error loading notifications !! ",+err.message)
 		}finally{
 			set({ notiLoader: false })
 		}

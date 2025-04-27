@@ -31,7 +31,7 @@ function ProfileComp() {
 			setGetData(true)
 		}catch(err){
 			console.log(err, err.message);
-			toast.error(err.response.data || err.message);
+			toast.error(err.response.data ,""+ err.message);
 		}finally{
 			setGetingData(false)
 

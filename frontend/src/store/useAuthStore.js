@@ -24,11 +24,10 @@ export const useAuthStore = create((set, get) => ({
 				return toast.error(err.response.data.error,);
 			}
 			console.log(err);
-			toast.error("Server error")
+			toast.error("Server error "+err.message)
 			console.log("error on logging in,", err.response.data, " Invalid credientails");
 		}finally{
 			set({ isLoggginIn: false });
-			console.log('finished');
 			
 		}
 	},
@@ -38,7 +37,6 @@ export const useAuthStore = create((set, get) => ({
 		try{
 			const res = await axiosAuthInstance.post('new-signup/',data)
 			localStorage.setItem("access_token", res.data.tokens.access);
-			console.log(res.data);
 			delete res.data.tokens
 			set({ authUser: res.data });
 			
@@ -49,7 +47,7 @@ export const useAuthStore = create((set, get) => ({
 				toast.error("Email already exists. Please try with a different Email",);
 				
 			}
-			toast.error("Server error. Please try again later")
+			toast.error("Server error. Please try again later " + err.message)
 		}finally{
 			set({ isSigningUp: false });
 		}
@@ -85,7 +83,6 @@ export const useAuthStore = create((set, get) => ({
 		try{
 			
 			set({ isUpdatingProfile :true})
-			console.log("Fetching");
 			const response = await axiosSpecialAuthInstance.post('update/', data,{
 				headers: { "Content-Type": "multipart/form-data" },
 			})	
@@ -99,12 +96,12 @@ export const useAuthStore = create((set, get) => ({
 			if (err.status == 400) {
 				console.log("toast call");
 				
-				toast.error(err.response.data.error1.file[0].message,);
+				toast.error(err.response.data.error1.file[0].message, "" + err.message);
 			}else if (err.status == 404){
-				toast.error(err.response.data.error
+				toast.error(err.response.data.error,""+err.message
 				)
 			}else{
-				toast.error("Server error. Please try again later")
+				toast.error("Server error. Please try again later" + err.message)
 			}
 			
 		}finally{
