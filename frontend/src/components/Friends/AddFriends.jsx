@@ -122,11 +122,11 @@ function AddFriends() {
 					<motion.div className="friends-list-inner" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, delay: .3 }}>
 						
 						{loader && <motion.div className='friends-loader' initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, delay: .5 }}>
-							< l-newtons-cradle
-								size="78"
+							< l-tail-chase
+								size="30"
 								speed="1.2"
 								color="white"
-							></l-newtons-cradle >
+							></l-tail-chase >
 						</motion.div>}
 						{users.length != 0 ? (
 							users.map((element, i) => (

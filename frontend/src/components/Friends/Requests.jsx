@@ -54,11 +54,11 @@ function Requests() {
 				<p>My Friend Requests</p>
 				<div className="friend-request-all friends-list-inner">
 					{loader && <motion.div className='friends-loader' initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, delay: .1 }}>
-						< l-newtons-cradle
-							size="78"
-							speed="1.2"
+						< l-tail-chase
+							size="30"
+							speed="1.8"
 							color="white"
-						></l-newtons-cradle >
+						></l-tail-chase >
 					</motion.div>}
 					{users.length != 0 ? (
 						

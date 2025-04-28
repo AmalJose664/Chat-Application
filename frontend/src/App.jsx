@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {Route, Routes, Navigate} from 'react-router-dom'
 import './App.css'
 import { useAuthStore} from './store/useAuthStore'
-import { newtonsCradle, tailChase, leapfrog } from 'ldrs'
+import {  tailChase, leapfrog } from 'ldrs'
 
 
 import Create from './pages/Create'
@@ -18,13 +18,15 @@ import { Toaster } from 'sonner'
 import SonnerIcons from './assets/SonnerIcons'
 import NotFound from './pages/NotFound'
 
+import { dotSpinner } from 'ldrs'
+dotSpinner.register()
 
+	
 
 
 
 
 leapfrog.register()
-newtonsCradle.register()
 tailChase.register()
 	
 
@@ -37,12 +39,12 @@ function App() {
 		checkAuth().then(() => setLoading(false));	
 	}, []);
 	if (loading) return <div className='loader-center'>
-		<h3>{APP_Name} </h3>
-		< l-newtons-cradle
-			size="78"
-			speed="1.2"
+		<h3 style={{marginBottom:'16px'}}>{APP_Name} </h3>
+		< l-tail-chase
+			size="35"
+			speed="1.4"
 			color="white"
-		></l-newtons-cradle >
+		></l-tail-chase >
 		</div>
   return (
 	

@@ -48,7 +48,7 @@ class GrConsumer(AsyncJsonWebsocketConsumer):
 		user_result = await self.load_user()
 
 		
-		if self.me in redis_service.smembers(self.connect_group_name):
+		if f"{self.db_user['_id']}__:__{self.db_user['profile_picture']}__:__{self.db_user['user_name']}" in redis_service.smembers(self.connect_group_name):
 			await self.close()
 			print("Already connected\nReturning user")
 			self.return_socket = True

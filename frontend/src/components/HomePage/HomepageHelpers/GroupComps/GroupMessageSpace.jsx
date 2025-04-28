@@ -136,11 +136,11 @@ function JoinToGroup({ selectedGroup }){
 								initial={{ opacity: 0, y: -5, }} animate={{ opacity: 1, y: 0, }}
 								transition={{ duration: .1, ease: 'anticipate' }}
 							>
-								< l-tail-chase
-									size="26"
-									speed="2.4"
+								< l-dot-spinner
+									size="30"
+									speed="0.9"
 									color="white"
-								></l-tail-chase >
+								></l-dot-spinner>
 							</motion.div> : <motion.input type="submit" value={' Join'} className='group-input-btn'
 								initial={{ opacity: 0, y: 10, }} animate={{ opacity: 1, y: 0, }}
 								transition={{ duration: .1, ease: 'anticipate' }}
@@ -216,11 +216,11 @@ function CreateGroup(){
 							initial={{ opacity: 0, y: -5, }} animate={{ opacity: 1, y: 0, }} 
 							transition={{ duration: .1, ease:'anticipate' }}
 							>
-								< l-tail-chase
-									size="26"
-									speed="2.4"
+								< l-dot-spinner
+									size="30"
+									speed="0.9"
 									color="white"
-								></l-tail-chase >
+								></l-dot-spinner>
 							</motion.div> : <motion.input type="submit" value={'Create Group'} className='group-input-btn' 
 									initial={{ opacity: 0, y: 10, }} animate={{ opacity: 1, y: 0, }}
 									transition={{ duration: .1, ease: 'anticipate' }}

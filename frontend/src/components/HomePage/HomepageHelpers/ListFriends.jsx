@@ -93,11 +93,11 @@ function ShowFriends({ setTab, showFriends } ) {
 				<div className="list-f-b-i-inner">
 					
 					{loader && <motion.div style={{marginLeft:'35px'}} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, }}>
-						< l-newtons-cradle
-							size="78"
-							speed="1.2"
-							color="black"
-						></l-newtons-cradle >
+						< l-tail-chase
+							size="26"
+							speed="1.8"
+							color="white"
+						></l-tail-chase >
 					</motion.div>
 						}
 

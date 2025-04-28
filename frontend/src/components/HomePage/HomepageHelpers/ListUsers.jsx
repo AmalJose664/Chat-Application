@@ -3,8 +3,6 @@ import './ListUsers.css'
 import { userDataStore } from '../../../store/userDataStore.js'
 import { motion } from "framer-motion";
 import { axiosMessageInstance } from '../../../lib/axios.js';
-import { newtonsCradle } from 'ldrs';
-import ListFriends from './ListFriends.jsx';
 import { filterLastMessage, lastMessage } from '../../../lib/lastMessageFilter.js';
 import { useSpecialStore } from '../../../store/specialStore.js';
 import ReadReceipts from '../../../assets/ReadReceipts.jsx';
@@ -16,7 +14,6 @@ import Refresh from '../../../assets/Refresh.jsx';
 import { toast } from 'sonner';
 
 
-newtonsCradle.register()
 
 function ListUsers() {
 	
@@ -66,11 +63,11 @@ function ListUsers() {
 		</div>
 		<div className="home-users">
 			  {convLoader && <motion.div className='list-friends-loader' initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, }}>
-				  < l-newtons-cradle
-					  size="78"
-					  speed="1.2"
+				  < l-tail-chase
+					  size="28"
+					  speed="1.8"
 					  color="white"
-				  ></l-newtons-cradle >
+				  ></l-tail-chase >
 			  </motion.div>}
 			{( conversations.length != 0 ) ? (conversations.map((value, i) => {
 				return (

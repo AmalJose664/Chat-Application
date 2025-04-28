@@ -47,11 +47,11 @@ const NotificationBox = ({ onClose, outRef }) => {
 						</motion.div>)
 				})
 			) : <>
-				< l-newtons-cradle
-					size="78"
-					speed="1.2"
-					color="white"
-				></l-newtons-cradle >
+					  < l-dot-spinner
+						  size="30"
+						  speed="0.9"
+						  color="white"
+					  ></l-dot-spinner>
 			</> }
 			  {notifications.length == 0 ? 
 			  <><p style={{ textAlign: 'center' }}>No Notifications</p></> : 

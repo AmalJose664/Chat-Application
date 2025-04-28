@@ -120,11 +120,11 @@ function MessageSpaceMessages({ selectedUser }){
 			<motion.div className="home-messages" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28 }} >
 				<div className='wrapper'>
 					{messageLoading && <div className="messages-loading-message-space">
-						< l-newtons-cradle
-							size="78"
-							speed="1.2"
-							color="white"
-						></l-newtons-cradle >
+						< l-dot-spinner
+						size = "30"
+						speed = "0.9"
+						color = "white"
+						></l-dot-spinner>
 					</div>}
 					{selectedUserMessages?.length!=0 && 
 						<div className="message__h type-timedate" onClick={() => loadSelectedUserMessages(true)}
