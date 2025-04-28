@@ -90,7 +90,7 @@ CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_HTTPONLY = False
 #CSRF_COOKIE_SAMESITE = "None"
-CSRF_TRUSTED_ORIGINS = ['https://0242-2403-a080-411-7883-6483-5750-e45f-a550.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = os.environ.get('DJANGO_CSRF_ALLOWED', '').split(',') #'https://dsdadsa.csds'
 
 
 LOGIN_URL = '/admin/'
