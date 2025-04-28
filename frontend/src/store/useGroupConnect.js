@@ -194,7 +194,9 @@ export const useGroupConnectStore = create((set, get) => ({
 			clearGroupMessages()
 		}
 		newSocket.onerror = (event) => {
-			console.log("Sockect error and disconnected. Error close, Group connection socket");
+			console.log("Sockect error and disconnected. Error close, Group connection socket ");
+			console.log("Error:",event);
+			
 			
 			set({ groupSocket: null })
 			clearGroupMessages()
