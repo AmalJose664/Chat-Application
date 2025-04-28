@@ -18,7 +18,6 @@ user_collection = mongo_db['user_mongo']
 message_collection = mongo_db['message_mongo']
 
 online_tracking_group = f"global____{random_text(46)}____"
-print("Global Chat group for online tracking==>",online_tracking_group,"\n")
 
 db_actions = settings.SAVE_MESSAGES
 
@@ -51,7 +50,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 			print("Not Authenticated exited,==>",self.user)
 			await self.close()
 			return
-		print("\nConnect event\n====================================================================================connect >>>>>>fisrt<<<<<< ====================================================================================\n")
+		print("\n\n======connect >>>>>>request<<<<<< =======\n")
 		
 		
 		self.room_name = self.scope['url_route']['kwargs']['room_name']
@@ -104,7 +103,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 		#infrom user
 		
 		await self.send_online_users(type='NEW_JOIN')
-		print(f"\n====================================================================================conect >>>>last<<<< ============================================================================================\n")
+		print(f"\n======conect >>>>success<<<< =====\n")
 		self.str_db_user = str(self.db_user)
 		self.str_db_receiver = str(self.db_receiver)
 		await self.make_messages_read()
@@ -138,7 +137,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 
 		await super().disconnect(close_code)
 		
-		print(">>>>>>>>>Disconnected<<<<<<<<<<<<=====//////////pymnogo ", " --------mongoengine ,close code ==>>",close_code)
+		print(">>>>>>>>>Disconnected<<<<<<<<<<<<",close_code)
 
 
 	
@@ -181,7 +180,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 			if not user_message:
 				return
 			if intented_user_target != self.me and self.intended_user in temp_online_users:
-				print(f"sending notification to {notifying_user_channel}.................")
+				print(f"notification..")
 				read=1
 				
 				await self.channel_layer.send(
@@ -220,7 +219,6 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 					read = 2
 				elif my_room_count == 1:
 					read = 0
-				print("Read value ",read)
 				await self.channel_layer.group_send(
 					self.room_group_name,{
 						'type': "CHAT_MESSAGE_EVENT",
@@ -238,7 +236,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 				)
 		elif message_type=="CHAT_ROOM_CHANGE":
 			new_room = text_data_json.get('new_chat','')
-			print(">>>changing room, new Room=>",new_room)
+			print(">>>>>>>changing room<<<<<<<< new Room=>",new_room)
 			return await self.change_room(new_room)
 		
 		elif message_type == "CHAT_TYPE_EVENT":
@@ -258,7 +256,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 			
 			print(message_type," Chat type not supported")
 		#processing_start_time = time.time()
-		print("received====>>>>conv id", conv_id,"==>>>>",user_message, "<<<<sent_by ",self.db_user, "received_by ",self.db_receiver)
+		print("received====>>>>conv id", conv_id,"<<<<")
 		#pymongo_time =  time.time()
 		if db_actions and user_message != "":	
 			self.last_message = await self.insert_message(content=user_message,
@@ -293,11 +291,11 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 		is_valid = True if ObjectId.is_valid(message_id) else False
 		id = ObjectId(message_id) if is_valid else ""
 		time = datetime.fromisoformat(message_time)
-		print(message_id,message_time, "DELETE DATA HEERE")
+		print(message_id,message_time, "DELETE DATA event")
 		deleted_doc = message_collection.find_one_and_delete({'$or': [{"_id": id}, {'t': time}]})
 		
 		if deleted_doc:
-			print( deleted_doc)
+			print("Delete sucesss ", deleted_doc)
 			message_id = message_id if is_valid else ""
 			await self.channel_layer.group_send(self.room_group_name,{
 				'type':"CHAT_DELETE_EVENT",
@@ -411,7 +409,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 
 	async def CHAT_ONLINE_USERS_EVENT(self,event):
 		users_online = self.friends_set & redis_service.smembers('online_users')
-		print("Sending Online Users for ", self.me," ", users_online)
+		print("Sending Online Users for ", self.me)
 		await self.send(text_data=json.dumps({
 			'type': event['type'],
 			'event':event['event'],
@@ -494,7 +492,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 				
 			
 			elif request_room_count>=2:
-				print(request_room_count,"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+				print(request_room_count," user in room, changing....")
 				self.room_name = random_text(16)
 				self.room_group_name = f'chat_{self.room_name}'
 			

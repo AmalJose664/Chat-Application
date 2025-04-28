@@ -77,7 +77,9 @@ function SettingComp() {
 		// 	}, 3000);
 		// });
 		try {
-			const myPromise = axiosApiInstance.get('default_api/test-api', { baseURL: `${proto}://${ip}` })
+			const myPromise = axiosApiInstance.get('default_api/test-api', { baseURL: `${proto}://${ip}` }).catch((err)=>{
+				console.log(err)
+			})
 
 
 			toast.promise(myPromise, {
@@ -106,7 +108,7 @@ function SettingComp() {
 					<motion.div className="s-options" 
 						initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.4 }}
 						>
-						<div className="s-options-inner"><p>{authUser && authUser.user.name}'s settings</p>
+						<div className="s-options-inner">{authUser && <p>{authUser.user.name}'s Settings</p>}
 
 							<div className="s-each-options">
 								<motion.div className="s-opton-each-content"

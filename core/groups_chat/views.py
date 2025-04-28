@@ -98,7 +98,6 @@ class Find_group(APIView):
 				group.pop('group_key')
 
 				new_array.append(group)
-			print(new_array)
 			return JsonResponse({'Data':'Success','groups':new_array},status=status.HTTP_200_OK)
 
 			
@@ -122,7 +121,7 @@ class Create_Group(APIView):
 		
 		try:
 			lock = not bool(lock)
-			print('call to create ', lock)
+			print('api call to create Group', lock)
 			group_join_key = str(uuid.uuid4())[:8]
 			group_id  = f"{group_name.lower().replace(' ','')}__{random_text(8)}"
 

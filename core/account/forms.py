@@ -1,8 +1,15 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png', ]
-MAX_FILE_SIZE = 6 * 1024 * 1024
+ALLOWED_FILE_TYPES = [
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+    'image/gif',
+    'image/bmp',
+    'image/svg+xml',
+]
+MAX_FILE_SIZE = 15 * 1024 * 1024
 class UploadFileForm(forms.Form):
     file = forms.FileField()
     
@@ -12,7 +19,8 @@ class UploadFileForm(forms.Form):
 
    
         if uploaded_file.content_type not in ALLOWED_FILE_TYPES:
-            raise ValidationError("Invalid file type. Allowed types: JPEG, PNG")
+            allowed = ", ".join([t.split('/')[-1].upper() for t in ALLOWED_FILE_TYPES])
+            raise ValidationError(f"Invalid file type. Allowed types: {allowed}")
 
         if uploaded_file.size > MAX_FILE_SIZE:
             raise ValidationError("File size exceeds limit")

@@ -4,6 +4,7 @@ import { useAuthStore } from '../../store/useAuthStore';
 import Pencil from '../../assets/Pencil';
 import Dybtn from '../../assets/Dybtn'
 import { toast } from 'sonner';
+import { EyeFill, EyeIcon } from '../../assets/eye';
 
 
 function EditProfile(  {closeTab} ) {
@@ -108,6 +109,7 @@ function EditProfile(  {closeTab} ) {
 function EnterPassword({closeTab, setForm, triggerFunction, password}){
 	//const updateProfile = useAuthStore(state => state.updateProfile)
 	const tabRef = useRef(null)
+	const [passShow, setPassShow] = useState(false)
 	useEffect(() => {
 		function handleClickOutside(event) {
 			if (tabRef.current && !tabRef.current.contains(event.target)) {
@@ -127,9 +129,10 @@ function EnterPassword({closeTab, setForm, triggerFunction, password}){
 				<p>Enter Current Password to Change User Data</p>
 				<div className="input">
 					<motion.input required initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, delay: .2 }}
-						value={password}
+						value={password} type={passShow? 'text' :'password'}
 						onChange={(e) => setForm(e.target.value)} />
 					<label className='profile-page-edit-label' htmlFor="">Password</label>
+					<span type="button" onClick={() => setPassShow(!passShow)}> {passShow ? <EyeFill size={20} color="white" /> : <EyeIcon size={20} color="black" />}   </span>
 				</div>
 				<button className='profile-password-btn' onClick={triggerFunction}>
 					submit

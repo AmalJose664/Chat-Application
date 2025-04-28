@@ -58,7 +58,7 @@ class Signinview(APIView):
 
 	def post(self ,request):
 		try:
-			print("requestss")
+			print("requestss to signin")
 			email = request.data.get('email')  
 			password = request.data.get('password')
 			
@@ -70,7 +70,6 @@ class Signinview(APIView):
 				return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED, )
 			
 			user_data = get_auth_for_user(user)
-			print(user_data)
 			res = Response(user_data, status=status.HTTP_200_OK)
 			res.set_cookie(
 				key="refresh_token",
@@ -205,7 +204,6 @@ class Random_users(APIView):
 	def get(self, request,):
 		users = User_mongo.objects().aggregate([{ "$match": { "sqlite_id": { "$ne": str(request.user.id) } } },{ "$sample": { "size": 10 } }])
 		
-		print(users)
 		if users:
 			new_list = []
 			for u in users:
@@ -246,7 +244,6 @@ class My_Request(APIView):
 	from mongoengine.errors import  ValidationError
 	permission_classes = [IsAuthenticated]
 	def get(self, request):
-		print("=======================================")
 		try:
 			user = User_mongo.objects.get(sqlite_id = str(request.user.id))
 			user_requests = User_data_mongo.objects.get(user=user)
@@ -283,7 +280,7 @@ class Send_Response(APIView):
 		try:
 			user = User_mongo.objects.get(sqlite_id = str(request.user.id)) # request user model
 			user_data = User_data_mongo.objects(user=user).only('request','notifications','friends').first()# request user data model
-			print('we are ',user.user_name)
+			print('Request user are ',user.user_name)
 
 			other_user_id = ObjectId(id) if ObjectId.is_valid(id) else id #id to be confirmed or rejected
 			other_user = User_mongo.objects.get(id=other_user_id) #user of that id
@@ -293,7 +290,7 @@ class Send_Response(APIView):
 			if not other_user_data:
 				print("User data not found\n New user creating....")
 				other_user_data = User_data_mongo(user=other_user).save()
-			print("He is ", other_user.user_name)
+			print("requesting for ", other_user.user_name)
 
 			if not any(u.id == other_user_id for u in user_data.request):
 				print('user Not found ')
@@ -352,7 +349,7 @@ class Get_My_Friends(APIView):
 			cursor = request.GET.get('cursor','')
 			limit=20
 			user_friends = User_mongo.objects(id__in=[u.id for u in user_data_model.friends]).only('id','sqlite_id', 'user_name', 'profile_picture').order_by('-id').limit(limit).as_pymongo()
-			#print(user_friends)
+
 			is_last = limit > len(user_friends)
 			if ObjectId.is_valid(cursor):
 					user_friends = user_friends.filter(id__lt=ObjectId(cursor))
@@ -379,7 +376,7 @@ class Get_My_Friends(APIView):
 			print("error____" , str(e))
 			return JsonResponse({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-		return JsonResponse({"users":str(request.user.id)},status=status.HTTP_200_OK)
+
 	
 	def remove_friend(self,other_user_id, my_model, my_id):
 		other_user_id = ObjectId(other_user_id) if ObjectId.is_valid(other_user_id) else other_user_id
@@ -467,10 +464,11 @@ class Update_Profile(APIView):
 		username = request.data.get('username','')
 		password = request.data.get('password','')
 
-		print(request.data, password)
+		print(request.data)
 		if not user_sqlite.check_password(password):
 			return JsonResponse({
-				'error':"User not Found",},status=status.HTTP_404_NOT_FOUND)
+				'error':"User not Found",
+				'reason':'Incorrect password',},status=status.HTTP_404_NOT_FOUND)
 
 
 		if (not username) or (not email) or( not password):

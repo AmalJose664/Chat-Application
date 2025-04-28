@@ -6,10 +6,7 @@ export let ip = import.meta.env.VITE_API_BASE_URL
 export let proto = location.protocol != 'http:' ? "https" : "http"
 export let wsProto = location.protocol != 'http:' ? "wss" : "ws"
 if (proto == 'https'){
-	
-	ip = 'f8b5-2403-a080-410-e260-9c5e-7ab3-def7-98af.ngrok-free.app'
-	//proto = "http"
-	//wsProto = 'ws'
+	//ip = '8c64-2403-a080-411-fc81-8901-3702-f242-c3e3.ngrok-free.app'
 }else{
 	ip=ip+":8000"
 }

@@ -127,7 +127,7 @@ class Get_Messages(APIView):
 			if str(user) != temp and user_conv['l_s'] !=2 :
 				#conv_collection.update_one({'_id':user_conv['_id']},{"$set": {"l_s": 2}})
 				conv_collection.update_many({"$and": [{"$or": [   {"c_id": f2},   {"c_id": f1}    ]}   ,   {"l_s": {"$in": [0, 1]}} ]   },    {"$set": {"l_s": 2}})
-		print(result.modified_count ,"  ", result.matched_count)
+		print("Update reades result modifyied, matched=>",result.modified_count ,"  ", result.matched_count)
 
 		return result
 

@@ -226,7 +226,6 @@ class GrConsumer(AsyncJsonWebsocketConsumer):
 			user = user_collection.find_one({'sqlite_id':self.me} ,{'_id':1,'user_name':1,'profile_picture':1})
 			if user:
 				user['_id'] = str(user['_id'])
-				print(user,"<<<Here is user")
 				self.db_user = user
 				return True
 			return False
@@ -261,7 +260,7 @@ class GrConsumer(AsyncJsonWebsocketConsumer):
 		global redis_service
 		redis_service.sadd(self.connect_group_name, f"{self.db_user['_id']}__:__{self.db_user['profile_picture']}__:__{self.db_user['user_name']}")
 		
-		print(self.db_user)
+		print('user=>',self.db_user)
 		
 
 
