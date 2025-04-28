@@ -439,7 +439,6 @@ function ColorSelector({ selected, setFunction, closeTab, isReadValue}){
 						return (
 							<motion.div key={i} style={{ background: `linear-gradient(to right, ${c.s} 50%, ${c.r} 50%)` }} 
 							onClick={()=>{
-								closeTab();
 								setFunction(isReadValue ? { d: c.s, r: c.r }:c);
 							}}
 								initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2, delay: i/20 }}
