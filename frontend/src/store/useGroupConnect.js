@@ -187,7 +187,7 @@ export const useGroupConnectStore = create((set, get) => ({
 			setConnected(true)
 		}
 		newSocket.onclose = (event) => {
-			console.log("Sockect closed and disconnected. Maunual close, Group connection socket");
+			console.log("Sockect closed and disconnected. Maunual close, Group connection socket",event.code, event.reason)
 			
 			set({ groupSocket: null })
 			setConnected(false)
