@@ -85,6 +85,7 @@ function SettingComp() {
 			toast.promise(myPromise, {
 				loading: 'Loading...',
 				success: (axiosData) => {
+					console.log(axiosData)
 					
 					return `Status=> ${axiosData.data.status_w} || User=> ${axiosData.data.user} || Status_code=> ${axiosData.data.status}`;
 				},

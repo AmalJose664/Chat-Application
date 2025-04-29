@@ -201,13 +201,15 @@ class Get_Conversations(APIView):
 		
 
 
-def test_api_endpoint(request):
-	user = ''
-	if request.user.is_authenticated:
-		user = request.user.name
-	if not user:
-		user='Anonymus user'
-	return JsonResponse({'status_w':'Connectify app working','status':'200','user':user},status=status.HTTP_200_OK)
+class test_api_endpoint(APIView):
+	def get(self,request):
+		user = ''
+		if request.user.is_authenticated:
+			user = request.user.name
+		else:
+			user='Anonymus user'
+		print(request.user, request.user.is_authenticated, user)
+		return JsonResponse({'status_w':'Connectify app working','status':'200','user':user},status=status.HTTP_200_OK)
 
 def begin_point(request):
 		return render(request, 'chat/begin_page.html')

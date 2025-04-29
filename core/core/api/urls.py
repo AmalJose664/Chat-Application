@@ -11,7 +11,7 @@ router.registry.extend(user_router.registry)
 
 urlpatterns = [
 	path('',include(router.urls)),
-	path('test-api' ,test_api_endpoint)
+	path('test-api' ,test_api_endpoint.as_view())
 ]
 
 
