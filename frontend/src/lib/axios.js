@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {useAuthStore} from '../store/useAuthStore'
 
 
 export let ip = import.meta.env.VITE_API_BASE_URL
@@ -10,7 +11,7 @@ if (proto == 'https'){
 }else{
 	ip=ip+":8000"
 }
-
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const axiosInstance = axios.create({
 	baseURL: `${proto}://${ip}/api/friends`,
 	headers:{
@@ -29,12 +30,13 @@ axiosInstance.interceptors.request.use( config => {
 })
 
 export const axiosApiInstance = axiosInstance
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export const axiosAuthInstance = axios.create({
 	baseURL: `${proto}://${ip}/api/auth`,
 	
 	withCredentials: true
 })
-
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export const axiosMessageInstance = axios.create({
 	baseURL: `${proto}://${ip}/api/messages`,
 	headers: {
@@ -50,7 +52,17 @@ axiosMessageInstance.interceptors.request.use(config => {
 	return config
 
 })
-
+axiosMessageInstance.interceptors.response.use(response => response, (error) => {
+	if (error.status === 401 && error.response.data.code == "token_not_valid") {
+		const logout = useAuthStore.getState().axiosLogout
+		localStorage.removeItem('access_token');
+		console.log("should log out");
+		
+		logout()
+	}
+	return Promise.reject(error);
+})
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export const axiosGroupsInstance = axios.create({
 	baseURL: `${proto}://${ip}/api/groups`,
 	headers: {
@@ -67,8 +79,18 @@ axiosGroupsInstance.interceptors.request.use(config => {
 	return config
 
 })
+axiosGroupsInstance.interceptors.response.use(response => response, (error) => {
+	if (error.status === 401 && error.response.data.code == "token_not_valid") {
+		const logout = useAuthStore.getState().axiosLogout
+		localStorage.removeItem('access_token');
+		console.log("should log out");
 
+		logout()
+	}
+	return Promise.reject(error);
+})
 
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 export const axiosSpecialAuthInstance = axios.create({
 	baseURL: `${proto}://${ip}/api/auth`,
 	headers: {

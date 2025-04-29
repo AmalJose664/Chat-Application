@@ -66,6 +66,7 @@ export const useAuthStore = create((set, get) => ({
 			set({ isLoggginIn: false });
 		}
 	},
+	axiosLogout: () => set({ authUser: null }),
 	checkAuth: async()=>{
 		try {
 			const res = await axiosSpecialAuthInstance.get('check-auth/')

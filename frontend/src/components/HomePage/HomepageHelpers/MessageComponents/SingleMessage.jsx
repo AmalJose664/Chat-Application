@@ -3,7 +3,7 @@ import { useAuthStore } from '../../../../store/useAuthStore';
 import { getTime } from '../../../../lib/timefilter';
 import DashBoardICon from '../../../../assets/DashBoardICon'
 import ReadReceipts from '../../../../assets/ReadReceipts';
-import { motion } from 'framer-motion';
+import { motion,AnimatePresence } from 'framer-motion';
 import './SingleMessage.css'
 import { toast } from 'sonner';
 import Copybtn from '../../../../assets/Copybtn'
@@ -49,7 +49,7 @@ export const SingleMessage = React.memo(({ message, i, customPrefrns }) =>{
 					<span className="message__time" style={{ color: reciMsgClr }}>
 					{getTime(message.t)}
 				</span>
-				{message.s == authUser.db_user._id ? <span className='message__status'>
+					{sent ? <span className='message__status'>
 					<ReadReceipts status={message.sa} dColor={customPrefrns.tickColor.d} rColor={customPrefrns.tickColor.r}/>
 				</span> : ""}
 				
@@ -57,10 +57,15 @@ export const SingleMessage = React.memo(({ message, i, customPrefrns }) =>{
 			<div className="message__options">
 				<div onClick={()=>setSmallBoxActive(!smallBoxActive)} onMouseLeave={()=>setSmallBoxActive(false)} className="m__option" >
 						<DashBoardICon type='dots' color={reciMsgClr || 'white'} />
-						{smallBoxActive && <SmallBox m_id={message._id} message={message.c} time={message.t} togleDetailBox={setDetailBox} side={message.r == authUser.db_user._id}/>}
+						<AnimatePresence>
+							{smallBoxActive && <SmallBox m_id={message._id} message={message.c} time={message.t} togleDetailBox={setDetailBox} side={!sent}/>}
+						</AnimatePresence>
 				</div>
 			</div>
-			</div>{detailBox && <GetMessageDetails togleDetailBox={setDetailBox} />}
+			</div>
+			<AnimatePresence>
+				{detailBox && <GetMessageDetails togleDetailBox={setDetailBox} />}
+			</AnimatePresence>
 	</motion.div>
   )
 })
@@ -77,7 +82,7 @@ export function SmallBox({message, side: ourSide, m_id, togleDetailBox, time}){
 		deleteMessageStore(time, m_id )
 	}
 	return(
-		<motion.div className="message-space-message-small-box" initial={{ opacity: 0, x: ourSide ? -20 : 20, y: -20 }}  animate={{ opacity: 1, x: 0 ,y:0 }} transition={{ duration: 0.1 }}>
+		<motion.div className="message-space-message-small-box" initial={{ opacity: 0, x: ourSide ? -20 : 20, y: -20 }} animate={{ opacity: 1, x: 0, y: 0, height: '' }} transition={{ duration: 0.13 }} exit={{ opacity: 0, height: '1%', transition: { duration: 0.6 } }}>
 			<div className="m-s-m-s-b-inner">
 				<div className="m-s-m-s-b-list">
 					<div className="small-options-list-box" onClick={(e) => { navigator.clipboard.writeText(message); toast.info("Message Copied") }}> 

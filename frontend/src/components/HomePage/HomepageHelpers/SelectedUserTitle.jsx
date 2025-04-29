@@ -20,11 +20,15 @@ function SelectedUserTitle() {
 	const [showExtras ,setShowExtras] = useState(false)
 	const [showUserDetails, setShowUserDetails] = useState(false)
 	const dotRef = useRef(null)
+
+	console.log(selectedUser,"<<<Tada")
+	
+
 	return (
 	<div className='home-select-user-cont'>
 			<div className="home-selected-user-wrapper">
 				
-			{selectedUser && <> 
+			{(selectedUser && selectedUser.sqlId) &&  <> 
 			<motion.div className="h-s-u-data" initial={{ opacity: 0, y: 20,  }} animate={{ opacity: 1, y: 0,  }} 
 			transition={{ duration: .3, ease:'easeIn'}}>
 				<div className="home-select-user-image">

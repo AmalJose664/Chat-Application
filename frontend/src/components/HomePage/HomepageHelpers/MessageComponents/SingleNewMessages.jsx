@@ -142,7 +142,9 @@ export const SingleNewMessages = React.memo(({ message, i, isGroupMessage = fals
 					<div className="message__options">
 						<div onClick={() => setSmallBoxActive(!smallBoxActive)} onMouseLeave={() => setSmallBoxActive(false)} className="m__option" >
 							<DashBoardICon type='dots' color={inverseColor} />
-							{smallBoxActive && <SmallBox m_id={message._id} message={message.c} time={message.t} togleDetailBox={setDetailBox} side={message.s != authUser.db_user._id} />}
+							<AnimatePresence>
+								{smallBoxActive && <SmallBox m_id={message._id} message={message.c} time={message.t} togleDetailBox={setDetailBox} side={!isSentMsg} />}
+							</AnimatePresence>
 						</div>
 					</div>
 					<div className="message__group__sender__avatar" onClick={() => setShowUser(true)}>
@@ -157,14 +159,17 @@ export const SingleNewMessages = React.memo(({ message, i, isGroupMessage = fals
 						{showUser && <GetUser isMe={isSentMsg} group={true} id={message.userId} closeFunct={() => setShowUser(false)}/>}
 					</AnimatePresence>
 					
-				</div>{detailBox && <GetMessageDetails togleDetailBox={setDetailBox} group={true} gMessage={message}/>}
+				</div>
+				<AnimatePresence>
+					{detailBox && <GetMessageDetails togleDetailBox={setDetailBox} group={true} gMessage={message}/>}
+				</AnimatePresence>
 			</motion.div>
 		)
 	}
 //--------------------------------------- display chats new messages ------------------------------------------------------------------------------------------------------------------------------------
 
 	return (
-		<motion.div key={i} className={message.r == authUser.db_user._id ? "message__h type-receive" : "message__h type-sent"}
+		<motion.div key={i} className={!isSentMsg ? "message__h type-receive" : "message__h type-sent"}
 			initial={{ opacity: 0, x: isSentMsg ? 28 : -28 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: message.c_id ? .3 : .1, delay: message.c_id ? i / 20 : 0 }}
 			style={{ borderRadius: `${customPrefrns.messageCrnr}px` }}
 		>
@@ -186,10 +191,15 @@ export const SingleNewMessages = React.memo(({ message, i, isGroupMessage = fals
 				<div className="message__options">
 					<div onClick={() => setSmallBoxActive(!smallBoxActive)} onMouseLeave={() => setSmallBoxActive(false)} className="m__option" >
 						<DashBoardICon type='dots' color={inverseColor ? inverseColor : 'white'} />
-						{smallBoxActive && <SmallBox m_id={message._id} message={message.c} time={message.t} togleDetailBox={setDetailBox} side={message.r == authUser.db_user._id} />}
+						<AnimatePresence>
+							{smallBoxActive && <SmallBox m_id={message._id} message={message.c} time={message.t} togleDetailBox={setDetailBox} side={!isSentMsg} />}
+						</AnimatePresence>
 					</div>
 				</div>
-			</div>{detailBox && <GetMessageDetails togleDetailBox={setDetailBox} />}
+			</div>
+			<AnimatePresence>
+				{detailBox && <GetMessageDetails togleDetailBox={setDetailBox} />}
+			</AnimatePresence>
 		</motion.div>
 	)
 })

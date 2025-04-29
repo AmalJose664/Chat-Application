@@ -20,7 +20,7 @@ function GetMessageDetails({ togleDetailBox, group=false, gMessage }) {
 	return (
 		<motion.div className="get-message-details-container" 
 			dragConstraints={{ left: -400, right: 400, top: -50, bottom: 500 }}
-			drag initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+			drag initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.3 }} exit={{ opacity: 0, scale: .6 }}> 
 			<span className='g-m-d-c-close-btn'
 				onClick={() => togleDetailBox(false)}
 			>&times;</span>
