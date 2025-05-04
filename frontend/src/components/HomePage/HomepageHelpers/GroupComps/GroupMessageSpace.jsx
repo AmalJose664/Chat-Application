@@ -36,18 +36,7 @@ const GroupMessageSpace = () => {
 		}
 		
 	}, [selectedGroup])
-	const borderRef = useSpecialStore(state => state.borderRef)
-	useEffect(()=>{
-		let timer
-		if(connected){
-			borderRef.current.classList.toggle('green')
-			timer = setTimeout(() => borderRef.current.classList.toggle('green'),9990)
-		}
-		return () => {
-			if(borderRef && borderRef.current) borderRef.current.classList.remove('green')
-			clearTimeout(timer)
-		}
-	},[connected])
+	
 
 	return (
 

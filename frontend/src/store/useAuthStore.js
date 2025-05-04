@@ -14,6 +14,7 @@ export const useAuthStore = create((set, get) => ({
 		
 		set({ isLoggginIn: true });
 		try{
+			
 			const res = await axiosAuthInstance.post('new-signin/', data)
 			localStorage.setItem("access_token", res.data.tokens.access);
 			delete res.data.tokens

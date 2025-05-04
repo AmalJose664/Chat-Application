@@ -43,7 +43,9 @@ button{
 		cursor: pointer;
 	}
 }
-
+label{
+	pointer-events: none !important;
+}
 .loader-center{
 	display: flex;
 	align-items: center;

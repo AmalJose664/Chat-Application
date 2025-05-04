@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import { getRandomColorInRange } from '../../../../lib/chatUtilities'
 import GetUser from '../HomeUtils/GetUser'
 import { useAuthStore } from '../../../../store/useAuthStore'
+import SonnerIcons from '../../../../assets/SonnerIcons'
 
 const SelectedGroup = React.memo(() => {
 	const selectedGroup = useGroupStore(state => state.selectedGroup)
@@ -39,16 +40,20 @@ const SelectedGroup = React.memo(() => {
 			  <div className="home-select-user-image">
 				  <div className='home-group-avatar' style={{ backgroundColor: selectedGroup.color || getRandomColorInRange(100,200) }}>{selectedGroup.initial}</div>
 			  </div>
-			  <div className="h-s-u-title for-groups" onClick={showGroupData}>
-				  {selectedGroup.name} <Lock type={selectedGroup.is_private} size={20} color={selectedGroup.is_private ? "white" : "royalblue"} /> <br />
+			  <div className="h-s-u-title for-groups">
+				  <span onClick={showGroupData}>
+					{selectedGroup.name} <Lock type={selectedGroup.is_private} size={20} color={selectedGroup.is_private ? "white" : "royalblue"} />
+					  <SonnerIcons type='info' color={connected ? '#88feac' : '#6e8dff'} /> <br />
+				  </span> 
 				  <ConnectedUsers seTab={() => setOnlineShow(!onlineShow)}/>
+					
 			  </div>
 			  <div style={{fontSize:'13px',position:'absolute',top:0, left:'50%'}}>
 				Group Creator : {creator}
 			  </div>
 			  <div className="home-online-users-wrapper">
 				  <AnimatePresence>
-					  {onlineShow && <OnlineUsers creator={selectedGroup.created_by} closeTab={()=>setOnlineShow(false)}/>}
+					  {(onlineShow && connected) && <OnlineUsers creator={selectedGroup.created_by} closeTab={()=>setOnlineShow(false)}/>}
 				  </AnimatePresence>
 			  </div>
 			  {(connected && selectedGroup.is_private) && <p className='copy-btn-home-group' 
