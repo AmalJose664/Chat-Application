@@ -180,7 +180,7 @@ class Get_Conversations(APIView):
 					
 					p['_id'] = str(p['_id'])
 				other_user = [  p for p in r['prtcpnt'] if p['sqlite_id'] != my_id]
-				r['other_user'] = other_user[0] or None
+				r['other_user'] = other_user[0] if other_user else None
 				new_array.append(r)
 			data = User_data_mongo.objects(user=user).only('request').as_pymongo().first() or None
 			return  JsonResponse({'conversations':new_array,
