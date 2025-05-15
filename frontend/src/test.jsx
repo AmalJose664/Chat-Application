@@ -16,6 +16,7 @@ export function Component({ isVisible }) {
 				<span style={{textDecoration:'underline'}} onClick={() => navigate(-1)}>
 					Go back
 				</span> 
+				
 			</div>
 		)
 	}

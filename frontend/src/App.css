@@ -43,7 +43,7 @@ button{
 		cursor: pointer;
 	}
 }
-label{
+.input label{
 	pointer-events: none !important;
 }
 .loader-center{
