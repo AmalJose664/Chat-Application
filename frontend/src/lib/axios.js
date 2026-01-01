@@ -3,9 +3,10 @@ import {useAuthStore} from '../store/useAuthStore'
 
 
 export let ip = import.meta.env.VITE_API_BASE_URL
+const overWriteProtocol = import.meta.env.VITE_OVERWRITE_PROTOCOL === 'true'
 
-export let proto = location.protocol != 'http:' ? "https" : "http"
-export let wsProto = location.protocol != 'http:' ? "wss" : "ws"
+export const proto = overWriteProtocol || location.protocol !== 'http:' ? 'https' : 'http';
+export let wsProto = overWriteProtocol || location.protocol !== 'http:' ? "wss" : "ws"
 if (proto == 'https'){
 	//ip = '8c64-2403-a080-411-fc81-8901-3702-f242-c3e3.ngrok-free.app'
 }else{
