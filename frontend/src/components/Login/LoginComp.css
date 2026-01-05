@@ -1,11 +1,10 @@
-
-.login-component{
+.login-component {
 	max-height: 100vw;
 	margin-top: 10px;
 	max-width: 100%;
 	overflow: hidden;
 }
-.content{
+.content {
 	position: relative;
 	padding: 6px;
 	display: flex;
@@ -14,38 +13,37 @@
 	gap: 140px;
 	background: transparent;
 }
-.text{
+.text {
 	position: absolute;
 	top: 10px;
 	right: 300px;
-	h1{
+	h1 {
 		font-size: 40px;
 		font-weight: 600;
 	}
 }
-.power-text{
+.power-text {
 	position: absolute;
-		bottom: 10px;
-		right: 4px;
-	
-		h1 {
-			font-size: 12px;
-			font-weight: 600;
-			svg{
-				width: 16px;
-				height: 16px;
-				margin-left: 8px;
-			}
+	bottom: 10px;
+	right: 4px;
+
+	h1 {
+		font-size: 12px;
+		font-weight: 600;
+		svg {
+			width: 16px;
+			height: 16px;
+			margin-left: 8px;
 		}
+	}
 }
 
-.left{
+.left {
 	border-radius: 24px;
 	position: relative;
 	display: inline;
-	background: url('./public/32947939_491362538070.jpg') center/cover;
 	background-position-x: 50px;
-	transition: .2s ease;
+	transition: 0.2s ease;
 	max-height: calc(100vh - 30px);
 	width: 800px;
 	margin-left: 0px;
@@ -53,29 +51,29 @@
 	animation: image 210s linear infinite;
 }
 @keyframes image {
-	 0%{
-        background-position-x: 10px;
-    }50%{
-		background-position-x: 1000px;
-    }100%{
+	0% {
 		background-position-x: 10px;
 	}
-	
+	50% {
+		background-position-x: 1000px;
+	}
+	100% {
+		background-position-x: 10px;
+	}
 }
-.right-part{
+.right-part {
 	padding: 0;
 }
-.right{
+.right {
 	min-width: 400px;
 	padding-left: 50px;
 	margin-right: 100px;
 }
-.grid{
+.grid {
 	border-radius: 24px;
 	transform: translate(-8%, -9%);
-	
 }
-.grid-content{
+.grid-content {
 	border-radius: 24px;
 	transform: translate(-8%, -9%);
 	display: grid;
@@ -83,45 +81,40 @@
 	background: transparent;
 	padding: 15px;
 	gap: 16px;
-	
-	
 }
-.box{
+.box {
 	width: 170px;
 	height: 170px;
 	border-radius: 12px;
 	backdrop-filter: blur(4px);
-	transition: all .3s ease;
+	transition: all 0.3s ease;
 }
-.box:hover{
+.box:hover {
 	box-shadow: 0px 0px 20px -1px rgba(161, 224, 255, 0.59);
 }
-.b-content{
-	background: rgb(0,0,0,0.1);
+.b-content {
+	background: rgb(0, 0, 0, 0.1);
 	backdrop-filter: blur(1px);
-	
-	
 }
-.inner-box{
+.inner-box {
 	transition: all 1s ease;
 	text-align: center;
 	&:hover {
-		h3{
+		h3 {
 			color: #17c1ff;
 			transition: all 1s ease;
-		}svg{
+		}
+		svg {
 			fill: #17c1ff;
 			transition: all 1s ease;
 		}
 	}
-	h3{color: rgb(255, 255, 255);
+	h3 {
+		color: rgb(255, 255, 255);
 		transition: all 1s ease;
 	}
-	
-
 }
-.login-component .input input:empty~label
- {
+.login-component .input input:empty ~ label {
 	all: unset;
 	position: absolute;
 	font-size: 16px;
@@ -129,36 +122,34 @@
 	background: #101010;
 	left: 18px;
 	top: 17px;
-	transition: all .4s ease;
+	transition: all 0.4s ease;
 	will-change: font, left, top;
 	color: #767676;
 }
 
-
-
-.login-component .input input:focus~ label,
-.login-component .input input:valid~label {
+.login-component .input input:focus ~ label,
+.login-component .input input:valid ~ label {
 	left: 18px;
 	top: -1px;
 	font-size: 12px;
 	color: white;
 }
 
-.eye{
+.eye {
 	position: relative;
 	right: 35px;
 	top: 4px;
 }
-h1{
+h1 {
 	padding: 8px;
 	font-weight: 500;
 }
 
-.input{
+.input {
 	position: relative;
 	margin: 18px 0;
 	padding: 8px;
-	input{
+	input {
 		font-size: 15px;
 		outline: none;
 		min-width: 300px;
@@ -167,9 +158,10 @@ h1{
 		border: 1px solid rgb(139, 139, 139);
 	}
 }
-input[type='submit']{
+input[type="submit"] {
 	min-width: 322px;
-}.btns {
+}
+.btns {
 	all: unset;
 	display: inline-block;
 	position: relative;
@@ -187,30 +179,30 @@ input[type='submit']{
 	width: 260px;
 	text-align: center;
 }
-.btncpy{
+.btncpy {
 	all: unset;
-		display: inline-block;
-		position: relative;
-		background: #101010;
-		padding: 8px 30px;
-		border-radius: 20px;
-		color: #999;
-		text-transform: uppercase;
-		text-decoration: none;
-		letter-spacing: 0.08em;
-		transition: 0.3s;
-		font-size: 1.5em;
-		overflow: hidden;
-		cursor: pointer;
-		width: 260px;
-		text-align: center;
+	display: inline-block;
+	position: relative;
+	background: #101010;
+	padding: 8px 30px;
+	border-radius: 20px;
+	color: #999;
+	text-transform: uppercase;
+	text-decoration: none;
+	letter-spacing: 0.08em;
+	transition: 0.3s;
+	font-size: 1.5em;
+	overflow: hidden;
+	cursor: pointer;
+	width: 260px;
+	text-align: center;
 }
 .btns:hover {
 	color: var(--clr);
 	text-shadow: 0 0 15px var(--clr), 0 0 40px var(--clr);
 }
 
-.btns >span {
+.btns > span {
 	all: unset;
 	position: relative;
 	z-index: 1;
@@ -243,60 +235,54 @@ input[type='submit']{
 
 /* /////////////////////////////////////////////// */
 
-
-.lines >span{
-	
+.lines > span {
 	opacity: 0;
 	border-radius: 24px;
-	transition: all .8s ease;
+	transition: all 0.8s ease;
 }
 
-
-.lines{
+.lines {
 	position: relative;
 	overflow: hidden;
-	
 }
 .lines:hover {
 	span {
 		opacity: 1;
-		transition: all .8s ease;
+		transition: all 0.8s ease;
 	}
 }
-.lines >span:nth-child(1) {
+.lines > span:nth-child(1) {
 	position: absolute;
-		top: 0px;
-		left: 0px;
-		width: 100%;
-		height: 1px;
-		background: linear-gradient(90deg, #0c002b 1%, #17c1ff);
-		animation: anim1 9s linear infinite;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 1px;
+	background: linear-gradient(90deg, #0c002b 1%, #17c1ff);
+	animation: anim1 9s linear infinite;
 }
 
-.lines >span:nth-child(2) {
+.lines > span:nth-child(2) {
 	position: absolute;
 	top: 0px;
 	right: 0px;
-	width: .01em;
+	width: 0.01em;
 	height: 100%;
 	background: linear-gradient(180deg, #0c002b 1%, #17c1ff);
 	animation: anim2 9s linear infinite;
 	animation-delay: 13.5s;
-    
 }
-.lines >span:nth-child(3) {
+.lines > span:nth-child(3) {
 	position: absolute;
 	bottom: 0px;
 	left: 0px;
 	width: 100%;
-	height: .05em	;
+	height: 0.05em;
 	background: linear-gradient(90deg, #0c002b 1%, #17c1ff);
 	animation: anim1 9s linear infinite;
 	animation-delay: 13.5s;
 }
 
-
-.lines >span:nth-child(4) {
+.lines > span:nth-child(4) {
 	position: absolute;
 	top: 0px;
 	left: 0px;
@@ -304,7 +290,6 @@ input[type='submit']{
 	height: 100%;
 	background: linear-gradient(180deg, #0c002b 1%, #17c1ff);
 	animation: anim2 9s linear infinite;
-
 }
 @keyframes anim2 {
 	0% {
@@ -324,29 +309,29 @@ input[type='submit']{
 		transform: translateX(100%);
 	}
 }
-.to-login{
-	
+.to-login {
 	float: right;
 	font-size: 13px;
 	margin: 8px;
 	color: #999;
-	cursor:pointer;
-	&:hover{text-decoration: underline;}
+	cursor: pointer;
+	&:hover {
+		text-decoration: underline;
+	}
 }
 
-@media only screen and (max-width: 700px){
-	.content{
+@media only screen and (max-width: 700px) {
+	.content {
 		flex-direction: column-reverse;
-
 	}
-	.left{
+	.left {
 		display: none;
 	}
-	.text{
+	.text {
 		right: 197px;
 		top: 10px;
 	}
-	.right{
+	.right {
 		float: left;
 		position: relative;
 		margin-left: 130px;
